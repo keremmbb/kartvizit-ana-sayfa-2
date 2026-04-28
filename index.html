@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Kart | Geleceğin Standartı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-dim: #a1a1a6;
+            --accent-blue: #0071e3;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        section, .snap-section {
+            scroll-snap-align: start;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.3s; }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hero {
+            text-align: center;
+            background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #fff 0%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* BÜYÜTTÜĞÜMÜZ ALAN BURASI */
+        .hero p {
+            font-size: 1.8rem; 
+            color: var(--text-dim);
+            max-width: 800px;
+            font-weight: 300;
+            line-height: 1.4;
+            margin: 0 auto;
+        }
+
+        .section-content {
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .section, .snap-section { height: auto; min-height: 100vh; }
+            .hero p { font-size: 1.3rem; } /* Mobilde çok büyük olmasın diye küçülttük */
+        }
+
+        .premium-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass);
+            padding: 30px;
+            border-radius: 24px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .premium-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .big-statement {
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .highlight { color: var(--accent-blue); }
+
+        footer {
+            padding: 40px;
+            background: #000;
+            text-align: center;
+            color: var(--text-dim);
+            scroll-snap-align: end;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero fade-in">
+        <div class="section-content">
+            <h1>Smart Kart.</h1>
+            <p class="fade-in delay-1">Sadece bir kart değil, profesyonel kimliğinizin en zarif hali.</p>
+        </div>
+    </section>
+
+    <section class="snap-section scroll-fade">
+        <div class="section-content">
+            <div class="big-statement">
+                Tek bir dokunuşla <br>
+                <span class="highlight">sınırsız bağlantı kurun.</span>
+            </div>
+
+            <div class="grid">
+                <div class="premium-card">
+                    <h3>Sadelik</h3>
+                    <p>Karmaşık cüzdanlara ve kağıt yığınlarına veda edin.</p>
+                </div>
+                <div class="premium-card">
+                    <h3>Hız</h3>
+                    <p>NFC teknolojisi ile saniyeler içinde etkileşim kurun.</p>
+                </div>
+                <div class="premium-card">
+                    <h3>Kontrol</h3>
+                    <p>Bilgilerinizi dilediğiniz an panelden güncelleyin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="snap-section scroll-fade" style="background: var(--card-bg);">
+        <div class="section-content">
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">Geleceği Koruyoruz</h2>
+            <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                Smart Kart kullanarak her yıl binlerce ağacın kesilmesini önleyen bir topluluğun parçası olursunuz. 
+                Sürdürülebilir teknoloji, profesyonel dünyayla buluşuyor.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Smart Kart. Tasarım ve Teknoloji Bir Arada.</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.scroll-fade').forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>
