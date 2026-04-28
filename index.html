@@ -10,30 +10,66 @@
             --bg-color: #000000;
             --card-bg: #111111;
             --text-main: #ffffff;
-            --text-dim: #a1a1a6;
+            --text-dim: #86868b;
             --accent-blue: #0071e3;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(0, 0, 0, 0.7);
         }
 
         html {
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 48px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 0.5px solid rgba(255,255,255,0.1);
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
 
         section, .snap-section {
             scroll-snap-align: start;
+            scroll-snap-stop: always;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            position: relative;
         }
 
-        /* --- APPLE TARZI ÇİFT YÖNLÜ ANIMASYON --- */
+        /* --- APPLE TARZI ANIMASYONLAR --- */
         .reveal {
             opacity: 0;
-            transform: translateY(40px); /* Biraz daha derinlik kattık */
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* Apple tarzı yumuşak geçiş eğrisi */
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
         }
 
         .reveal.active {
@@ -41,35 +77,49 @@
             transform: translateY(0);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
         .hero {
             text-align: center;
             background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%);
+            width: 100%;
+            overflow: hidden;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 5rem);
+            font-size: clamp(3.5rem, 10vw, 6rem);
             font-weight: 600;
-            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
             background: linear-gradient(180deg, #fff 0%, #888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* ÜRÜN GÖRSELİ STİLİ */
+        .product-image-container {
+            margin-top: 50px;
+            perspective: 1000px;
+        }
+
+        .hero-card-img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            /* Hafif eğim ve gölge ile derinlik katıyoruz */
+            transform: rotateX(5deg);
+            filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1));
+            transition: transform 0.8s ease;
+        }
+
+        .hero-card-img:hover {
+            transform: rotateX(0deg) scale(1.02);
         }
 
         .hero p {
             font-size: 1.8rem; 
             color: var(--text-dim);
             max-width: 800px;
-            font-weight: 300;
-            line-height: 1.4;
+            font-weight: 400;
+            line-height: 1.2;
             margin: 0 auto;
         }
 
@@ -82,92 +132,97 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-            section, .snap-section { height: auto; min-height: 100vh; }
-            .hero p { font-size: 1.3rem; }
+            gap: 24px;
+            margin-top: 60px;
         }
 
         .premium-card {
             background: var(--card-bg);
-            border: 1px solid var(--glass);
-            padding: 30px;
-            border-radius: 24px;
-            transition: all 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 30px;
+            border-radius: 28px;
+            transition: all 0.6s cubic-bezier(0.15, 0, 0.15, 1);
         }
 
         .premium-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-10px);
+            transform: scale(1.02);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
         }
 
         .big-statement {
-            font-size: 2.5rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 20px;
+            letter-spacing: -0.02em;
         }
 
         .highlight { color: var(--accent-blue); }
 
-        footer {
-            padding: 40px;
-            background: #000;
+        .page-footer {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
             text-align: center;
             color: var(--text-dim);
-            scroll-snap-align: end;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            section, .snap-section { height: auto; min-height: 100vh; padding: 100px 0; }
+            .hero p { font-size: 1.4rem; }
+            .hero-card-img { max-width: 80%; }
         }
     </style>
 </head>
 <body>
-
-    <section class="hero reveal">
-        <div class="section-content">
-            <h1>Smart Kart.</h1>
-            <p>Sadece bir kart değil, profesyonel kimliğinizin en zarif hali.</p>
+    <section class="hero">
+        <div class="section-content reveal">
+            <h1>Smart Kart</h1>
+            <p>Profesyonel kimliğinizin en zarif hali.</p>
+            
+            <div class="product-image-container">
+                <img src="pvc_noir.webp" alt="Smart Kart Noir" class="hero-card-img">
+            </div>
         </div>
     </section>
 
-    <section class="snap-section reveal">
-        <div class="section-content">
+    <section class="snap-section">
+        <div class="section-content reveal">
             <div class="big-statement">
-                Tek bir dokunuşla <br>
-                <span class="highlight">sınırsız bağlantı kurun.</span>
+                Tek dokunuşta <br>
+                <span class="highlight">her şeyi paylaşın.</span>
             </div>
-
             <div class="grid">
-                <div class="premium-card">
-                    <h3>Sadelik</h3>
-                    <p>Karmaşık cüzdanlara ve kağıt yığınlarına veda edin.</p>
-                </div>
-                <div class="premium-card">
-                    <h3>Hız</h3>
-                    <p>NFC teknolojisi ile saniyeler içinde etkileşim kurun.</p>
-                </div>
-                <div class="premium-card">
-                    <h3>Kontrol</h3>
-                    <p>Bilgilerinizi dilediğiniz an panelden güncelleyin.</p>
-                </div>
-            </div>
+    <div class="premium-card">
+        <h3>Sadelik</h3>
+        <p>Karmaşadan uzak, tek bir kartla tüm dijital dünyanızı yönetin.</p>
+    </div>
+    <div class="premium-card">
+        <h3>Hız</h3>
+        <p>NFC teknolojisi sayesinde bilgileriniz saniyeler içinde karşı tarafta.</p>
+    </div>
+    <div class="premium-card">
+        <h3>Kontrol</h3>
+        <p>İstediğiniz bilgiyi istediğiniz an güncelleyin; kontrol her zaman sizde.</p>
+    </div>
+</div>
         </div>
     </section>
 
-    <section class="snap-section reveal" style="background: var(--card-bg);">
-        <div class="section-content">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Geleceği Koruyoruz</h2>
-            <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-                Smart Kart kullanarak her yıl binlerce ağacın kesilmesini önleyen bir topluluğun parçası olursunuz.
+    <section class="snap-section" style="background: #000;">
+        <div class="section-content reveal">
+            <h2 style="font-size: 3.5rem; letter-spacing: -0.02em; margin-bottom: 20px;">Doğa Dostu.</h2>
+            <p style="color: var(--text-dim); font-size: 1.5rem; max-width: 700px; margin: 0 auto; font-weight: 400;">
+                Kâğıt israfına son verin. Sürdürülebilir bir gelecek için dijitalleşin.
             </p>
         </div>
+        
+        <div class="page-footer reveal">
+            <p>&copy; 2026 Smart Kart. Tasarım ve Teknoloji Bir Arada.</p>
+        </div>
     </section>
-
-    <footer class="reveal">
-        <p>&copy; 2026 Smart Kart. Tasarım ve Teknoloji Bir Arada.</p>
-    </footer>
 
     <script>
         const observer = new IntersectionObserver((entries) => {
@@ -175,11 +230,12 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 } else {
-                    // Yukarı çıkarken efekti tekrar ettiren kritik satır:
+                    // Animasyonun her seferinde tetiklenmesini istiyorsan burayı bırak, 
+                    // sadece bir kere olsun istiyorsan alttaki satırı silebilirsin.
                     entry.target.classList.remove('active');
                 }
             });
-        }, { threshold: 0.15 });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>
