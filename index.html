@@ -29,25 +29,14 @@
             overflow: hidden;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
+        /* --- APPLE TARZI ÇİFT YÖNLÜ ANIMASYON --- */
+        .reveal {
             opacity: 0;
-            animation: fadeIn 1.2s ease-out forwards;
+            transform: translateY(40px); /* Biraz daha derinlik kattık */
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* Apple tarzı yumuşak geçiş eğrisi */
         }
 
-        .delay-1 { animation-delay: 0.3s; }
-
-        .scroll-fade {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-
-        .scroll-fade.visible {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
@@ -75,7 +64,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* BÜYÜTTÜĞÜMÜZ ALAN BURASI */
         .hero p {
             font-size: 1.8rem; 
             color: var(--text-dim);
@@ -100,8 +88,8 @@
 
         @media (max-width: 768px) {
             .grid { grid-template-columns: 1fr; }
-            .section, .snap-section { height: auto; min-height: 100vh; }
-            .hero p { font-size: 1.3rem; } /* Mobilde çok büyük olmasın diye küçülttük */
+            section, .snap-section { height: auto; min-height: 100vh; }
+            .hero p { font-size: 1.3rem; }
         }
 
         .premium-card {
@@ -109,7 +97,7 @@
             border: 1px solid var(--glass);
             padding: 30px;
             border-radius: 24px;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.5s ease;
         }
 
         .premium-card:hover {
@@ -137,14 +125,14 @@
 </head>
 <body>
 
-    <section class="hero fade-in">
+    <section class="hero reveal">
         <div class="section-content">
             <h1>Smart Kart.</h1>
-            <p class="fade-in delay-1">Sadece bir kart değil, profesyonel kimliğinizin en zarif hali.</p>
+            <p>Sadece bir kart değil, profesyonel kimliğinizin en zarif hali.</p>
         </div>
     </section>
 
-    <section class="snap-section scroll-fade">
+    <section class="snap-section reveal">
         <div class="section-content">
             <div class="big-statement">
                 Tek bir dokunuşla <br>
@@ -168,17 +156,16 @@
         </div>
     </section>
 
-    <section class="snap-section scroll-fade" style="background: var(--card-bg);">
+    <section class="snap-section reveal" style="background: var(--card-bg);">
         <div class="section-content">
             <h2 style="font-size: 3rem; margin-bottom: 20px;">Geleceği Koruyoruz</h2>
             <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-                Smart Kart kullanarak her yıl binlerce ağacın kesilmesini önleyen bir topluluğun parçası olursunuz. 
-                Sürdürülebilir teknoloji, profesyonel dünyayla buluşuyor.
+                Smart Kart kullanarak her yıl binlerce ağacın kesilmesini önleyen bir topluluğun parçası olursunuz.
             </p>
         </div>
     </section>
 
-    <footer>
+    <footer class="reveal">
         <p>&copy; 2026 Smart Kart. Tasarım ve Teknoloji Bir Arada.</p>
     </footer>
 
@@ -186,12 +173,15 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.classList.add('active');
+                } else {
+                    // Yukarı çıkarken efekti tekrar ettiren kritik satır:
+                    entry.target.classList.remove('active');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.15 });
 
-        document.querySelectorAll('.scroll-fade').forEach((el) => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>
 
 </body>
