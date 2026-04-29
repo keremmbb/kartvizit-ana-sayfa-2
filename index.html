@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Kart | Geleceğin Standartı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --bg-color: #000000;
@@ -13,13 +14,13 @@
             --text-dim: #86868b;
             --accent-blue: #0071e3;
             --glass: rgba(0, 0, 0, 0.75);
+            --apple-ease: cubic-bezier(0.15, 0, 0.2, 1);
+            /* Yeni kutu renk değişkenleri */
+            --box-glass: rgba(255, 255, 255, 0.03);
+            --box-border: rgba(255, 255, 255, 0.08);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html {
             scroll-behavior: smooth;
@@ -27,629 +28,393 @@
             scroll-snap-type: y mandatory;
         }
 
+        html.no-snap { scroll-snap-type: none !important; }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
             line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- NAVİGASYON --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 48px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; top: 0; width: 100%; height: 48px; background: var(--glass);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
             border-bottom: 0.5px solid rgba(255,255,255,0.1);
         }
-
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            margin: 0 20px;
+        nav a { 
+            color: var(--text-main); text-decoration: none; font-size: 0.85rem; 
+            margin: 0 20px; opacity: 0.8; transition: color 0.3s ease, opacity 0.3s ease; 
         }
+        nav a:hover { color: var(--accent-blue); opacity: 1; }
 
-        nav a:hover { opacity: 1; }
+        /* --- AKICI TİPOGRAFİ ANİMASYONU --- */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease); 
+            will-change: transform, opacity;
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
 
-        /* --- GENEL SECTION YAPISI --- */
+        /* --- SECTIONS --- */
         section {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 20px;
-            position: relative;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
+            width: 100%; min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: 80px 20px;
+            position: relative; scroll-snap-align: start;
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            will-change: opacity, transform;
+        .hero { text-align: center; background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%); }
+        .hero h1 { 
+            font-size: clamp(3.5rem, 10vw, 5.5rem); font-weight: 600; 
+            background: linear-gradient(180deg, #fff 0%, #888 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
         }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            text-align: center;
-            background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%);
-        }
-
-        .hero h1 {
-            font-size: clamp(3.5rem, 10vw, 6rem);
-            font-weight: 600;
-            letter-spacing: -0.03em;
-            margin-bottom: 15px;
-            background: linear-gradient(180deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--text-dim);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-img {
-            margin-top: 50px;
-            max-width: 500px;
-            width: 100%;
-            filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1));
-        }
-
-        /* --- ÖZELLİK GRİDİ (2. SAYFA) --- */
-        .grid-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-}
-
-        .big-statement {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 600;
-            text-align: center;
-            margin-bottom: 40px;
-            line-height: 1.1;
-        }
+        .hero-img { max-width: 450px; width: 100%; filter: drop-shadow(0 20px 50px rgba(255,255,255,0.05)); }
 
         .highlight { color: var(--accent-blue); }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; width: 100%; }
+        .premium-card { background: var(--card-bg); padding: 40px 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1200px;
+        /* --- STACKING AREA (GÜNCELLENMİŞ TEMA) --- */
+        .stack-container { position: relative; height: 550vh; background-color: #000; scroll-snap-align: start; }
+        .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        
+        .stack-header { 
+            position: absolute; 
+            top: 8vh; 
+            text-align: center; 
+            z-index: 5; 
             width: 100%;
         }
-
-        .premium-card {
-            background: var(--card-bg);
-            padding: 50px 30px;
-            border-radius: 32px;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
-            transition: transform 0.3s ease;
+        .stack-header h2 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            line-height: 1.1;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+        .stack-header p {
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            color: var(--text-dim);
         }
 
-        .premium-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .premium-card p { color: var(--text-dim); font-size: 1.05rem; }
-
-        /* --- STACKING AREA (3. SAYFA) --- */
-        .stack-container {
-    position: relative;
-    height: 400vh; /* 600'den 400'e çektik, daha seri olur */
-    margin-top: 0;
-    background-color: #000;
-    scroll-snap-align: start;
-}
-
-        .sticky-wrapper {
-    position: sticky; /* Kartların ekranda asılı kalmasını sağlar */
-    top: 0;           /* Ekranın en üstüne yapışır */
-    height: 100vh;    /* Ekranın tam yüksekliği kadar alan kaplar */
-    display: flex;    /* İçindeki kartları ortalamak için */
-    align-items: center; 
-    justify-content: center;
-    overflow: hidden; /* Dışarı taşan kartların kaybolması için */
-    margin: 0;        /* Olası boşlukları sıfırlar */
-}  
-
-        .info-box {
+        .background-footer {
             position: absolute;
-            background: #ffffff;
-            color: #000;
-            padding: 50px;
-            border-radius: 40px;
-            max-width: 1000px;
-            width: 90%;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-            left: 50%;
-            top: 25vh;
-            transform: translateX(-50%) translateY(100vh); 
-            will-change: transform;
-            opacity: 0;
-            z-index: 10;
-            transition: transform 0.1s ease-out, opacity 0.1s ease-out;
-        }
-
-        .info-box:nth-child(1) { z-index: 10; }
-        .info-box:nth-child(2) { z-index: 20; }
-        .info-box:nth-child(3) { z-index: 30; }
-        .info-box:nth-child(4) { z-index: 40; }
-        .info-box:nth-child(5) { z-index: 50; }
-
-        .info-box img {
+            bottom: 30px;
             width: 100%;
-            max-width: 400px;
-            border-radius: 24px;
-            object-fit: cover;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 0.8rem;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .info-text h2 {
-            font-size: 2.8rem;
-            color: var(--accent-blue);
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
+        /* --- INFO BOX GÜNCELLEME (GLASS TEMA) --- */
+        .info-box {
+            position: absolute; 
+            background: var(--box-glass); /* Yarı saydam arka plan */
+            backdrop-filter: blur(30px); /* Arkayı bulanıklaştırma */
+            -webkit-backdrop-filter: blur(30px);
+            color: var(--text-main); 
+            padding: 40px;
+            border-radius: 40px; 
+            border: 1px solid var(--box-border); /* İnce premium kenarlık */
+            width: 800px; 
+            height: 380px; 
+            max-width: 85%;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 35px;
+            left: 50%; 
+            top: 58%;
+            transform: translate(-50%, 100vh);
+            opacity: 0; 
+            visibility: hidden; 
+            will-change: transform, opacity;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); /* Daha derin gölge */
+            z-index: 10;
         }
 
-        .info-text p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #333;
+        .info-box img { 
+            width: 360px; 
+            height: 260px; 
+            object-fit: cover; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 0.5px solid var(--box-border);
         }
 
-        /* --- FOOTER --- */
-        footer {
-    width: 100%;
-    padding: 60px 0; /* Alt tarafa biraz daha ferahlık verdik */
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-    
-    /* ARKA PLANI SIFIRLA */
-    background: transparent !important; 
-    background-color: transparent !important;
-    
-    /* VARSA ÇİZGİLERİ KALDIR */
-    border: none !important;
-    outline: none !important;
-    
-    /* KONUMLANDIRMA */
-    scroll-snap-align: end;
-    position: relative;
-    margin-top: -100px; /* Footer'ı yukarıdaki siyahlığın içine çekiyoruz */
-    z-index: 10;
-}
-
-        footer p { color: var(--text-dim); font-size: 0.9rem; }
-
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-            .info-box { flex-direction: column; text-align: center; padding: 30px; gap: 20px; }
-            .info-box img { max-width: 280px; }
-            .info-text h2 { font-size: 1.8rem; }
+        .info-text { flex: 1; }
+        .info-text h2 { 
+            font-size: 2rem; 
+            font-weight: 600;
+            color: var(--text-main); 
+            margin-bottom: 15px; 
+            letter-spacing: -0.5px;
         }
-        .grid-section .reveal {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.stack-header {
-    position: absolute;
-    top: 10vh; /* Başlığı biraz daha yukarı aldık */
-    left: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 5; /* Kartların z-index değerinden (10) daha küçük olmalı */
-    pointer-events: none; /* Tıklamaları engellemesin */
-    transition: opacity 0.1s ease-out;
-}
-.stack-header h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
-}
-.stack-header p {
-    color: var(--text-dim);
-    font-size: 1.2rem;
-}
-.stack-container, .no-snap-section {
-    scroll-snap-align: none !important;
-}
-.stack-header.reveal {
-    opacity: 0;
-    transform: translateY(30px); /* 30px aşağıdan başlar */
-    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-    will-change: opacity, transform;
-}
-.stack-header.reveal.active {
-    opacity: 1;
-    transform: translateY(0); /* Orijinal yerine oturur */
-}
-.floating-card-container {
-    position: fixed;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 260px; /* Görsele göre genişliği buradan ayarlayabilirsin */
-    z-index: 99999;
-    perspective: 1500px;
-    pointer-events: auto !important;
-}
-.floating-card {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease-out;
-    background: transparent !important; /* Kart kutusunun içini boşalttık */
-}
-.floating-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 18px; /* Kartın köşelerini yuvarlatmak için */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Gerçekçi bir derinlik */
-    filter: brightness(1.1); /* Siyah kartın detaylarını belirginleştirir */
-}
-@media (max-width: 1024px) {
-    .floating-card-container { display: none; }
-}
-.floating-card.active-nfc {
-    transform: translate(calc(50vw - 150px), calc(50vh - 200px)) scale(1.5) rotateY(180deg) !important;
-    left: 0 !important;
-    top: 0 !important;
-    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) !important;
-    cursor: default;
-}
-.nfc-ui {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease 0.3s, visibility 0.5s;
-    pointer-events: none;
-    z-index: -1; /* Kartın arkasında */
-}
-.active-nfc .nfc-ui {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    z-index: 10; /* Kartın önüne */
-}
-.nfc-icon {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 113, 227, 0.1);
-    border: 2px solid #0071e3;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    cursor: pointer;
-    opacity: 0;
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                opacity 0.4s ease,
-                background 0.3s ease,
-                box-shadow 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 113, 227, 0.5); /* Mavi Parlama */
-}
-.nfc-icon i { font-size: 30px; }
-.nfc-icon:hover {
-    background: rgba(0, 113, 227, 0.4);
-    box-shadow: 0 0 30px rgba(0, 113, 227, 1);
-    transform: scale(1.1);
-}
-.active-nfc .nfc-icon { opacity: 1; }
+        .info-text p { 
+            font-size: 1.1rem; 
+            line-height: 1.6; 
+            color: var(--text-dim); /* Yazıyı hafif gri yaparak hiyerarşi sağladık */
+        }
 
-/* WhatsApp */
-.active-nfc .nfc-icon:nth-child(1) { transform: translate(-140px, -70px); }
-/* LinkedIn */
-.active-nfc .nfc-icon:nth-child(2) { transform: translate(0px, -150px); }
-/* Email */
-.active-nfc .nfc-icon:nth-child(3) { transform: translate(140px, -70px); }
-/* Close Button */
-.active-nfc .nfc-icon:nth-child(4) { transform: translate(0px, 150px); border-color: #ff3b30; color: #ff3b30; }
-.nfc-icon.close-nfc:hover { background: rgba(255, 59, 48, 0.2); box-shadow: 0 0 20px rgba(255, 59, 48, 0.8); }
+        .scroll-hint {
+            position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%);
+            color: var(--accent-blue); font-size: 0.8rem; font-weight: 500;
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            z-index: 20; animation: bounce 2s infinite;
+        }
 
-/* Arka Planı Karartma (Opsiyonel) */
-.nfc-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.5s;
-    z-index: 9998;
-}
-.overlay-active { opacity: 1; visibility: visible; }
+        /* --- FLOATING CARD & NFC MENU --- */
+        .floating-card-container { 
+            position: fixed; left: 40px; top: 50%; transform: translateY(-50%); 
+            width: 200px; z-index: 99999; perspective: 1200px; 
+        }
+        .floating-card {
+            width: 100%; position: relative; transform-style: preserve-3d;
+            transition: transform 0.8s var(--apple-ease); cursor: pointer;
+        }
+        .floating-card img { width: 100%; border-radius: 15px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        
+        .active-nfc { 
+            transform: translate(calc(50vw - 140px), 0) scale(1.5) !important; 
+            z-index: 100000;
+        }
+        
+        .card-title-overlay {
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; text-align: center; color: white;
+            font-size: 0.8rem; font-weight: 600;
+            opacity: 0; visibility: hidden; transition: 0.5s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
+
+        .nfc-ui { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: 0.5s ease;
+            z-index: 5;
+        }
+        .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
+
+        .nfc-text-item {
+            position: absolute; background: #1c1c1e; color: white; padding: 10px 20px;
+            border-radius: 12px; font-size: 0.65rem; font-weight: 500; white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            transition: all 0.3s ease; text-decoration: none;
+        }
+
+        .nfc-text-item:hover { background: #2c2c2e; border-color: var(--accent-blue); box-shadow: 0 0 15px rgba(0, 113, 227, 0.4); }
+
+        .item-1 { top: -70px; left: 50%; transform: translateX(-50%); } 
+        .item-2 { right: -150px; top: 35%; transform: translateY(-50%); } 
+        .item-3 { left: -150px; top: 35%; transform: translateY(-50%); } 
+        .item-4 { bottom: -70px; left: 50%; transform: translateX(-50%); color: #ff453a; border-color: rgba(255, 69, 58, 0.3); } 
+
+        @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
+
+        @media (max-width: 1024px) { 
+            .floating-card-container { display: none; } 
+            .info-box { flex-direction: column; height: auto; width: 90%; text-align: center; }
+            .info-box img { width: 100%; height: auto; }
+        }
     </style>
 </head>
 <body>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <div class="floating-card-container">
     <div class="floating-card" id="tiltCard">
+        <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
         <img src="smart kart 6.jpg" alt="Smart Kart">
-        
         <div class="nfc-ui" id="nfcUi">
-            <a href="https://wa.me/numaran" target="_blank" class="nfc-icon" title="WhatsApp"><i class="material-icons">chat</i></a>
-            <a href="https://linkedin.com/in/adın" target="_blank" class="nfc-icon" title="LinkedIn"><i class="material-icons">work</i></a>
-            <a href="mailto:mailin" target="_blank" class="nfc-icon" title="E-posta"><i class="material-icons">email</i></a>
-            <button class="nfc-icon close-nfc" title="Kapat" id="closeNfc"><i class="material-icons">close</i></button>
+            <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+            <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+            <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+            <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
         </div>
     </div>
 </div>
 
-    <nav>
-        <a href="#">Smart Kart</a>
-        <a href="#ozellikler">Özellikler</a>
-        <a href="#tasarim">Tasarım</a>
-    </nav>
+<nav>
+    <a href="#">Smart Kart</a>
+    <a href="#ozellikler">Özellikler</a>
+    <a href="#tasarim">Tasarım</a>
+</nav>
 
-    <section class="hero">
-        <div class="reveal">
-            <h1>Smart Kart</h1>
-            <p>Kartvizitlerin geleceği burada başlar. Profesyonel kimliğinizi tek bir dokunuşla dijital dünyaya taşıyın.</p>
-            <img src="pvc_noir.webp" alt="Smart Kart Noir" class="hero-img">
+<section class="hero">
+    <div class="reveal">
+        <h1 class="delay-1">Smart Kart</h1>
+        <p class="delay-2">Kartvizitlerin geleceği burada başlar.</p>
+        <img src="pvc_noir.webp" alt="Hero" class="hero-img delay-3 reveal">
+    </div>
+</section>
+
+<section id="ozellikler">
+    <div class="reveal">
+        <div class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 50px; letter-spacing: -1px;">
+            Tek bir kart. <br><span class="highlight">Sonsuz bağlantı.</span>
         </div>
-    </section>
-
-    <section class="grid-section" id="ozellikler">
-        <div class="reveal">
-            <div class="big-statement">
-                Tek bir kart. <br>
-                <span class="highlight">Sonsuz bağlantı.</span>
-            </div>
-            <div class="grid">
-                <div class="premium-card">
-                    <h3>Sadelik</h3>
-                    <p>Kağıt yığınlarından kurtulun. Tek bir kartla tüm bilgilerinizi yönetin.</p>
-                </div>
-                <div class="premium-card">
-                    <h3>Hız</h3>
-                    <p>Saniyeler içinde iletişim bilgilerinizi karşı tarafın rehberine kaydedin.</p>
-                </div>
-                <div class="premium-card">
-                    <h3>Kontrol</h3>
-                    <p>Bilgilerinizi dilediğiniz zaman panelinizden güncelleyin.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="stack-container" id="tasarim">
-        <div class="sticky-wrapper">
-            <div class="stack-header reveal"> 
-    <h2>Her Detayda <span class="highlight">Mükemmellik.</span></h2>
-    <p>Smart Kart'ın sunduğu teknolojik ayrıcalıkları keşfedin.</p>
-</div>
-            <div class="info-box">
-                <img src="smart kart 1.png" alt="Kart 1">
-                <div class="info-text">
-                    <h2>Akıllı Kartvizit Nedir?</h2>
-                    <p>Smart Kart, içerisindeki mikroçip sayesinde iletişim bilgilerinizi dokunuşla aktarır. Karşı tarafın herhangi bir uygulama indirmesine gerek kalmaz.</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <img src="smart kart 2.jpg" alt="Kart 2">
-                <div class="info-text">
-                    <h2>NFC Teknolojisi</h2>
-                    <p>Dijital dünyanızı tek bir dokunuşla fiziksel dünyaya bağlayın. Sosyal medya profilleriniz, web siteniz ve IBAN bilgileriniz her an elinizin altında.</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <img src="smart kart 3.jpg" alt="Kart 3">
-                <div class="info-text">
-                    <h2>Sürdürülebilir Tasarım</h2>
-                    <p>Her yıl kesilen milyonlarca ağacı kurtarın. Geri dönüştürülebilir malzemelerden üretilen kartlarımızla doğayı koruyun.</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <img src="smart kart 4.jpg" alt="Kart 4">
-                <div class="info-text">
-                    <h2>Detaylı Analizler</h2>
-                    <p>Kartınızın hangi şehirlerde okunduğunu, hangi butonların daha çok ilgi çektiğini detaylı istatistiklerle anlık olarak takip edin.</p>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <img src="smart kart 5.jpg" alt="Kart 5">
-                <div class="info-text">
-                    <h2>Tamamen Kişisel</h2>
-                    <p>Logonuzdan renk şemanıza kadar her şeyi markanızın kimliğine göre özelleştirin. Sadece size özel bir dijital profil oluşturun.</p>
-                </div>
-            </div>
-
+        <div class="grid">
+            <div class="premium-card reveal delay-1"><h3>Sadelik</h3><p>Kağıt yığınlarından kurtulun.</p></div>
+            <div class="premium-card reveal delay-2"><h3>Hız</h3><p>Saniyeler içinde kaydedin.</p></div>
+            <div class="premium-card reveal delay-3"><h3>Kontrol</h3><p>Bilgilerinizi anında güncelleyin.</p></div>
         </div>
     </div>
+</section>
 
-    <section style="background: linear-gradient(180deg, #000 0%, #111 100%);">
-        <div class="reveal">
-            <h2 style="font-size: 4rem; margin-bottom: 20px;">Geleceği Bugünden Yaşayın.</h2>
-            <p style="color: var(--text-dim); font-size: 1.5rem; max-width: 600px; margin: 0 auto;">Smart Kart ile dijital dönüşümün öncüsü olun.</p>
+<div class="stack-container" id="tasarim">
+    <div class="sticky-wrapper">
+        <div class="stack-header">
+            <h2 class="reveal delay-1">Her Detayda <br><span class="highlight">Mükemmellik.</span></h2>
+            <p class="reveal delay-2">Teknolojik ayrıcalıkları keşfedin.</p>
         </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Smart Kart. Tüm Hakları Saklıdır. Tasarım ve Teknoloji Bir Arada.</p>
-    </footer>
-
-    <script>
-        const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        } else {    entry.target.classList.remove('active');
-        }
-    });
-}, { 
-    threshold: 0.15, 
-    rootMargin: "-50px" 
-});
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-        const stackContainer = document.querySelector('.stack-container');
-        const boxes = document.querySelectorAll('.info-box');
-        const stackHeader = document.querySelector('.stack-header');
-
-     window.addEventListener('scroll', () => {
-    const rect = stackContainer.getBoundingClientRect();
-    const nextSection = document.querySelector('.no-snap-section'); // Bir sonraki sayfa
-    const nextRect = nextSection ? nextSection.getBoundingClientRect() : null;
-    const windowHeight = window.innerHeight;
-    if ((rect.top < 10 && rect.bottom > 0) || (nextRect && nextRect.top < windowHeight && nextRect.bottom > 0)) {
-    document.documentElement.style.scrollSnapType = "none";
-    } else {
-                document.documentElement.style.scrollSnapType = "y mandatory";
-    }
-    let progress = -rect.top / (rect.height - windowHeight);
-    progress = Math.max(0, Math.min(1, progress));
-
-    boxes.forEach((box, i) => {
-        const start = i / boxes.length;
-        const end = (i + 1) / boxes.length;
         
-        let boxProgress = (progress - start) / (end - start);
-        boxProgress = Math.max(0, Math.min(1, boxProgress));
+        <div class="background-footer">
+            © 2026 Smart Kart. Tüm Hakları Saklıdır.
+        </div>
 
-        // Z-INDEX: i değeri arttıkça (yani sonraki kartlar) z-index de artsın.
-        // Böylece her yeni gelen kart, bir öncekinin üstüne biner.
-        box.style.zIndex = 10 + i; 
+        <div class="info-box">
+            <img src="smart kart 1.png" alt="1">
+            <div class="info-text">
+                <h2>Akıllı Kartvizit</h2>
+                <p>Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 2.jpg" alt="2">
+            <div class="info-text">
+                <h2>NFC Gücü</h2>
+                <p>En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 3.jpg" alt="3">
+            <div class="info-text">
+                <h2>Ekolojik Vizyon</h2>
+                <p>Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 4.jpg" alt="4">
+            <div class="info-text">
+                <h2>Gelişmiş Analiz</h2>
+                <p>Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 5.jpg" alt="5">
+            <div class="info-text">
+                <h2>Premium Tasarım</h2>
+                <p>Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır ve kişiselleştirilir.</p>
+            </div>
+        </div>
 
-        if (boxProgress > 0) {
-            // Kartlar aşağıdan (80vh'den) yukarı doğru süzülür
-            const moveY = (1 - boxProgress) * 80; 
-            
-            // İstifleme mesafesi: Her kart bir öncekinden 30px daha aşağıda dursun
-            const myFinalPos = i * 30; 
+        <div class="scroll-hint" id="scrollHint">
+            <span>Keşfetmek için kaydırın</span>
+            <i class="material-icons">keyboard_arrow_down</i>
+        </div>
+    </div>
+</div>
 
-            // Ölçekleme: Sonraki gelen kart (i büyük olan) daha büyük olsun 
-            // veya hepsi aynı boyutta (1) kalsın. 
-            // Görseldeki gibi durması için hepsini 1 yapıyorum:
-            const scaleValue = 1; 
+<script>
+    const tiltCard = document.getElementById('tiltCard');
+    const stackContainer = document.querySelector('.stack-container');
+    const boxes = document.querySelectorAll('.info-box');
+    const scrollHint = document.getElementById('scrollHint');
+    let isHovering = false;
 
-            box.style.transform = `translateX(-50%) translateY(calc(${moveY}vh + ${myFinalPos}px)) scale(${scaleValue})`;
-            box.style.opacity = "1";
-            box.style.visibility = "visible";
-        } else {
-            box.style.transform = `translateX(-50%) translateY(100vh)`;
-            box.style.opacity = "0";
-            box.style.visibility = "hidden";
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active'); 
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    window.addEventListener('scroll', () => {
+        const rect = stackContainer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+
+        if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
+            tiltCard.style.transform = `rotateY(${scrollY * 0.08}deg)`;
         }
+
+        if (rect.top < 100 && rect.bottom > 0) document.documentElement.classList.add('no-snap');
+        else document.documentElement.classList.remove('no-snap');
+
+        let progress = -rect.top / (rect.height - windowHeight);
+        progress = Math.max(0, Math.min(1, progress));
+        scrollHint.style.opacity = progress > 0.05 ? "0" : "1";
+
+        boxes.forEach((box, i) => {
+            let boxProgress = (progress - (i / boxes.length)) / (1 / boxes.length);
+            boxProgress = Math.max(0, Math.min(1, boxProgress));
+            box.style.zIndex = 10 + i;
+            if (i === 0) {
+                box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
+                box.style.opacity = "1"; box.style.visibility = "visible";
+            } else if (boxProgress > 0) {
+                box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 75}vh + ${i*25}px))`;
+                box.style.opacity = "1"; box.style.visibility = "visible";
+            } else {
+                box.style.transform = `translate(-50%, 100vh)`;
+                box.style.opacity = "0"; box.style.visibility = "hidden";
+            }
+        });
     });
-});
-const tiltCard = document.getElementById('tiltCard');
-const nfcUi = document.getElementById('nfcUi');
-const closeNfc = document.getElementById('closeNfc');
-let isNfcActive = false; // Efekt açık mı kontrolü
 
-// 1. FARE TAKİBİ (Zaten sende olan kısım, güncellendi)
-window.addEventListener('mousemove', (e) => {
-    // Eğer holografik arayüz açıksa fare takibini durdur (çakışmasın)
-    if (!tiltCard || isNfcActive) return;
+    tiltCard.addEventListener('mousemove', (e) => {
+        if (tiltCard.classList.contains('active-nfc')) return;
+        isHovering = true;
+        const rect = tiltCard.getBoundingClientRect();
+        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 50; 
+        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 50;
+        tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    });
 
-    const x = e.clientX;
-    const y = e.clientY;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const rotateX = (y - centerY) / centerY;
-    const rotateY = (x - centerX) / centerX;
-
-    tiltCard.style.transition = "transform 0.1s ease-out"; 
-    tiltCard.style.transform = `rotateX(${-rotateX * 25}deg) rotateY(${rotateY * 25}deg)`;
-});
-
-// 2. TIKLAMA OLAYI (Açılış)
-if (tiltCard) {
-    tiltCard.style.cursor = "pointer";
+    tiltCard.addEventListener('mouseleave', () => {
+        isHovering = false;
+        if (tiltCard.classList.contains('active-nfc')) return;
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.08}deg) scale(1)`;
+    });
 
     tiltCard.addEventListener('click', (e) => {
-        // Eğer ikonlara tıklandıysa kartı kapatma
-        if (e.target.closest('.nfc-icon')) return; 
-        
-        if (!isNfcActive) {
-            openHologram();
-        }
+        if (e.target.id === 'closeNfc' || e.target.closest('.nfc-text-item')) return;
+        tiltCard.classList.add('active-nfc');
+        document.body.style.overflow = "hidden";
     });
-}
 
-// 3. Kapatma Butonu
-if (closeNfc) {
-    closeNfc.addEventListener('click', (e) => {
-        e.stopPropagation(); // Kartın tekrar açılmasını engelle
-        closeHologram();
+    document.getElementById('closeNfc').addEventListener('click', (e) => {
+        e.stopPropagation();
+        tiltCard.classList.remove('active-nfc');
+        document.body.style.overflow = "";
+        isHovering = false;
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.08}deg) scale(1)`;
     });
-}
+</script>
 
-// YARDIMCI FONKSİYONLAR (Açma/Kapama)
-
-function openHologram() {
-    isNfcActive = true;
-    tiltCard.classList.add('active-nfc'); // CSS sınıfını ekle (büyüme)
-    tiltCard.style.filter = "brightness(1.5) drop-shadow(0 0 30px #0071e3)";
-    document.body.style.overflow = "hidden"; // Sayfa kaydırmayı durdur
-}
-
-function closeHologram() {
-    isNfcActive = false;
-    tiltCard.classList.remove('active-nfc'); // Kartı yerine döndür
-    tiltCard.style.filter = "brightness(1.1) drop-shadow(0 15px 35px rgba(0,0,0,0.4))";
-    document.body.style.overflow = ""; // Sayfa kaydırmayı aç
-}
-
-// Dışarı tıklayınca kapatma (Opsiyonel)
-document.addEventListener('click', (e) => {
-    if (isNfcActive && !tiltCard.contains(e.target)) {
-        closeHologram();
-    }
-});
-
-    </script>
 </body>
 </html>
