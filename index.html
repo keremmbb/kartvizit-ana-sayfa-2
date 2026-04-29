@@ -74,15 +74,16 @@
             justify-content: center;
             padding: 80px 20px;
             position: relative;
-            /* SNAP AYARI */
             scroll-snap-align: start;
             scroll-snap-stop: always;
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+            will-change: opacity, transform;
         }
 
         .reveal.active {
@@ -289,9 +290,137 @@
 .stack-container, .no-snap-section {
     scroll-snap-align: none !important;
 }
+.stack-header.reveal {
+    opacity: 0;
+    transform: translateY(30px); /* 30px aşağıdan başlar */
+    transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+    will-change: opacity, transform;
+}
+.stack-header.reveal.active {
+    opacity: 1;
+    transform: translateY(0); /* Orijinal yerine oturur */
+}
+.floating-card-container {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 260px; /* Görsele göre genişliği buradan ayarlayabilirsin */
+    z-index: 99999;
+    perspective: 1500px;
+    pointer-events: auto !important;
+}
+.floating-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    background: transparent !important; /* Kart kutusunun içini boşalttık */
+}
+.floating-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px; /* Kartın köşelerini yuvarlatmak için */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Gerçekçi bir derinlik */
+    filter: brightness(1.1); /* Siyah kartın detaylarını belirginleştirir */
+}
+@media (max-width: 1024px) {
+    .floating-card-container { display: none; }
+}
+.floating-card.active-nfc {
+    transform: translate(calc(50vw - 150px), calc(50vh - 200px)) scale(1.5) rotateY(180deg) !important;
+    left: 0 !important;
+    top: 0 !important;
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    cursor: default;
+}
+.nfc-ui {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease 0.3s, visibility 0.5s;
+    pointer-events: none;
+    z-index: -1; /* Kartın arkasında */
+}
+.active-nfc .nfc-ui {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 10; /* Kartın önüne */
+}
+.nfc-icon {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 113, 227, 0.1);
+    border: 2px solid #0071e3;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.4s ease,
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 113, 227, 0.5); /* Mavi Parlama */
+}
+.nfc-icon i { font-size: 30px; }
+.nfc-icon:hover {
+    background: rgba(0, 113, 227, 0.4);
+    box-shadow: 0 0 30px rgba(0, 113, 227, 1);
+    transform: scale(1.1);
+}
+.active-nfc .nfc-icon { opacity: 1; }
+
+/* WhatsApp */
+.active-nfc .nfc-icon:nth-child(1) { transform: translate(-140px, -70px); }
+/* LinkedIn */
+.active-nfc .nfc-icon:nth-child(2) { transform: translate(0px, -150px); }
+/* Email */
+.active-nfc .nfc-icon:nth-child(3) { transform: translate(140px, -70px); }
+/* Close Button */
+.active-nfc .nfc-icon:nth-child(4) { transform: translate(0px, 150px); border-color: #ff3b30; color: #ff3b30; }
+.nfc-icon.close-nfc:hover { background: rgba(255, 59, 48, 0.2); box-shadow: 0 0 20px rgba(255, 59, 48, 0.8); }
+
+/* Arka Planı Karartma (Opsiyonel) */
+.nfc-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.5s;
+    z-index: 9998;
+}
+.overlay-active { opacity: 1; visibility: visible; }
     </style>
 </head>
 <body>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="floating-card-container">
+    <div class="floating-card" id="tiltCard">
+        <img src="smart kart 6.jpg" alt="Smart Kart">
+        
+        <div class="nfc-ui" id="nfcUi">
+            <a href="https://wa.me/numaran" target="_blank" class="nfc-icon" title="WhatsApp"><i class="material-icons">chat</i></a>
+            <a href="https://linkedin.com/in/adın" target="_blank" class="nfc-icon" title="LinkedIn"><i class="material-icons">work</i></a>
+            <a href="mailto:mailin" target="_blank" class="nfc-icon" title="E-posta"><i class="material-icons">email</i></a>
+            <button class="nfc-icon close-nfc" title="Kapat" id="closeNfc"><i class="material-icons">close</i></button>
+        </div>
+    </div>
+</div>
 
     <nav>
         <a href="#">Smart Kart</a>
@@ -332,10 +461,10 @@
 
     <div class="stack-container" id="tasarim">
         <div class="sticky-wrapper">
-            <div class="stack-header">
-        <h2>Her Detayda <span class="highlight">Mükemmellik.</span></h2>
-        <p>Smart Kart'ın sunduğu teknolojik ayrıcalıkları keşfedin.</p>
-    </div>
+            <div class="stack-header reveal"> 
+    <h2>Her Detayda <span class="highlight">Mükemmellik.</span></h2>
+    <p>Smart Kart'ın sunduğu teknolojik ayrıcalıkları keşfedin.</p>
+</div>
             <div class="info-box">
                 <img src="smart kart 1.png" alt="Kart 1">
                 <div class="info-text">
@@ -392,11 +521,18 @@
 
     <script>
         const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        } else {    entry.target.classList.remove('active');
+        }
+    });
+}, { 
+    threshold: 0.15, 
+    rootMargin: "-50px" 
+});
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
         const stackContainer = document.querySelector('.stack-container');
         const boxes = document.querySelectorAll('.info-box');
@@ -422,26 +558,98 @@
         let boxProgress = (progress - start) / (end - start);
         boxProgress = Math.max(0, Math.min(1, boxProgress));
 
-        const step = 30; 
-        const myFinalPos = i * step;
-
-        box.style.zIndex = 10 + i;
+        // Z-INDEX: i değeri arttıkça (yani sonraki kartlar) z-index de artsın.
+        // Böylece her yeni gelen kart, bir öncekinin üstüne biner.
+        box.style.zIndex = 10 + i; 
 
         if (boxProgress > 0) {
-            // Kartlar aşağıdan (80vh mesafeden) gelip 0 noktasına (top: 25vh) yerleşecek
+            // Kartlar aşağıdan (80vh'den) yukarı doğru süzülür
             const moveY = (1 - boxProgress) * 80; 
             
-            box.style.transform = `translateX(-50%) translateY(calc(${moveY}vh + ${myFinalPos}px)) scale(${1 - ((boxes.length - i) * 0.01)})`;
+            // İstifleme mesafesi: Her kart bir öncekinden 30px daha aşağıda dursun
+            const myFinalPos = i * 30; 
+
+            // Ölçekleme: Sonraki gelen kart (i büyük olan) daha büyük olsun 
+            // veya hepsi aynı boyutta (1) kalsın. 
+            // Görseldeki gibi durması için hepsini 1 yapıyorum:
+            const scaleValue = 1; 
+
+            box.style.transform = `translateX(-50%) translateY(calc(${moveY}vh + ${myFinalPos}px)) scale(${scaleValue})`;
             box.style.opacity = "1";
             box.style.visibility = "visible";
         } else {
-            // Başlangıçta ekranın altında beklesinler
             box.style.transform = `translateX(-50%) translateY(100vh)`;
             box.style.opacity = "0";
             box.style.visibility = "hidden";
         }
     });
 });
+const tiltCard = document.getElementById('tiltCard');
+const nfcUi = document.getElementById('nfcUi');
+const closeNfc = document.getElementById('closeNfc');
+let isNfcActive = false; // Efekt açık mı kontrolü
+
+// 1. FARE TAKİBİ (Zaten sende olan kısım, güncellendi)
+window.addEventListener('mousemove', (e) => {
+    // Eğer holografik arayüz açıksa fare takibini durdur (çakışmasın)
+    if (!tiltCard || isNfcActive) return;
+
+    const x = e.clientX;
+    const y = e.clientY;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const rotateX = (y - centerY) / centerY;
+    const rotateY = (x - centerX) / centerX;
+
+    tiltCard.style.transition = "transform 0.1s ease-out"; 
+    tiltCard.style.transform = `rotateX(${-rotateX * 25}deg) rotateY(${rotateY * 25}deg)`;
+});
+
+// 2. TIKLAMA OLAYI (Açılış)
+if (tiltCard) {
+    tiltCard.style.cursor = "pointer";
+
+    tiltCard.addEventListener('click', (e) => {
+        // Eğer ikonlara tıklandıysa kartı kapatma
+        if (e.target.closest('.nfc-icon')) return; 
+        
+        if (!isNfcActive) {
+            openHologram();
+        }
+    });
+}
+
+// 3. Kapatma Butonu
+if (closeNfc) {
+    closeNfc.addEventListener('click', (e) => {
+        e.stopPropagation(); // Kartın tekrar açılmasını engelle
+        closeHologram();
+    });
+}
+
+// YARDIMCI FONKSİYONLAR (Açma/Kapama)
+
+function openHologram() {
+    isNfcActive = true;
+    tiltCard.classList.add('active-nfc'); // CSS sınıfını ekle (büyüme)
+    tiltCard.style.filter = "brightness(1.5) drop-shadow(0 0 30px #0071e3)";
+    document.body.style.overflow = "hidden"; // Sayfa kaydırmayı durdur
+}
+
+function closeHologram() {
+    isNfcActive = false;
+    tiltCard.classList.remove('active-nfc'); // Kartı yerine döndür
+    tiltCard.style.filter = "brightness(1.1) drop-shadow(0 15px 35px rgba(0,0,0,0.4))";
+    document.body.style.overflow = ""; // Sayfa kaydırmayı aç
+}
+
+// Dışarı tıklayınca kapatma (Opsiyonel)
+document.addEventListener('click', (e) => {
+    if (isNfcActive && !tiltCard.contains(e.target)) {
+        closeHologram();
+    }
+});
+
     </script>
 </body>
 </html>
