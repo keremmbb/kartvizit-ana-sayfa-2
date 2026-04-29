@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Kart | Geleceğin Standartı</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #000000;
@@ -12,23 +12,30 @@
             --text-main: #ffffff;
             --text-dim: #86868b;
             --accent-blue: #0071e3;
-            --glass: rgba(0, 0, 0, 0.7);
+            --glass: rgba(0, 0, 0, 0.75);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         html {
-            scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             background-color: var(--bg-color);
+            scroll-snap-type: y mandatory;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
             color: var(--text-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
         }
 
+        /* --- NAVIGATION --- */
         nav {
             position: fixed;
             top: 0;
@@ -37,7 +44,7 @@
             background: var(--glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -47,29 +54,35 @@
         nav a {
             color: var(--text-main);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 400;
             letter-spacing: 0.02em;
             opacity: 0.8;
             transition: opacity 0.3s;
+            margin: 0 20px;
         }
 
-        section, .snap-section {
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-            height: 100vh;
+        nav a:hover { opacity: 1; }
+
+        /* --- GENEL SECTION YAPISI --- */
+        section {
+            width: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 80px 20px;
             position: relative;
+            /* SNAP AYARI */
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
-        /* --- APPLE TARZI ANIMASYONLAR --- */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: opacity, transform;
         }
 
         .reveal.active {
@@ -77,168 +90,358 @@
             transform: translateY(0);
         }
 
+        /* --- HERO SECTION --- */
         .hero {
             text-align: center;
             background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%);
-            width: 100%;
-            overflow: hidden;
         }
 
         .hero h1 {
             font-size: clamp(3.5rem, 10vw, 6rem);
             font-weight: 600;
             letter-spacing: -0.03em;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             background: linear-gradient(180deg, #fff 0%, #888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* ÜRÜN GÖRSELİ STİLİ */
-        .product-image-container {
-            margin-top: 50px;
-            perspective: 1000px;
-        }
-
-        .hero-card-img {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            /* Hafif eğim ve gölge ile derinlik katıyoruz */
-            transform: rotateX(5deg);
-            filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1));
-            transition: transform 0.8s ease;
-        }
-
-        .hero-card-img:hover {
-            transform: rotateX(0deg) scale(1.02);
-        }
-
         .hero p {
-            font-size: 1.8rem; 
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: var(--text-dim);
             max-width: 800px;
-            font-weight: 400;
-            line-height: 1.2;
             margin: 0 auto;
         }
 
-        .section-content {
-            width: 90%;
-            max-width: 1200px;
-            text-align: center;
+        .hero-img {
+            margin-top: 50px;
+            max-width: 500px;
+            width: 100%;
+            filter: drop-shadow(0 20px 50px rgba(255,255,255,0.1));
         }
+
+        /* --- ÖZELLİK GRİDİ (2. SAYFA) --- */
+        .grid-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+        .big-statement {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .highlight { color: var(--accent-blue); }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-top: 60px;
+            max-width: 1200px;
+            width: 100%;
         }
 
         .premium-card {
             background: var(--card-bg);
+            padding: 50px 30px;
+            border-radius: 32px;
             border: 1px solid rgba(255,255,255,0.05);
-            padding: 40px 30px;
-            border-radius: 28px;
-            transition: all 0.6s cubic-bezier(0.15, 0, 0.15, 1);
+            text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .premium-card:hover {
-            transform: scale(1.02);
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 30px rgba(0, 113, 227, 0.2);
+        .premium-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .premium-card p { color: var(--text-dim); font-size: 1.05rem; }
+
+        /* --- STACKING AREA (3. SAYFA) --- */
+        .stack-container {
+    position: relative;
+    height: 400vh; /* 600'den 400'e çektik, daha seri olur */
+    margin-top: 0;
+    background-color: #000;
+    scroll-snap-align: start;
+}
+
+        .sticky-wrapper {
+    position: sticky; /* Kartların ekranda asılı kalmasını sağlar */
+    top: 0;           /* Ekranın en üstüne yapışır */
+    height: 100vh;    /* Ekranın tam yüksekliği kadar alan kaplar */
+    display: flex;    /* İçindeki kartları ortalamak için */
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; /* Dışarı taşan kartların kaybolması için */
+    margin: 0;        /* Olası boşlukları sıfırlar */
+}  
+
+        .info-box {
+            position: absolute;
+            background: #ffffff;
+            color: #000;
+            padding: 50px;
+            border-radius: 40px;
+            max-width: 1000px;
+            width: 90%;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+            left: 50%;
+            top: 25vh;
+            transform: translateX(-50%) translateY(100vh); 
+            will-change: transform;
+            opacity: 0;
+            z-index: 10;
+            transition: transform 0.1s ease-out, opacity 0.1s ease-out;
         }
 
-        .big-statement {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 600;
+        .info-box:nth-child(1) { z-index: 10; }
+        .info-box:nth-child(2) { z-index: 20; }
+        .info-box:nth-child(3) { z-index: 30; }
+        .info-box:nth-child(4) { z-index: 40; }
+        .info-box:nth-child(5) { z-index: 50; }
+
+        .info-box img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            object-fit: cover;
+        }
+
+        .info-text h2 {
+            font-size: 2.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
             letter-spacing: -0.02em;
         }
 
-        .highlight { color: var(--accent-blue); }
-
-        .page-footer {
-            position: absolute;
-            bottom: 40px;
-            width: 100%;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            opacity: 0.6;
+        .info-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
         }
+
+        /* --- FOOTER --- */
+        footer {
+    width: 100%;
+    padding: 60px 0; /* Alt tarafa biraz daha ferahlık verdik */
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    
+    /* ARKA PLANI SIFIRLA */
+    background: transparent !important; 
+    background-color: transparent !important;
+    
+    /* VARSA ÇİZGİLERİ KALDIR */
+    border: none !important;
+    outline: none !important;
+    
+    /* KONUMLANDIRMA */
+    scroll-snap-align: end;
+    position: relative;
+    margin-top: -100px; /* Footer'ı yukarıdaki siyahlığın içine çekiyoruz */
+    z-index: 10;
+}
+
+        footer p { color: var(--text-dim); font-size: 0.9rem; }
 
         @media (max-width: 768px) {
             .grid { grid-template-columns: 1fr; }
-            section, .snap-section { height: auto; min-height: 100vh; padding: 100px 0; }
-            .hero p { font-size: 1.4rem; }
-            .hero-card-img { max-width: 80%; }
+            .info-box { flex-direction: column; text-align: center; padding: 30px; gap: 20px; }
+            .info-box img { max-width: 280px; }
+            .info-text h2 { font-size: 1.8rem; }
         }
+        .grid-section .reveal {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.stack-header {
+    position: absolute;
+    top: 10vh; /* Başlığı biraz daha yukarı aldık */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 5; /* Kartların z-index değerinden (10) daha küçük olmalı */
+    pointer-events: none; /* Tıklamaları engellemesin */
+    transition: opacity 0.1s ease-out;
+}
+.stack-header h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+}
+.stack-header p {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+}
+.stack-container, .no-snap-section {
+    scroll-snap-align: none !important;
+}
     </style>
 </head>
 <body>
+
+    <nav>
+        <a href="#">Smart Kart</a>
+        <a href="#ozellikler">Özellikler</a>
+        <a href="#tasarim">Tasarım</a>
+    </nav>
+
     <section class="hero">
-        <div class="section-content reveal">
+        <div class="reveal">
             <h1>Smart Kart</h1>
-            <p>Profesyonel kimliğinizin en zarif hali.</p>
-            
-            <div class="product-image-container">
-                <img src="pvc_noir.webp" alt="Smart Kart Noir" class="hero-card-img">
-            </div>
+            <p>Kartvizitlerin geleceği burada başlar. Profesyonel kimliğinizi tek bir dokunuşla dijital dünyaya taşıyın.</p>
+            <img src="pvc_noir.webp" alt="Smart Kart Noir" class="hero-img">
         </div>
     </section>
 
-    <section class="snap-section">
-        <div class="section-content reveal">
+    <section class="grid-section" id="ozellikler">
+        <div class="reveal">
             <div class="big-statement">
-                Tek dokunuşta <br>
-                <span class="highlight">her şeyi paylaşın.</span>
+                Tek bir kart. <br>
+                <span class="highlight">Sonsuz bağlantı.</span>
             </div>
             <div class="grid">
-    <div class="premium-card">
-        <h3>Sadelik</h3>
-        <p>Karmaşadan uzak, tek bir kartla tüm dijital dünyanızı yönetin.</p>
-    </div>
-    <div class="premium-card">
-        <h3>Hız</h3>
-        <p>NFC teknolojisi sayesinde bilgileriniz saniyeler içinde karşı tarafta.</p>
-    </div>
-    <div class="premium-card">
-        <h3>Kontrol</h3>
-        <p>İstediğiniz bilgiyi istediğiniz an güncelleyin; kontrol her zaman sizde.</p>
-    </div>
-</div>
+                <div class="premium-card">
+                    <h3>Sadelik</h3>
+                    <p>Kağıt yığınlarından kurtulun. Tek bir kartla tüm bilgilerinizi yönetin.</p>
+                </div>
+                <div class="premium-card">
+                    <h3>Hız</h3>
+                    <p>Saniyeler içinde iletişim bilgilerinizi karşı tarafın rehberine kaydedin.</p>
+                </div>
+                <div class="premium-card">
+                    <h3>Kontrol</h3>
+                    <p>Bilgilerinizi dilediğiniz zaman panelinizden güncelleyin.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="snap-section" style="background: #000;">
-        <div class="section-content reveal">
-            <h2 style="font-size: 3.5rem; letter-spacing: -0.02em; margin-bottom: 20px;">Doğa Dostu.</h2>
-            <p style="color: var(--text-dim); font-size: 1.5rem; max-width: 700px; margin: 0 auto; font-weight: 400;">
-                Kâğıt israfına son verin. Sürdürülebilir bir gelecek için dijitalleşin.
-            </p>
+    <div class="stack-container" id="tasarim">
+        <div class="sticky-wrapper">
+            <div class="stack-header">
+        <h2>Her Detayda <span class="highlight">Mükemmellik.</span></h2>
+        <p>Smart Kart'ın sunduğu teknolojik ayrıcalıkları keşfedin.</p>
+    </div>
+            <div class="info-box">
+                <img src="smart kart 1.png" alt="Kart 1">
+                <div class="info-text">
+                    <h2>Akıllı Kartvizit Nedir?</h2>
+                    <p>Smart Kart, içerisindeki mikroçip sayesinde iletişim bilgilerinizi dokunuşla aktarır. Karşı tarafın herhangi bir uygulama indirmesine gerek kalmaz.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <img src="smart kart 2.jpg" alt="Kart 2">
+                <div class="info-text">
+                    <h2>NFC Teknolojisi</h2>
+                    <p>Dijital dünyanızı tek bir dokunuşla fiziksel dünyaya bağlayın. Sosyal medya profilleriniz, web siteniz ve IBAN bilgileriniz her an elinizin altında.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <img src="smart kart 3.jpg" alt="Kart 3">
+                <div class="info-text">
+                    <h2>Sürdürülebilir Tasarım</h2>
+                    <p>Her yıl kesilen milyonlarca ağacı kurtarın. Geri dönüştürülebilir malzemelerden üretilen kartlarımızla doğayı koruyun.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <img src="smart kart 4.jpg" alt="Kart 4">
+                <div class="info-text">
+                    <h2>Detaylı Analizler</h2>
+                    <p>Kartınızın hangi şehirlerde okunduğunu, hangi butonların daha çok ilgi çektiğini detaylı istatistiklerle anlık olarak takip edin.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <img src="smart kart 5.jpg" alt="Kart 5">
+                <div class="info-text">
+                    <h2>Tamamen Kişisel</h2>
+                    <p>Logonuzdan renk şemanıza kadar her şeyi markanızın kimliğine göre özelleştirin. Sadece size özel bir dijital profil oluşturun.</p>
+                </div>
+            </div>
+
         </div>
-        
-        <div class="page-footer reveal">
-            <p>&copy; 2026 Smart Kart. Tasarım ve Teknoloji Bir Arada.</p>
+    </div>
+
+    <section style="background: linear-gradient(180deg, #000 0%, #111 100%);">
+        <div class="reveal">
+            <h2 style="font-size: 4rem; margin-bottom: 20px;">Geleceği Bugünden Yaşayın.</h2>
+            <p style="color: var(--text-dim); font-size: 1.5rem; max-width: 600px; margin: 0 auto;">Smart Kart ile dijital dönüşümün öncüsü olun.</p>
         </div>
     </section>
+
+    <footer>
+        <p>&copy; 2026 Smart Kart. Tüm Hakları Saklıdır. Tasarım ve Teknoloji Bir Arada.</p>
+    </footer>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    // Animasyonun her seferinde tetiklenmesini istiyorsan burayı bırak, 
-                    // sadece bir kere olsun istiyorsan alttaki satırı silebilirsin.
-                    entry.target.classList.remove('active');
-                }
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
         }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        const stackContainer = document.querySelector('.stack-container');
+        const boxes = document.querySelectorAll('.info-box');
+        const stackHeader = document.querySelector('.stack-header');
+
+     window.addEventListener('scroll', () => {
+    const rect = stackContainer.getBoundingClientRect();
+    const nextSection = document.querySelector('.no-snap-section'); // Bir sonraki sayfa
+    const nextRect = nextSection ? nextSection.getBoundingClientRect() : null;
+    const windowHeight = window.innerHeight;
+    if ((rect.top < 10 && rect.bottom > 0) || (nextRect && nextRect.top < windowHeight && nextRect.bottom > 0)) {
+    document.documentElement.style.scrollSnapType = "none";
+    } else {
+                document.documentElement.style.scrollSnapType = "y mandatory";
+    }
+    let progress = -rect.top / (rect.height - windowHeight);
+    progress = Math.max(0, Math.min(1, progress));
+
+    boxes.forEach((box, i) => {
+        const start = i / boxes.length;
+        const end = (i + 1) / boxes.length;
+        
+        let boxProgress = (progress - start) / (end - start);
+        boxProgress = Math.max(0, Math.min(1, boxProgress));
+
+        const step = 30; 
+        const myFinalPos = i * step;
+
+        box.style.zIndex = 10 + i;
+
+        if (boxProgress > 0) {
+            // Kartlar aşağıdan (80vh mesafeden) gelip 0 noktasına (top: 25vh) yerleşecek
+            const moveY = (1 - boxProgress) * 80; 
+            
+            box.style.transform = `translateX(-50%) translateY(calc(${moveY}vh + ${myFinalPos}px)) scale(${1 - ((boxes.length - i) * 0.01)})`;
+            box.style.opacity = "1";
+            box.style.visibility = "visible";
+        } else {
+            // Başlangıçta ekranın altında beklesinler
+            box.style.transform = `translateX(-50%) translateY(100vh)`;
+            box.style.opacity = "0";
+            box.style.visibility = "hidden";
+        }
+    });
+});
     </script>
-
 </body>
 </html>
