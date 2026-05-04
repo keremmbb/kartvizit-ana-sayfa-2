@@ -13,10 +13,23 @@
             --text-main: #ffffff;
             --text-dim: #86868b;
             --accent-blue: #0071e3;
-            --glass: rgba(0, 0, 0, 0.75);
+            --glass: rgba(0, 0, 0, 0.6);
             --apple-ease: cubic-bezier(0.15, 0, 0.2, 1);
             --box-glass: rgba(255, 255, 255, 0.03);
             --box-border: rgba(255, 255, 255, 0.08);
+            --smooth-transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Global Grainy Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 99999;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,255 +46,229 @@
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.5;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- NAVİGASYON --- */
+        /* --- DYNAMIC ISLAND NAVIGATION --- */
         nav {
-            position: fixed; top: 0; width: 100%; height: 48px; background: var(--glass);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 9999; display: flex; align-items: center; justify-content: center;
-            border-bottom: 0.5px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 20px; /* Üstten boşluk */
+            left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            min-width: 300px;
+            height: 44px;
+            background: var(--glass);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 22px; /* Tam yuvarlak kenarlar */
+            padding: 0 25px;
+            transition: all 0.5s var(--apple-ease);
         }
-        nav a { 
-            color: var(--text-main); text-decoration: none; font-size: 0.85rem; 
-            margin: 0 20px; opacity: 0.8; transition: color 0.3s ease, opacity 0.3s ease; 
-        }
-        nav a:hover { color: var(--accent-blue); opacity: 1; }
 
-        /* --- ANİMASYONLAR --- */
+        /* Scroll edildiğinde veya hoverda genişleme efekti */
+        nav:hover {
+            padding: 0 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        nav a { 
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem; 
+            font-weight: 500;
+            margin: 0 15px;
+            opacity: 0.6;
+            transition: 0.3s var(--apple-ease);
+            white-space: nowrap;
+        }
+        
+        nav a:hover { 
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        /* --- REVEAL ANIMATION CORE --- */
         .reveal { 
             opacity: 0; 
             transform: translateY(40px); 
             transition: opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease); 
-            will-change: transform, opacity;
+            will-change: opacity, transform;
         }
+        
         .reveal.active { 
             opacity: 1; 
             transform: translateY(0); 
         }
-        
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.3s; }
-        .delay-3 { transition-delay: 0.5s; }
 
-        /* --- SECTIONS --- */
         section {
             width: 100%; min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; padding: 80px 20px;
+            align-items: center; justify-content: center; padding: 100px 20px;
             position: relative; scroll-snap-align: start;
         }
 
-        .hero { text-align: center; background: radial-gradient(circle at center, #1d1d1f 0%, #000000 100%); }
+        .hero { text-align: center; background: radial-gradient(circle at center, #1a1a1c 0%, #000 100%); }
         .hero h1 { 
-            font-size: clamp(3.5rem, 10vw, 5.5rem); font-weight: 600; 
-            background: linear-gradient(180deg, #fff 0%, #888 100%); 
+            font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 600; 
+            background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: -2px;
+            margin-bottom: 10px; letter-spacing: -0.03em;
         }
-        .hero-img { max-width: 450px; width: 100%; filter: drop-shadow(0 20px 50px rgba(255,255,255,0.05)); }
+        .hero p { color: var(--text-dim); font-size: 1.5rem; font-weight: 400; margin-bottom: 40px; }
+        .hero-img { max-width: 500px; width: 100%; filter: drop-shadow(0 20px 80px rgba(0,113,227,0.15)); }
 
         .highlight { color: var(--accent-blue); }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; width: 100%; }
-        .premium-card { background: var(--card-bg); padding: 40px 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
+
+        /* --- BENTO GRID SYSTEM --- */
+        .bento-container {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 220px; 
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .bento-item {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid var(--box-border);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s var(--apple-ease), opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease);
+        }
+        .bento-item:hover { transform: scale(1.02); }
+
+        .bento-item h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; }
+        .bento-item p { color: var(--text-dim); font-size: 0.95rem; }
+
+        .bento-large { grid-column: span 2; display: flex; align-items: center; gap: 30px; }
+        
+        .bento-icon { font-size: 40px; color: var(--accent-blue); margin-bottom: 20px; }
+        
+        .bento-item::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
 
         /* --- STACKING AREA --- */
         .stack-container { position: relative; height: 550vh; background-color: #000; scroll-snap-align: start; }
         .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        .stack-header { 
-            position: absolute; 
-            top: 8vh; 
-            text-align: center; 
-            z-index: 5; 
-            width: 100%;
-        }
-        .stack-header h2 {
-            font-size: clamp(2rem, 5vw, 3.8rem);
-            line-height: 1.1;
-            font-weight: 600;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-        }
-        .stack-header p {
-            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-            color: var(--text-dim);
-        }
+        .stack-header { position: absolute; top: 12vh; text-align: center; z-index: 5; width: 100%; }
+        .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; }
 
         .background-footer {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 0.8rem;
-            z-index: 1;
-            pointer-events: none;
+            position: absolute; bottom: 30px; width: 100%; text-align: center;
+            color: rgba(255, 255, 255, 0.1); font-size: 0.75rem; z-index: 1;
         }
 
         .info-box {
-            position: absolute; 
-            background: var(--box-glass);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            color: var(--text-main); 
-            padding: 40px;
-            border-radius: 40px; 
-            border: 1px solid var(--box-border);
-            width: 800px; 
-            height: 380px; 
-            max-width: 85%;
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            gap: 35px;
-            left: 50%; 
-            top: 58%;
-            transform: translate(-50%, 100vh);
-            opacity: 0; 
-            visibility: hidden; 
-            will-change: transform, opacity;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            z-index: 10;
+            position: absolute; background: var(--box-glass);
+            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            color: var(--text-main); padding: 40px; border-radius: 40px; 
+            border: 1px solid var(--box-border); width: 800px; height: 380px; 
+            max-width: 85%; display: flex; align-items: center; justify-content: space-between; 
+            gap: 35px; left: 50%; top: 55%; transform: translate(-50%, 100vh);
+            opacity: 0; visibility: hidden; will-change: transform, opacity;
+            transition: var(--smooth-transition); 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
         }
 
         .info-box img { 
-            width: 360px; 
-            height: 260px; 
-            object-fit: cover; 
-            border-radius: 24px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 0.5px solid var(--box-border);
+            width: 360px; height: 260px; object-fit: cover; border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 0.5px solid var(--box-border);
         }
 
-        .info-text { flex: 1; }
-        .info-text h2 { 
-            font-size: 2rem; 
-            font-weight: 600;
-            color: var(--text-main); 
-            margin-bottom: 15px; 
-            letter-spacing: -0.5px;
-        }
-        .info-text p { 
-            font-size: 1.1rem; 
-            line-height: 1.6; 
-            color: var(--text-dim);
-        }
+        .info-text h2 { font-size: 2rem; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.02em; }
+        .info-text p { font-size: 1.1rem; color: var(--text-dim); line-height: 1.5; }
 
         .scroll-hint {
             position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%);
-            color: var(--accent-blue); font-size: 0.8rem; font-weight: 500;
+            color: var(--accent-blue); font-size: 0.8rem;
             display: flex; flex-direction: column; align-items: center; gap: 5px;
             z-index: 20; animation: bounce 2s infinite;
         }
 
-        /* --- FLOATING CARD & DROP ANIMATION --- */
+        /* --- FLOATING CARD --- */
         .floating-card-container { 
             position: fixed; left: 40px; top: 50%; transform: translateY(-50%); 
-            width: 200px; z-index: 99999; perspective: 1200px; 
+            width: 220px; z-index: 99999; perspective: 1200px; 
             animation: cardDrop 1.8s var(--apple-ease) forwards;
         }
 
         @keyframes cardDrop {
             0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; }
-            60% { transform: translateY(-45%) rotateZ(2deg); opacity: 1; }
             100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; }
         }
 
         .floating-card {
             width: 100%; position: relative; transform-style: preserve-3d;
             transition: transform 0.8s var(--apple-ease); cursor: pointer;
-            border-radius: 15px;
         }
 
-        /* Kenar Işığı Katmanı - Kartın iç kısmında hapsolur */
         .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            overflow: hidden; /* Işık burada sınırlanır */
-            padding: 2px;
-            background: rgba(255,255,255,0.05);
+            position: relative; width: 100%; height: 100%; border-radius: 18px;
+            overflow: hidden; padding: 1.5px; background: rgba(255,255,255,0.1);
         }
 
         .card-inner::before {
-            content: '';
-            position: absolute;
-            width: 180%;
-            height: 180%;
-            background: conic-gradient(
-                transparent, 
-                transparent, 
-                transparent, 
-                var(--accent-blue), 
-                transparent
-            );
-            top: -40%;
-            left: -40%;
-            animation: rotateBeam 4s linear infinite;
-            z-index: 0;
+            content: ''; position: absolute; width: 180%; height: 180%;
+            background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent);
+            top: -40%; left: -40%; animation: rotateBeam 4s linear infinite;
         }
 
-        @keyframes rotateBeam {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .floating-card img { 
-            width: 100%; border-radius: 13px; display: block; 
-            position: relative; z-index: 1; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
-        }
+        .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
         
-        .active-nfc { 
-            transform: translate(calc(50vw - 140px), 0) scale(1.5) !important; 
-            z-index: 100000;
-        }
+        .active-nfc { transform: translate(calc(50vw - 110px), 0) scale(1.5) !important; z-index: 100000; }
         
-        /* Menü elemanları kesilmemesi için card-inner DIŞINDA olmalı */
         .card-title-overlay {
-            position: absolute;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; text-align: center; color: white;
-            font-size: 0.8rem; font-weight: 600;
-            opacity: 0; visibility: hidden; transition: 0.5s ease;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            pointer-events: none;
-            z-index: 2;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600;
+            opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2;
         }
         .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
 
         .nfc-ui { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; visibility: hidden; pointer-events: none;
-            transition: 0.5s ease;
-            z-index: 5;
+            opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5;
         }
         .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
 
         .nfc-text-item {
-            position: absolute; background: #1c1c1e; color: white; padding: 10px 20px;
-            border-radius: 12px; font-size: 0.65rem; font-weight: 500; white-space: nowrap;
-            border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            transition: all 0.3s ease; text-decoration: none;
+            position: absolute; background: #1c1c1e; color: white; padding: 10px 18px;
+            border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255, 255, 255, 0.15);
+            white-space: nowrap;
         }
 
-        .nfc-text-item:hover { background: #2c2c2e; border-color: var(--accent-blue); box-shadow: 0 0 15px rgba(0, 113, 227, 0.4); }
-
-        .item-1 { top: -70px; left: 50%; transform: translateX(-50%); } 
-        .item-2 { right: -150px; top: 35%; transform: translateY(-50%); } 
-        .item-3 { left: -150px; top: 35%; transform: translateY(-50%); } 
-        .item-4 { bottom: -70px; left: 50%; transform: translateX(-50%); color: #ff453a; border-color: rgba(255, 69, 58, 0.3); } 
+        .item-1 { top: -80px; left: 50%; transform: translateX(-50%); } 
+        .item-2 { right: -160px; top: 40%; transform: translateY(-50%); } 
+        .item-3 { left: -160px; top: 40%; transform: translateY(-50%); } 
+        .item-4 { bottom: -80px; left: 50%; transform: translateX(-50%); color: #ff453a; font-weight: 600; } 
 
         @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
 
         @media (max-width: 1024px) { 
             .floating-card-container { display: none; } 
-            .info-box { flex-direction: column; height: auto; width: 90%; text-align: center; }
+            .bento-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
+            .bento-large { grid-column: span 1; }
+            .info-box { flex-direction: column; height: auto; padding: 30px; text-align: center; }
             .info-box img { width: 100%; height: auto; }
+            nav { width: 90%; min-width: auto; }
         }
     </style>
 </head>
@@ -292,9 +279,7 @@
         <div class="card-inner">
             <img src="smart kart 6.jpg" alt="Smart Kart">
         </div>
-        
         <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-        
         <div class="nfc-ui" id="nfcUi">
             <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
             <div class="nfc-text-item item-2">Temassız Bağlantı</div>
@@ -304,29 +289,56 @@
     </div>
 </div>
 
-<nav>
+<nav id="dynamicNav">
     <a href="#">Smart Kart</a>
     <a href="#ozellikler">Özellikler</a>
     <a href="#tasarim">Tasarım</a>
 </nav>
 
 <section class="hero">
-    <div class="reveal">
-        <h1 class="delay-1">Smart Kart</h1>
-        <p class="delay-2">Kartvizitlerin geleceği burada başlar.</p>
-        <img src="pvc_noir.webp" alt="Hero" class="hero-img delay-3 reveal">
-    </div>
+    <h1 class="reveal">Smart Kart</h1>
+    <p class="reveal">Kartvizitlerin geleceği burada başlar.</p>
+    <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal">
 </section>
 
 <section id="ozellikler">
-    <div class="reveal">
-        <div class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 50px; letter-spacing: -1px;">
-            Tek bir kart. <br><span class="highlight">Sonsuz bağlantı.</span>
-        </div>
-        <div class="grid">
-            <div class="premium-card reveal delay-1"><h3>Sadelik</h3><p>Kağıt yığınlarından kurtulun.</p></div>
-            <div class="premium-card reveal delay-2"><h3>Hız</h3><p>Saniyeler içinde kaydedin.</p></div>
-            <div class="premium-card reveal delay-3"><h3>Kontrol</h3><p>Bilgilerinizi anında güncelleyin.</p></div>
+    <div style="width: 100%; max-width: 1100px;">
+        <h2 class="reveal" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
+        <p class="reveal" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
+        
+        <div class="bento-container">
+            <div class="bento-item bento-large reveal">
+                <div style="flex: 1;">
+                    <i class="material-icons bento-icon">bolt</i>
+                    <h3>Işık Hızında Paylaşım</h3>
+                    <p>NFC teknolojisi ile telefonunuzu yaklaştırın ve saniyeler içinde tüm bilgilerinizi aktarın.</p>
+                </div>
+                <div style="width: 120px; height: 120px; background: linear-gradient(45deg, #0071e3, #64d2ff); border-radius: 20px; opacity: 0.2; filter: blur(20px);"></div>
+            </div>
+
+            <div class="bento-item reveal">
+                <i class="material-icons bento-icon">security</i>
+                <h3>Güvenli</h3>
+                <p>Verileriniz 256-bit şifreleme ile korunur.</p>
+            </div>
+
+            <div class="bento-item reveal">
+                <i class="material-icons bento-icon">eco</i>
+                <h3>Ekolojik</h3>
+                <p>Milyonlarca kağıt israfını önleyerek doğayı koruyoruz.</p>
+            </div>
+
+            <div class="bento-item reveal">
+                <i class="material-icons bento-icon">update</i>
+                <h3>Dinamik</h3>
+                <p>Bilgilerinizi dilediğiniz zaman güncelleyin.</p>
+            </div>
+
+            <div class="bento-item reveal">
+                <i class="material-icons bento-icon">insights</i>
+                <h3>Analiz</h3>
+                <p>Tıklanma oranlarınızı anlık takip edin.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -334,48 +346,30 @@
 <div class="stack-container" id="tasarim">
     <div class="sticky-wrapper">
         <div class="stack-header">
-            <h2 class="reveal delay-1">Her Detayda <br><span class="highlight">Mükemmellik.</span></h2>
-            <p class="reveal delay-2">Teknolojik ayrıcalıkları keşfedin.</p>
+            <h2 class="reveal">Her Detayda <br><span class="highlight">Mükemmellik.</span></h2>
         </div>
         
-        <div class="background-footer">
-            © 2026 Smart Kart. Tüm Hakları Saklıdır.
-        </div>
+        <div class="background-footer">© 2026 Smart Kart. Tüm Hakları Saklıdır.</div>
 
         <div class="info-box">
             <img src="smart kart 1.png" alt="1">
-            <div class="info-text">
-                <h2>Akıllı Kartvizit</h2>
-                <p>Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p>
-            </div>
+            <div class="info-text"><h2>Akıllı Kartvizit</h2><p>Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p></div>
         </div>
         <div class="info-box">
             <img src="smart kart 2.jpg" alt="2">
-            <div class="info-text">
-                <h2>NFC Gücü</h2>
-                <p>En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p>
-            </div>
+            <div class="info-text"><h2>NFC Gücü</h2><p>En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p></div>
         </div>
         <div class="info-box">
             <img src="smart kart 3.jpg" alt="3">
-            <div class="info-text">
-                <h2>Ekolojik Vizyon</h2>
-                <p>Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p>
-            </div>
+            <div class="info-text"><h2>Ekolojik Vizyon</h2><p>Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p></div>
         </div>
         <div class="info-box">
             <img src="smart kart 4.jpg" alt="4">
-            <div class="info-text">
-                <h2>Gelişmiş Analiz</h2>
-                <p>Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p>
-            </div>
+            <div class="info-text"><h2>Gelişmiş Analiz</h2><p>Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p></div>
         </div>
         <div class="info-box">
             <img src="smart kart 5.jpg" alt="5">
-            <div class="info-text">
-                <h2>Premium Tasarım</h2>
-                <p>Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır ve kişiselleştirilir.</p>
-            </div>
+            <div class="info-text"><h2>Premium Tasarım</h2><p>Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır.</p></div>
         </div>
 
         <div class="scroll-hint" id="scrollHint">
@@ -390,30 +384,51 @@
     const stackContainer = document.querySelector('.stack-container');
     const boxes = document.querySelectorAll('.info-box');
     const scrollHint = document.getElementById('scrollHint');
+    const nav = document.getElementById('dynamicNav');
     let isHovering = false;
 
-    // Reveal Observer
+    // --- YENİLENMİŞ SIRALI REVEAL SİSTEMİ ---
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
+        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+        intersectingEntries.forEach((entry, index) => {
+            setTimeout(() => {
                 entry.target.classList.add('active');
-            } else {
-                entry.target.classList.remove('active'); 
+            }, index * 150);
+        });
+
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                entry.target.classList.remove('active');
             }
         });
-    }, { threshold: 0.1 });
+    }, { 
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    });
 
-    // Scroll Logic
+    // --- SCROLL LOGIC & DYNAMIC NAV ---
     window.addEventListener('scroll', () => {
         const rect = stackContainer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
 
-        // Kartın scroll dönüşü
+        // Navigasyon efekti (Dynamic Island)
+        if (scrollY > 50) {
+            nav.style.height = "50px";
+            nav.style.background = "rgba(0, 0, 0, 0.85)";
+            nav.style.boxShadow = "0 8px 32px rgba(0,0,0,0.4)";
+        } else {
+            nav.style.height = "44px";
+            nav.style.background = "rgba(0, 0, 0, 0.6)";
+            nav.style.boxShadow = "none";
+        }
+
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
-            tiltCard.style.transform = `rotateY(${scrollY * 0.08}deg)`;
+            tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
         }
 
         if (rect.top < 100 && rect.bottom > 0) document.documentElement.classList.add('no-snap');
@@ -429,49 +444,51 @@
             box.style.zIndex = 10 + i;
             if (i === 0) {
                 box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
-                box.style.opacity = "1"; box.style.visibility = "visible";
-            } else if (boxProgress > 0) {
-                box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 75}vh + ${i*25}px))`;
-                box.style.opacity = "1"; box.style.visibility = "visible";
+                box.style.opacity = "1";
+                box.style.visibility = "visible";
             } else {
-                box.style.transform = `translate(-50%, 100vh)`;
-                box.style.opacity = "0"; box.style.visibility = "hidden";
+                if (boxProgress > 0) {
+                    box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 70}vh + ${i * 15}px))`;
+                    box.style.opacity = "1";
+                    box.style.visibility = "visible";
+                } else {
+                    box.style.transform = `translate(-50%, 100vh)`;
+                    box.style.opacity = "0";
+                    box.style.visibility = "hidden";
+                }
             }
         });
     });
 
-    // Tilt (Eğilme) Efekti
     tiltCard.addEventListener('mousemove', (e) => {
         if (tiltCard.classList.contains('active-nfc')) return;
         isHovering = true;
         const rect = tiltCard.getBoundingClientRect();
-        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 50; 
-        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 50;
+        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 30; 
+        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 30;
         tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
     });
 
     tiltCard.addEventListener('mouseleave', () => {
         isHovering = false;
-        if (tiltCard.classList.contains('active-nfc')) return;
-        tiltCard.style.transform = `rotateY(${window.scrollY * 0.08}deg) scale(1)`;
+        if (!tiltCard.classList.contains('active-nfc')) {
+            tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+        }
     });
 
-    // NFC Menü Açma
     tiltCard.addEventListener('click', (e) => {
         if (e.target.id === 'closeNfc' || e.target.closest('.nfc-text-item')) return;
         tiltCard.classList.add('active-nfc');
         document.body.style.overflow = "hidden";
     });
 
-    // NFC Menü Kapatma
     document.getElementById('closeNfc').addEventListener('click', (e) => {
         e.stopPropagation();
         tiltCard.classList.remove('active-nfc');
         document.body.style.overflow = "";
         isHovering = false;
-        tiltCard.style.transform = `rotateY(${window.scrollY * 0.08}deg) scale(1)`;
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
 </script>
-
 </body>
 </html>
