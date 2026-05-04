@@ -15,7 +15,6 @@
             --accent-blue: #0071e3;
             --glass: rgba(0, 0, 0, 0.75);
             --apple-ease: cubic-bezier(0.15, 0, 0.2, 1);
-            /* Yeni kutu renk değişkenleri */
             --box-glass: rgba(255, 255, 255, 0.03);
             --box-border: rgba(255, 255, 255, 0.08);
         }
@@ -51,7 +50,7 @@
         }
         nav a:hover { color: var(--accent-blue); opacity: 1; }
 
-        /* --- AKICI TİPOGRAFİ ANİMASYONU --- */
+        /* --- ANİMASYONLAR --- */
         .reveal { 
             opacity: 0; 
             transform: translateY(40px); 
@@ -88,7 +87,7 @@
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; width: 100%; }
         .premium-card { background: var(--card-bg); padding: 40px 25px; border-radius: 28px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
 
-        /* --- STACKING AREA (GÜNCELLENMİŞ TEMA) --- */
+        /* --- STACKING AREA --- */
         .stack-container { position: relative; height: 550vh; background-color: #000; scroll-snap-align: start; }
         .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
@@ -122,16 +121,15 @@
             pointer-events: none;
         }
 
-        /* --- INFO BOX GÜNCELLEME (GLASS TEMA) --- */
         .info-box {
             position: absolute; 
-            background: var(--box-glass); /* Yarı saydam arka plan */
-            backdrop-filter: blur(30px); /* Arkayı bulanıklaştırma */
+            background: var(--box-glass);
+            backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             color: var(--text-main); 
             padding: 40px;
             border-radius: 40px; 
-            border: 1px solid var(--box-border); /* İnce premium kenarlık */
+            border: 1px solid var(--box-border);
             width: 800px; 
             height: 380px; 
             max-width: 85%;
@@ -145,7 +143,7 @@
             opacity: 0; 
             visibility: hidden; 
             will-change: transform, opacity;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5); /* Daha derin gölge */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             z-index: 10;
         }
 
@@ -169,7 +167,7 @@
         .info-text p { 
             font-size: 1.1rem; 
             line-height: 1.6; 
-            color: var(--text-dim); /* Yazıyı hafif gri yaparak hiyerarşi sağladık */
+            color: var(--text-dim);
         }
 
         .scroll-hint {
@@ -179,22 +177,71 @@
             z-index: 20; animation: bounce 2s infinite;
         }
 
-        /* --- FLOATING CARD & NFC MENU --- */
+        /* --- FLOATING CARD & DROP ANIMATION --- */
         .floating-card-container { 
             position: fixed; left: 40px; top: 50%; transform: translateY(-50%); 
             width: 200px; z-index: 99999; perspective: 1200px; 
+            animation: cardDrop 1.8s var(--apple-ease) forwards;
         }
+
+        @keyframes cardDrop {
+            0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; }
+            60% { transform: translateY(-45%) rotateZ(2deg); opacity: 1; }
+            100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; }
+        }
+
         .floating-card {
             width: 100%; position: relative; transform-style: preserve-3d;
             transition: transform 0.8s var(--apple-ease); cursor: pointer;
+            border-radius: 15px;
         }
-        .floating-card img { width: 100%; border-radius: 15px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+
+        /* Kenar Işığı Katmanı - Kartın iç kısmında hapsolur */
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden; /* Işık burada sınırlanır */
+            padding: 2px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .card-inner::before {
+            content: '';
+            position: absolute;
+            width: 180%;
+            height: 180%;
+            background: conic-gradient(
+                transparent, 
+                transparent, 
+                transparent, 
+                var(--accent-blue), 
+                transparent
+            );
+            top: -40%;
+            left: -40%;
+            animation: rotateBeam 4s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotateBeam {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .floating-card img { 
+            width: 100%; border-radius: 13px; display: block; 
+            position: relative; z-index: 1; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
+        }
         
         .active-nfc { 
             transform: translate(calc(50vw - 140px), 0) scale(1.5) !important; 
             z-index: 100000;
         }
         
+        /* Menü elemanları kesilmemesi için card-inner DIŞINDA olmalı */
         .card-title-overlay {
             position: absolute;
             top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -242,8 +289,12 @@
 
 <div class="floating-card-container">
     <div class="floating-card" id="tiltCard">
+        <div class="card-inner">
+            <img src="smart kart 6.jpg" alt="Smart Kart">
+        </div>
+        
         <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-        <img src="smart kart 6.jpg" alt="Smart Kart">
+        
         <div class="nfc-ui" id="nfcUi">
             <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
             <div class="nfc-text-item item-2">Temassız Bağlantı</div>
@@ -341,6 +392,7 @@
     const scrollHint = document.getElementById('scrollHint');
     let isHovering = false;
 
+    // Reveal Observer
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -353,11 +405,13 @@
 
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+    // Scroll Logic
     window.addEventListener('scroll', () => {
         const rect = stackContainer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
 
+        // Kartın scroll dönüşü
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
             tiltCard.style.transform = `rotateY(${scrollY * 0.08}deg)`;
         }
@@ -386,6 +440,7 @@
         });
     });
 
+    // Tilt (Eğilme) Efekti
     tiltCard.addEventListener('mousemove', (e) => {
         if (tiltCard.classList.contains('active-nfc')) return;
         isHovering = true;
@@ -401,12 +456,14 @@
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.08}deg) scale(1)`;
     });
 
+    // NFC Menü Açma
     tiltCard.addEventListener('click', (e) => {
         if (e.target.id === 'closeNfc' || e.target.closest('.nfc-text-item')) return;
         tiltCard.classList.add('active-nfc');
         document.body.style.overflow = "hidden";
     });
 
+    // NFC Menü Kapatma
     document.getElementById('closeNfc').addEventListener('click', (e) => {
         e.stopPropagation();
         tiltCard.classList.remove('active-nfc');
