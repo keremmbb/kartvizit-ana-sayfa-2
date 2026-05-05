@@ -337,24 +337,23 @@
     background: rgba(255, 255, 255, 0.1);
 }
 .how-it-works-container {
-    position: relative;
     max-width: 1000px;
     width: 90%;
-    margin: 50px auto;
+    height: 85vh; /* İçeriğin ekrana sığması için yüksekliği sınırladık */
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
     border-radius: 32px;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* İkiye bölüyoruz */
+    grid-template-columns: 1fr 1fr;
     overflow: hidden;
-    scroll-snap-align: center;
-    z-index: 100;
+    position: relative;
+    z-index: 10; /* Kartın altında kalmaması için z-index ekledik */
 }
 #lottie-box {
     width: 100%;
-    height: 400px;
-    background: transparent !important; /* Arka planı şeffaf yapalım */
+    height: 100%;
+    background: transparent !important; /* Arka plan farkını ortadan kaldırır */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -393,6 +392,16 @@
     .how-it-works-container { grid-template-columns: 1fr; }
     #lottie-box { height: 300px; }
 }
+#nasil {
+    min-height: 100vh; /* Ekran yüksekliğine sabitle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin: 0 !important;
+    scroll-snap-align: start;
+    overflow: hidden; /* Gereksiz kaydırma çubuğunu engelle */
+}
     </style>
 </head>
 <body>
@@ -427,7 +436,7 @@
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
-<section id="nasil" style="min-height: auto; padding: 100px 20px; margin-bottom: 50px;">
+<section id="nasil">
     <div class="how-it-works-container reveal">
         <div id="lottie-box"></div>
         
