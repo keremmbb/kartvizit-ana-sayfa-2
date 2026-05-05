@@ -430,16 +430,16 @@
     flex-direction: column;
     gap: 20px;
 }
-
 .faq-item {
-    background: var(--glass-bg);
+    background: var(--glass-bg) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border); /* Border her zaman sabit */
+    border: 1px solid var(--glass-border) !important; /* Border sabitlendi */
     border-radius: 24px;
-    padding: 30px;
-    transition: none; /* Hover efektlerini tamamen kapattık */
-    cursor: default; /* Tıklama imajı vermemesi için normal imleç */
+    padding: 35px; /* İçerik daha ferah */
+    transition: none !important; /* Hiçbir animasyon yok */
+    cursor: default !important; /* Tıklama işareti çıkmaz */
+    pointer-events: none; /* Mouse etkileşimini tamamen kapatır */
 }
 
 .faq-question {
@@ -496,17 +496,20 @@
 .faq-item:hover {
     border: 1px solid var(--glass-border) !important;
     transform: none !important;
+    background: var(--glass-bg) !important;
 }
 .faq-item h4 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--accent-blue); /* Başlıklar dikkat çekmesi için marka rengi */
+    color: var(--accent-blue); /* Başlıklar marka mavisi */
     margin-bottom: 12px;
+    pointer-events: none;
 }
 .faq-item p {
     color: var(--text-dim);
     line-height: 1.6;
     font-size: 1rem;
+    pointer-events: none;
 }
     </style>
 </head>
@@ -647,7 +650,7 @@
 
         <div class="faq-item reveal">
             <h4>Sınırsız Güncelleme</h4>
-            <p>Bilgileriniz değiştiğinde yeni bir kart almanıza gerek yok. Dijital paneliniz üzerinden telefon numaranızı veya sosyal medya hesaplarınızı anında güncelleyebilirsiniz.</p>
+            <p>Bilgileriniz değiştiğinde yeni bir kart almanıza gerek yok. Dijital paneliniz üzerinden tüm bilgilerinizi anında güncelleyebilirsiniz.</p>
         </div>
 
         <div class="faq-item reveal">
