@@ -337,6 +337,7 @@
     background: rgba(255, 255, 255, 0.1);
 }
 .how-it-works-container {
+    position: relative;
     max-width: 1000px;
     width: 90%;
     margin: 50px auto;
@@ -348,14 +349,16 @@
     grid-template-columns: 1fr 1fr; /* İkiye bölüyoruz */
     overflow: hidden;
     scroll-snap-align: center;
+    z-index: 100;
 }
 #lottie-box {
     width: 100%;
     height: 400px;
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent !important; /* Arka planı şeffaf yapalım */
     display: flex;
     align-items: center;
     justify-content: center;
+    border-right: 1px solid var(--glass-border);
 }
 #lottie-box svg {
     width: 80% !important; /* Animasyonu kutuya göre küçülttük */
@@ -424,7 +427,7 @@
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
-<section id="nasil" style="min-height: auto; padding: 50px 20px;">
+<section id="nasil" style="min-height: auto; padding: 100px 20px; margin-bottom: 50px;">
     <div class="how-it-works-container reveal">
         <div id="lottie-box"></div>
         
@@ -548,11 +551,14 @@
 
     // --- LOTTIE SCROLL LOGIC ---
    const nfcAnimation = lottie.loadAnimation({
-    container: document.getElementById('lottie-box'), // Yeni kutuya hedefle
+    container: document.getElementById('lottie-box'),
     renderer: 'svg',
     loop: true,
     autoplay: true,
-    path: 'nfc-animation.json' // Dosya adın aynı kalsın
+    path: 'nfc-animation.json',
+    rendererSettings: {
+        preserveAspectRatio: 'xMidYMid grow' // Kutuyu tam doldurması için
+    }
 });
     // --- TEMA YÖNETİMİ ---
     const performThemeToggle = () => {
