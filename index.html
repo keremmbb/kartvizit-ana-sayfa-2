@@ -148,29 +148,6 @@
         
         nav a:hover { opacity: 1; transform: translateY(-1px); }
 
-        /* --- LOTTIE SCROLL SECTION --- */
-        #lottie-scroll-section {
-            height: 250vh;
-            background: var(--bg-color);
-            position: relative;
-            z-index: 1;
-        }
-        #lottie-container {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        #lottie-container svg {
-            width: 70% !important;
-            max-width: 900px;
-            filter: drop-shadow(0 20px 80px rgba(0,113,227,0.1));
-        }
-
         /* --- REVEAL ANIMATIONS --- */
         .reveal { 
             opacity: 0; 
@@ -447,10 +424,6 @@
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
-
-<section id="lottie-scroll-section">
-    <div id="lottie-container"></div>
-</section>
 <section id="nasil" style="min-height: auto; padding: 50px 20px;">
     <div class="how-it-works-container reveal">
         <div id="lottie-box"></div>
@@ -633,18 +606,6 @@
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         const windowHeight = window.innerHeight;
-
-        // 1. Lottie Animasyon Kontrolü
-        const lottieSection = document.getElementById('lottie-scroll-section');
-        const lottieRect = lottieSection.getBoundingClientRect();
-        const lottieStart = lottieSection.offsetTop;
-        const lottieEnd = lottieStart + lottieSection.offsetHeight - windowHeight;
-
-        if (scrollY >= lottieStart && scrollY <= lottieEnd) {
-            const progress = (scrollY - lottieStart) / (lottieSection.offsetHeight - windowHeight);
-            nfcAnimation.goToAndStop(progress * nfcAnimation.totalFrames, true);
-        }
-
         // 2. Nav & Tilt Kart
         nav.style.height = scrollY > 50 ? "50px" : "44px";
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
