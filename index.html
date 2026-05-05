@@ -577,7 +577,6 @@
         <div class="card-content-parallax" style="justify-content: center; align-items: center;">
             <i class="material-icons parallax-element logo" data-depth="0.1" style="font-size: 50px; color: white; opacity: 0.9;">nfc</i>
         </div>
-        <div class="card-shine" id="cardShine"></div>
     </div>
     
     <div class="nfc-ui">
@@ -860,11 +859,6 @@
         const moveY = (y - rect.height / 2) * depth;
         el.style.transform = `translate3d(${moveX}px, ${moveY}px, 20px)`; // Z ekseninde öne çıkardık
     });
-
-    // Parlama (Shine) takibi
-    const shineX = (x / rect.width) * 100;
-    const shineY = (y / rect.height) * 100;
-    shine.style.background = `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,255,255,0.3) 0%, transparent 60%)`;
 });
     tiltCard.addEventListener('mouseleave', () => {
         isHovering = false;
