@@ -467,7 +467,7 @@
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out, padding 0.3s ease;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
     padding: 0 30px;
 }
 
@@ -513,39 +513,29 @@ nav a.active::after {
     width: 100%;
     opacity: 1;
 }
-/* QR Kod Rozeti */
-.card-qr {
+.qr-code-wrapper {
     position: absolute;
-    bottom: 12px;
-    right: 12px;
-    width: 45px;
-    height: 45px;
+    bottom: 15px; /* Kartın altından mesafe */
+    right: 15px;  /* Kartın sağından mesafe */
+    width: 50px;  /* QR kod boyutu */
+    height: 50px;
     background: white;
-    padding: 4px;
+    padding: 3px;
     border-radius: 8px;
-    z-index: 3;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     transition: all 0.5s var(--apple-ease);
-    opacity: 0.9;
 }
-
-/* Kart büyütüldüğünde (active-nfc) QR kodu gizleyelim ki metinler net okunsun */
-.active-nfc .card-qr {
-    opacity: 0;
-    transform: scale(0.5);
-    pointer-events: none;
-}
-
-.card-qr img {
+.qr-img {
     width: 100% !important;
     height: 100% !important;
-    border-radius: 4px !important;
+    border-radius: 4px;
 }
-
-/* Hover efekti */
-.floating-card:hover .card-qr {
-    transform: scale(1.1);
-    opacity: 1;
+.active-nfc .qr-code-wrapper {
+    width: 80px;
+    height: 80px;
+    bottom: 25px;
+    right: 25px;
 }
     </style>
 </head>
@@ -556,10 +546,11 @@ nav a.active::after {
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
-                <img src="smart kart 6.jpg" alt="Smart Kart">
-                <div class="card-qr">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
-            </div>
+    <img src="smart kart 6.jpg" alt="Smart Kart">
+    <div class="qr-code-wrapper">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Kod" class="qr-img">
+    </div>
+</div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
             <div class="nfc-ui" id="nfcUi">
                 <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
@@ -621,7 +612,7 @@ nav a.active::after {
     </div>
 </section>
 
-<section id="ozellikler" style="margin-top: 150px;">
+<section id="ozellikler"style="margin-top: 150px;>
     <div style="width: 100%; max-width: 1100px;">
         <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
         <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
