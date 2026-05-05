@@ -25,6 +25,9 @@
             --hero-gradient: radial-gradient(circle at center, #1a1a1c 0%, #000 100%);
             --nfc-bg: rgba(28, 28, 30, 0.85);
             --transition-speed: 0.8s ease;
+            --matte-black: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            --brushed-steel: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+            --gold-leaf: linear-gradient(135deg, #d4af37 0%, #f9e27b 50%, #b8860b 100%);
         }
 
         /* LIGHT MODE TASARIMI */
@@ -292,7 +295,12 @@
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-        .card-inner { position: relative; width: 100%; height: 100%; border-radius: 18px; overflow: hidden; padding: 1.5px; background: rgba(128,128,128,0.1); }
+       .card-inner {
+    position: relative;
+    overflow: hidden;
+    background: var(--matte-black);
+    transition: background 0.5s ease;
+}
         .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -444,6 +452,65 @@
 .bento-item:hover::after {
     opacity: 1;
 }
+.card-content-parallax {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    pointer-events: none;
+}.parallax-element.chip {
+    width: 45px;
+    height: 35px;
+    background: linear-gradient(135deg, #e0e0e0, #888);
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.parallax-element.card-name {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.8);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Materyal Seçici Stili */
+.material-selector {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+    background: var(--glass);
+    padding: 10px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.swatch.active { transform: scale(1.3); border-color: var(--accent-blue); }
+.swatch[data-material="matte-black"] { background: #1a1a1a; }
+.swatch[data-material="brushed-steel"] { background: #7f8c8d; }
+.swatch[data-material="gold-leaf"] { background: #d4af37; }
+
+/* Dinamik Parlama (Shine) */
+.card-shine {
+    position: absolute;
+    top: -100%; left: -100%; width: 300%; height: 300%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 10;
+}
     </style>
 </head>
 <body>
@@ -451,16 +518,26 @@
 
 <div class="floating-card-container">
     <div class="floating-card" id="tiltCard">
-        <div class="card-inner">
-            <img src="smart kart 6.jpg" alt="Smart Kart">
+        <div class="card-inner" id="cardBody">
+            <div class="card-layer texture-layer" id="cardTexture"></div>
+            
+            <div class="card-layer shadow-layer"></div>
+            <div class="card-content-parallax">
+                <img src="smart-kart-logo.png" class="parallax-element logo" data-depth="0.1" alt="Logo">
+                <div class="parallax-element chip" data-depth="0.15"></div>
+                <div class="parallax-element card-name" data-depth="0.05">ALPEREN TASCI</div>
+            </div>
+            
+            <div class="card-shine"></div>
         </div>
-        <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-        <div class="nfc-ui" id="nfcUi">
-            <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
-            <div class="nfc-text-item item-2">Temassız Bağlantı</div>
-            <div class="nfc-text-item item-3">Dijital Kartvizit</div>
-            <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
-        </div>
+        
+        <div class="nfc-ui" id="nfcUi">...</div>
+    </div>
+
+    <div class="material-selector">
+        <div class="swatch active" data-material="matte-black" title="Matte Black"></div>
+        <div class="swatch" data-material="brushed-steel" title="Brushed Steel"></div>
+        <div class="swatch" data-material="gold-leaf" title="Gold Leaf"></div>
     </div>
 </div>
 
@@ -598,6 +675,10 @@
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const html = document.documentElement;
+    const card = document.getElementById('tiltCard');
+    const cardBody = document.getElementById('cardBody');
+    const parallaxElements = document.querySelectorAll('.parallax-element');
+    const shine = document.querySelector('.card-shine');
     let isHovering = false;
 
     // --- LOTTIE SCROLL LOGIC ---
@@ -707,15 +788,32 @@
     });
 
     // --- TILT & NFC CLICK ---
-    tiltCard.addEventListener('mousemove', (e) => {
-        if (tiltCard.classList.contains('active-nfc')) return;
-        isHovering = true;
-        const rect = tiltCard.getBoundingClientRect();
-        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 30; 
-        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 30;
-        tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    card.addEventListener('mousemove', (e) => {
+    if (card.classList.contains('active-nfc')) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Kart rotasyonu (Mevcut mantık)
+    const rotateX = (rect.height / 2 - y) / 15;
+    const rotateY = (x - rect.width / 2) / 15;
+    
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+
+    // PARALLAX: Elemanları farklı derinliklerde kaydır
+    parallaxElements.forEach(el => {
+        const depth = el.getAttribute('data-depth');
+        const moveX = (x - rect.width / 2) * depth;
+        const moveY = (y - rect.height / 2) * depth;
+        el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0px)`;
     });
 
+    // SHINE: Parlamayı mouse konumuna göre hareket ettir
+    const shineX = (x / rect.width) * 100;
+    const shineY = (y / rect.height) * 100;
+    shine.style.transform = `translate(${shineX - 50}%, ${shineY - 50}%)`;
+});
     tiltCard.addEventListener('mouseleave', () => {
         isHovering = false;
         if (!tiltCard.classList.contains('active-nfc')) {
@@ -736,6 +834,24 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
+    document.querySelectorAll('.swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+        // Active class güncelle
+        document.querySelector('.swatch.active').classList.remove('active');
+        swatch.classList.add('active');
+
+        // Kart rengini/dokusunu değiştir
+        const material = swatch.getAttribute('data-material');
+        cardBody.style.background = `var(--${material})`;
+        
+        // Opsiyonel: Altın seçilince metin rengini siyah yap gibi detaylar eklenebilir
+        if(material === 'gold-leaf') {
+            document.querySelector('.card-name').style.color = 'rgba(0,0,0,0.7)';
+        } else {
+            document.querySelector('.card-name').style.color = 'rgba(255,255,255,0.8)';
+        }
+    });
+});
 </script>
 </body>
 </html>
