@@ -295,16 +295,13 @@
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
         .card-inner { 
-            position: relative;
-             width: 100%;
-            height: 140px;
-              border-radius: 
-              18px; overflow: hidden; 
-              padding: 1.5px; 
-              background: rgba(128,128,128,0.1); 
-              transform-style: preserve-3d;
-              transition: transform 0.8s var(--apple-ease);
-        }
+    position: relative;
+    width: 100%;
+    height: 140px; 
+    border-radius: 18px;
+    transform-style: preserve-3d; /* Çocukların 3D uzayda kalmasını sağlar */
+    transition: transform 0.8s var(--apple-ease);
+}
         .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -577,8 +574,8 @@ nav a.active::after {
     left: 0;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden; /* Safari desteği */
-    backface-visibility: hidden; 
+    -webkit-backface-visibility: hidden; /* Safari için */
+    backface-visibility: hidden;        /* Arka tarafı görünmez yapar */
     border-radius: 18px;
     overflow: hidden;
 }
@@ -597,8 +594,8 @@ nav a.active::after {
 .card-back img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Logonun kesilmeden sığmasını sağlar */
-    padding: 20px; /* Logo kenarlara çok yapışmasın */
+    object-fit: cover; /* Logonun kartı tam kaplamasını sağlar */
+    padding: 0; /* Boşluk varsa logonun boyutuna göre ayarlayabilirsin */
 }
     </style>
 </head>
