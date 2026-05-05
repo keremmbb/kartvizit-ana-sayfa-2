@@ -348,6 +348,9 @@
     grid-template-columns: 1fr 1.2fr;
     overflow: hidden;
     z-index: 10;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s var(--apple-ease);
 }
 #lottie-box {
     width: 100%;
@@ -365,8 +368,9 @@
     padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* İçeriği dikeyde tam ortalar */
-    gap: 30px; /* Adımlar arasındaki boşluğu açar */
+    justify-content: center; /* Adımları dikeyde kutunun ortasına hizalar */
+    gap: 30px;
+    height: 100%; /* Kapsayıcının tüm yüksekliğini kullanması için */
 }
 .instructions h2 {
     font-size: 2rem;
@@ -409,6 +413,10 @@
     flex-direction: column;
     justify-content: center;
 }
+.how-it-works-container.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
     </style>
 </head>
 <body>
@@ -444,7 +452,7 @@
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
 <section id="nasil">
-    <div class="how-it-works-container active">
+    <div class="how-it-works-container reveal">
         <div id="lottie-box"></div>
         
         <div class="instructions">
