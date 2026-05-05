@@ -289,18 +289,26 @@
 
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
-        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
+.floating-card {
+    width: 100%;
+    aspect-ratio: 1.58 / 1; /* Standart kartvizit oranı */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s var(--apple-ease);
+    cursor: pointer;
+}        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
 .card-inner {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.8s var(--apple-ease);
-}        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
+}      .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
@@ -594,15 +602,17 @@ nav a.active::after {
 }
 .card-front, .card-back {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Arkası görünmesin ki dönerken birbirine karışmasın */
-    border-radius: 18px;
+    backface-visibility: hidden;
+    border-radius: 16px;
     overflow: hidden;
 }
 .card-back {
-    background: #0a0a0a; /* Kartın arka zemin rengi */
-    transform: rotateY(180deg); /* Arkayı 180 derece çeviriyoruz */
+    transform: rotateY(180deg);
+    background: #0a0a0a;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -612,14 +622,18 @@ nav a.active::after {
     width: 80%; /* Logonun kartın arkasındaki boyutu */
     filter: brightness(0.8);
 }
-
+.card-front img, .card-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Resmin kutuyu tam doldurması için */
+    display: block;
+}
     </style>
 </head>
 <body>
 
 
 <div class="floating-card-container">
-    <div class="card-logo-bg">S</div>
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
     <div class="card-inner">
@@ -936,21 +950,22 @@ nav a.active::after {
 const closeNfcBtn = document.getElementById('closeNfc');
 
 cardHitbox.addEventListener('mousemove', (e) => {
-    // Eğer kart büyütülmüş moddaysa animasyon yapma
     if (tiltCard.classList.contains('active-nfc')) return;
     
     isHovering = true;
     const rect = tiltCard.getBoundingClientRect();
-    const bgLogo = document.querySelector('.card-logo-bg');
     
-    // Titremeyi önlemek için hesaplamayı kartın merkezine göre yapıyoruz
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
     const rotateX = (centerY - e.clientY) / 20; 
     const rotateY = (e.clientX - centerX) / 20;
 
-    bgLogo.style.transform = `translate(calc(-50% + ${rotateY * 2}px), calc(-50% + ${-rotateX * 2}px))`;
+    // Eğer bgLogo'yu sildiysen bu satırı kaldır veya şu kontrolü ekle:
+    const bgLogo = document.querySelector('.card-logo-bg');
+    if (bgLogo) {
+        bgLogo.style.transform = `translate(calc(-50% + ${rotateY * 2}px), calc(-50% + ${-rotateX * 2}px))`;
+    }
     
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
 });
