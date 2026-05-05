@@ -495,21 +495,19 @@
 
 
 <div class="floating-card-container">
-    <div id="cardMouseArea" style="width: 100%; height: 100%; padding: 40px; margin: -40px;">
-        <div class="floating-card" id="tiltCard">
-            <div class="card-inner">
-                <img src="smart kart 6.jpg" alt="Smart Kart">
-            </div>
-            <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-            <div class="nfc-ui" id="nfcUi">
-                <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
-                <div class="nfc-text-item item-2">Temassız Bağlantı</div>
-                <div class="nfc-text-item item-3">Dijital Kartvizit</div>
-                <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
-            </div>
+    <div class="floating-card" id="tiltCard">
+        <div class="card-inner">
+            <img src="smart kart 6.jpg" alt="Smart Kart">
+        </div>
+        <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
+        <div class="nfc-ui" id="nfcUi">
+            <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+            <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+            <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+            <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
         </div>
     </div>
-</div>  
+</div>
 
 <nav id="dynamicNav">
     <a href="#">Smart Kart</a>
@@ -795,36 +793,35 @@
     });
 
     // --- TILT & NFC CLICK ---
-const cardArea = document.getElementById('cardMouseArea'); // Yeni sarmalayıcıyı seçtik
+    tiltCard.addEventListener('mousemove', (e) => {
+        if (tiltCard.classList.contains('active-nfc')) return;
+        isHovering = true;
+        const rect = tiltCard.getBoundingClientRect();
+        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 30; 
+        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 30;
+        tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    });
 
-cardArea.addEventListener('mousemove', (e) => {
-    // Eğer kart aktif (büyütülmüş) moddaysa tilt yapma
-    if (tiltCard.classList.contains('active-nfc')) return;
-    
-    isHovering = true;
-    const rect = tiltCard.getBoundingClientRect();
-    
-    // Mouse pozisyonunu karta göre değil, kartın olduğu alana göre hesapla
-    const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 25; 
-    const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 25;
-    
-    tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.08)`;
-});
+    tiltCard.addEventListener('mouseleave', () => {
+        isHovering = false;
+        if (!tiltCard.classList.contains('active-nfc')) {
+            tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+        }
+    });
 
-cardArea.addEventListener('mouseleave', () => {
-    isHovering = false;
-    if (!tiltCard.classList.contains('active-nfc')) {
-        // Yumuşakça eski haline (veya scroll rotasyonuna) dön
+    tiltCard.addEventListener('click', (e) => {
+        if (e.target.id === 'closeNfc' || e.target.closest('.nfc-text-item')) return;
+        tiltCard.classList.add('active-nfc');
+        document.body.style.overflow = "hidden";
+    });
+
+    document.getElementById('closeNfc').addEventListener('click', (e) => {
+        e.stopPropagation();
+        tiltCard.classList.remove('active-nfc');
+        document.body.style.overflow = "";
+        isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
-    }
-});
-
-// Tıklama olayını yine kartın kendisinde tutabiliriz
-tiltCard.addEventListener('click', (e) => {
-    if (e.target.id === 'closeNfc' || e.target.closest('.nfc-text-item')) return;
-    tiltCard.classList.add('active-nfc');
-    document.body.style.overflow = "hidden";
-});
+    });
 </script>
 </body>
 </html>
