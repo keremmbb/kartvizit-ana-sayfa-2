@@ -301,7 +301,7 @@
         .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
         .active-nfc { transform: translate(calc(50vw - 110px), 0) scale(1.5) !important; z-index: 100000; }
         .card-title-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600; opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2; color: white; }
-        .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
+        .active-nfc .card-title-overlay { opacity: 1; visibility: visible;top: 20%; }
         .nfc-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5; }
         .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
 
@@ -529,13 +529,37 @@ nav a.active::after {
 .qr-img {
     width: 100% !important;
     height: 100% !important;
-    border-radius: 4px;
+    display: block;
 }
 .active-nfc .qr-code-wrapper {
     width: 80px;
     height: 80px;
     bottom: 25px;
     right: 25px;
+}
+.qr-code-wrapper-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; /* Normal boyutu */
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz arka plan */
+    padding: 5px;
+    border-radius: 12px;
+    z-index: 3;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.6s var(--apple-ease);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.active-nfc .qr-code-wrapper-centered {
+    width: 100px; /* Büyütülmüş hali */
+    height: 100px;
+    background: white;
+    box-shadow: 0 20px 50px rgba(0,113,227,0.3);
 }
     </style>
 </head>
@@ -545,10 +569,10 @@ nav a.active::after {
 <div class="floating-card-container">
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
-            <div class="card-inner">
+        <div class="card-inner">
     <img src="smart kart 6.jpg" alt="Smart Kart">
-    <div class="qr-code-wrapper">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Kod" class="qr-img">
+    <div class="qr-code-wrapper-centered">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com&color=0071e3" alt="QR Kod" class="qr-img">
     </div>
 </div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
