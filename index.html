@@ -421,25 +421,32 @@
 .faq-section {
     max-width: 900px;
     width: 100%;
-    margin: 100px auto;
+    margin: 150px auto;
     padding: 0 20px;
 }
 
 .faq-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px; /* Kutular arası mesafe */
 }
 .faq-item {
-    background: var(--glass-bg) !important;
+    background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border) !important; /* Border sabitlendi */
-    border-radius: 24px;
-    padding: 35px; /* İçerik daha ferah */
-    transition: none !important; /* Hiçbir animasyon yok */
-    cursor: default !important; /* Tıklama işareti çıkmaz */
-    pointer-events: none; /* Mouse etkileşimini tamamen kapatır */
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 40px;
+    
+    /* İSTEDİĞİN O ÖZEL EFEKT: */
+    opacity: 0;
+    transform: scale(0.9) translateY(50px);
+    transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    /* Etkileşimi kapatıyoruz */
+    pointer-events: none; 
+    cursor: default;
 }
 
 .faq-question {
@@ -479,7 +486,8 @@
 
 /* Açık durum tasarımı */
 .faq-item.active {
-    border-color: var(--accent-blue);
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
 .faq-item.active .faq-answer {
@@ -494,22 +502,19 @@
     color: var(--accent-blue);
 }
 .faq-item:hover {
-    border: 1px solid var(--glass-border) !important;
-    transform: none !important;
-    background: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    transform: scale(1) translateY(0) !important;
 }
 .faq-item h4 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    color: var(--accent-blue); /* Başlıklar marka mavisi */
-    margin-bottom: 12px;
-    pointer-events: none;
+    color: var(--accent-blue);
+    margin-bottom: 15px;
 }
 .faq-item p {
     color: var(--text-dim);
-    line-height: 1.6;
-    font-size: 1rem;
-    pointer-events: none;
+    line-height: 1.7;
+    font-size: 1.05rem;
 }
     </style>
 </head>
@@ -635,20 +640,20 @@
     </div>
 </section>
 <section id="faq" class="faq-section">
-    <h2 class="reveal delay-1" style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;">Bilmeniz Gerekenler.</h2>
+    <h2 class="reveal" style="font-size: 2.8rem; text-align: center; margin-bottom: 60px; font-weight: 600;">Bilmeniz Gerekenler.</h2>
     
     <div class="faq-container">
-        <div class="faq-item reveal">
+        <div class="faq-item reveal delay-1">
             <h4>Uygulama Gerektirmez</h4>
             <p>Smart Kart kullanmak için karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Sadece dokundurun ve profilinizi saniyeler içinde paylaşın.</p>
         </div>
 
-        <div class="faq-item reveal">
+        <div class="faq-item reveal delay-2">
             <h4>Geniş Uyumluluk</h4>
             <p>2018 sonrası çıkan tüm iPhone modelleri ve NFC özelliği bulunan güncel Android cihazlarla kusursuz bir şekilde çalışır.</p>
         </div>
 
-        <div class="faq-item reveal">
+        <div class="faq-item reveal delay-3">
             <h4>Sınırsız Güncelleme</h4>
             <p>Bilgileriniz değiştiğinde yeni bir kart almanıza gerek yok. Dijital paneliniz üzerinden tüm bilgilerinizi anında güncelleyebilirsiniz.</p>
         </div>
