@@ -136,13 +136,15 @@
            opacity: 1;
         }
         nav a { 
+            padding: 4px 0;
+            position: relative;
             color: var(--text-main);
             text-decoration: none;
             font-size: 0.85rem; 
             font-weight: 500;
             margin: 0 15px;
             opacity: 0.6;
-            transition: opacity 0.3s var(--apple-ease);
+            transition: all 0.4s var(--apple-ease);
             white-space: nowrap;
         }
         
@@ -488,6 +490,28 @@
 
 .faq-item.active .faq-icon {
     transform: rotate(180deg);
+}
+nav a.active {
+    opacity: 1 !important;
+    color: var(--text-main);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Parlama efekti */
+}
+nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--text-main); /* Light modda siyah, dark modda beyaz olur */
+    transition: all 0.4s var(--apple-ease);
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px var(--text-main);
+    opacity: 0;
+}
+nav a.active::after {
+    width: 100%;
+    opacity: 1;
 }
     </style>
 </head>
@@ -846,6 +870,39 @@ closeNfcBtn.addEventListener('click', (e) => {
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     }, 10);
 });
+// --- SCROLLSPY SİSTEMİ ---
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section, .stack-container');
+
+const scrollSpy = () => {
+    let current = "";
+
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        // Sayfanın %30'u geçildiğinde aktif say
+        if (window.scrollY >= sectionTop - (window.innerHeight * 0.3)) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach((link) => {
+        link.classList.remove("active");
+        // Eğer linkin href'i mevcut section ID'si ile eşleşiyorsa
+        if (link.getAttribute("href").includes(current) && current !== "") {
+            link.classList.add("active");
+        } else if (link.getAttribute("href") === "#" && current === "") {
+            // Hero bölümündeysek ilk linki aktif et
+            link.classList.add("active");
+        }
+    });
+};
+
+// Scroll olayına bağla
+window.addEventListener('scroll', scrollSpy);
+// Sayfa yüklendiğinde bir kez çalıştır
+window.addEventListener('DOMContentLoaded', scrollSpy);
 </script>
 </body>
 </html>
