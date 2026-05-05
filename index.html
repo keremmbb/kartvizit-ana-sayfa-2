@@ -335,6 +335,46 @@
     opacity: 1;
     background: rgba(255, 255, 255, 0.1);
 }
+/* Özellikler ve Kullanım Bölümü */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 50px;
+}
+
+.feature-card {
+    background: var(--box-glass);
+    border: 1px solid var(--box-border);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    transition: 0.5s var(--apple-ease);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Lottie Animasyon Alanı */
+#lottie-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    color: var(--text-dim);
+    line-height: 1.6;
+}
     </style>
 </head>
 <body>
@@ -370,57 +410,19 @@
 </section>
 
 <section id="ozellikler">
-    <div style="width: 100%; max-width: 1100px;">
-        <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
-        <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
-        
-        <div class="bento-container">
-            <div class="bento-item bento-large bento-reveal delay-bento-1">
-                <div style="flex: 1;">
-                    <i class="material-icons bento-icon" style="color: #ff9f0a;">bolt</i>
-                    <h3>Işık Hızında Paylaşım</h3>
-                    <p>NFC teknolojisi ile telefonunuzu yaklaştırın ve saniyeler içinde tüm bilgilerinizi aktarın.</p>
-                </div>
-                <div class="bento-large-visual"></div>
-            </div>
+    <h2 class="reveal" style="font-size: 3rem; margin-bottom: 50px;">Nasıl Kullanılır?</h2>
+    
+    <div class="features-grid">
+        <div class="feature-card reveal">
+            <div id="lottie-container"></div>
+            <h3>Yaklaştır ve Paylaş</h3>
+            <p>Smart Kart'ınızı telefonun üst kısmına yaklaştırın. Saniyeler içinde tüm bilgileriniz karşı tarafa iletilsin. Uygulama gerektirmez.</p>
+        </div>
 
-            <div class="bento-item bento-reveal delay-bento-2">
-                <div class="security-visual"><div class="pulse-ring"></div></div>
-                <i class="material-icons bento-icon">security</i>
-                <h3>Güvenli</h3>
-                <p>Verileriniz 256-bit şifreleme ile korunur.</p>
-            </div>
-
-            <div class="bento-item bento-reveal delay-bento-3">
-                <div class="eco-glow"></div>
-                <i class="material-icons bento-icon" style="color: #30d158;">eco</i>
-                <h3>Ekolojik</h3>
-                <p>Milyonlarca kağıt israfını önleyerek doğayı koruyoruz.</p>
-            </div>
-
-            <div class="bento-item bento-reveal delay-bento-4">
-                <i class="material-icons bento-icon">update</i>
-                <h3>Dinamik</h3>
-                <p>Bilgilerinizi dilediğiniz zaman güncelleyin.</p>
-            </div>
-
-            <div class="bento-item bento-reveal delay-bento-5">
-                <div class="analytics-container">
-                    <div class="analytics-visual">
-                        <div class="bar" style="--h: 40%;"></div>
-                        <div class="bar" style="--h: 75%;"></div>
-                        <div class="bar" style="--h: 55%;"></div>
-                        <div class="bar" style="--h: 95%;"></div>
-                        <div class="bar" style="--h: 65%;"></div>
-                    </div>
-                    <svg class="graph-svg" viewBox="0 0 100 40">
-                        <path class="graph-path" d="M5,35 L25,20 L45,28 L70,8 L95,15" />
-                    </svg>
-                </div>
-                <i class="material-icons bento-icon">insights</i>
-                <h3>Analiz</h3>
-                <p>Tıklanma oranlarınızı anlık takip edin.</p>
-            </div>
+        <div class="feature-card reveal">
+            <i class="material-icons" style="font-size: 60px; color: var(--accent-blue); margin-bottom: 20px;">update</i>
+            <h3>Anında Güncelle</h3>
+            <p>Bilgileriniz mi değişti? Panelinize giriş yapın ve saniyeler içinde kartınızı güncelleyin. Yeni kart bastırmanıza gerek kalmaz.</p>
         </div>
     </div>
 </section>
@@ -599,6 +601,26 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
+    // Lottie Animasyonunu Yükle (GIF hissi veren yapı)
+lottie.loadAnimation({
+    container: document.getElementById('lottie-container'), 
+    path: 'https://assets9.lottiefiles.com/packages/lf20_m9ubts9y.json', // Örnek bir NFC animasyonu
+    renderer: 'svg',
+    loop: true,
+    autoplay: true
+});
+
+// Sayfa kaydırdıkça kartların belirmesi (Reveal efekti) için
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
