@@ -310,16 +310,17 @@
         .card-inner::before {
     content: "";
     position: absolute;
-    width: 180%; /* Biraz daha genişlettik ki köşelerde kopma olmasın */
-    height: 180%;
-    /* Renkleri birbirine çok yakın (yüzde olarak) ayarlayarak çizgiyi incelttik */
+    width: 200%; /* Kart dönerken köşelerin boş kalmaması için genişlettik */
+    height: 200%;
+    /* Tek bir akışkan çizgi için yumuşak geçişli gradient */
     background: conic-gradient(
-        transparent 0%, 
-        transparent 25%, 
-        var(--accent-blue) 25%, 
-        transparent 25.5%
+        from 0deg,
+        transparent 0%,
+        transparent 65%,
+        var(--accent-blue) 95%,
+        transparent 100%
     );
-    animation: rotate-border 4s linear infinite;
+    animation: rotate-border 3s linear infinite; /* Hızı biraz artırdık (3s) */
     z-index: -2;
 }
 
