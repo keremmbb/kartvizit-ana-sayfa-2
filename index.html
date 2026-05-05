@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Kart | Geleceğin Standartı</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
@@ -75,14 +75,13 @@
         html.no-snap { scroll-snap-type: none !important; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.4;
-            letter-spacing: -0.01em;
-            -webkit-font-smoothing: antialiased;
-            background-color: var(--bg-color);
-        }
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    line-height: 1.5; /* Metinler arası nefes alsın */
+    letter-spacing: -0.011em; /* Genel metinleri hafifçe daralt */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
         /* --- THEME TOGGLE BUTTON --- */
         .theme-toggle {
@@ -184,12 +183,13 @@
         }
 
         .hero { text-align: center; background: var(--hero-gradient); }
-        .hero h1 { 
-            font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 600; 
-            background: linear-gradient(180deg, var(--text-main) 0%, var(--text-dim) 100%); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 10px; letter-spacing: -0.03em;
-        }
+        .hero h1 {
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    font-weight: 700; /* Biraz daha kalınlaştırarak premium hissi artır */
+    letter-spacing: -0.04em; /* Başlıkları iyice sıkılaştır */
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
         .hero p { color: var(--text-dim); font-size: 1.5rem; font-weight: 400; margin-bottom: 40px; }
         .hero-img { max-width: 500px; width: 100%; filter: drop-shadow(0 20px 80px rgba(0,113,227,0.15)); }
 
@@ -262,8 +262,12 @@
         .stack-container { position: relative; height: 600vh; background-color: var(--bg-color); scroll-snap-align: start; }
         .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .stack-header { position: absolute; top: 12vh; text-align: center; z-index: 5; width: 100%; }
-        .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); }
-        .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
+.stack-header h2 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.05em; /* Daha büyük metinlerde daha fazla sıkılaştırma */
+    text-transform: tracking-tight; /* Apple stili sıkı dizilim */
+}        .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
 
         .info-box {
             position: absolute; background: var(--glass-bg); backdrop-filter: blur(40px) saturate(150%);
@@ -417,6 +421,15 @@
 .how-it-works-container.reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+h2 {
+    letter-spacing: -0.03em;
+    font-weight: 600;
+}
+.hero p, .info-text p {
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    opacity: 0.8; /* Tam beyaz yerine çok hafif transparanlık derinlik katar */
 }
     </style>
 </head>
