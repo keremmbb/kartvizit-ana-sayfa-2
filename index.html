@@ -494,19 +494,19 @@
 nav a.active {
     opacity: 1 !important;
     color: var(--text-main);
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Parlama efekti */
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6); /* Parlama efekti */
 }
 nav a::after {
     content: "";
     position: absolute;
-    bottom: -2px;
+    bottom: -4px; /* Çizgiyi biraz daha aşağı aldık daha ferah dursun */
     left: 50%;
     width: 0;
     height: 2px;
-    background: var(--text-main); /* Light modda siyah, dark modda beyaz olur */
+    background: var(--text-main);
     transition: all 0.4s var(--apple-ease);
     transform: translateX(-50%);
-    box-shadow: 0 0 8px var(--text-main);
+    box-shadow: 0 0 10px var(--text-main); /* Çizginin etrafındaki ışık */
     opacity: 0;
 }
 nav a.active::after {
@@ -876,32 +876,32 @@ const sections = document.querySelectorAll('section, .stack-container');
 
 const scrollSpy = () => {
     let current = "";
+    const scrollY = window.scrollY;
+
+    // Eğer sayfanın en tepesindeysek (ilk 100 piksel)
+    if (scrollY < 100) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        navLinks[0].classList.add('active'); // "Smart Kart" linkini aktif yap
+        return;
+    }
 
     sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        // Sayfanın %30'u geçildiğinde aktif say
-        if (window.scrollY >= sectionTop - (window.innerHeight * 0.3)) {
+        if (scrollY >= sectionTop - 150) {
             current = section.getAttribute("id");
         }
     });
 
     navLinks.forEach((link) => {
         link.classList.remove("active");
-        // Eğer linkin href'i mevcut section ID'si ile eşleşiyorsa
-        if (link.getAttribute("href").includes(current) && current !== "") {
-            link.classList.add("active");
-        } else if (link.getAttribute("href") === "#" && current === "") {
-            // Hero bölümündeysek ilk linki aktif et
+        const href = link.getAttribute("href");
+        if (href.includes(current) && current !== "") {
             link.classList.add("active");
         }
     });
 };
 
-// Scroll olayına bağla
 window.addEventListener('scroll', scrollSpy);
-// Sayfa yüklendiğinde bir kez çalıştır
 window.addEventListener('DOMContentLoaded', scrollSpy);
 </script>
 </body>
