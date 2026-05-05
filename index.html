@@ -337,37 +337,32 @@
     background: rgba(255, 255, 255, 0.1);
 }
 .how-it-works-container {
-    max-width: 850px; /* Genişliği 1000'den 850'ye çektik */
+    max-width: 800px; 
     width: 95%;
-    height: auto; /* Sabit yükseklik yerine içeriğe göre şekil alsın */
-    min-height: 450px; /* Minimum bir yükseklik belirledik */
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
     border-radius: 32px;
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr; /* Sol tarafı (animasyon) biraz daha küçülttük */
+    grid-template-columns: 0.8fr 1.2fr;
     overflow: hidden;
-    position: relative;
-    z-index: 10;
+    opacity: 1 !important; 
+    transform: none !important;
 }
 #lottie-box {
     width: 100%;
-    height: 100%;
-    min-height: 350px;
+    height: 350px; /* Kutu yüksekliğini küçülttük */
     background: transparent !important;
     display: flex;
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--glass-border);
-    padding: 20px;
 }
 #lottie-box svg {
-    width: 100% !important; /* Kutu küçüldüğü için animasyon kutuyu doldursun */
-    max-width: 250px; /* Çok devasa olmasını engellemek için limit koyduk */
+    width: 200px !important; /* Animasyonu daha kibar bir boyuta çektik */
 }
 .instructions {
-    padding: 30px 40px; /* İç boşlukları biraz daralttık */
+    padding: 30px;
     gap: 15px;
 }
 .instructions h2 {
@@ -394,11 +389,11 @@
     #lottie-box { height: 300px; }
 }
 #nasil {
-    min-height: 80vh; /* Tam ekran yerine biraz daha az yer kaplasın */
+    min-height: 70vh; 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px !important;
+    padding: 40px 20px !important;
 }
     </style>
 </head>
@@ -435,7 +430,7 @@
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
 <section id="nasil">
-    <div class="how-it-works-container reveal">
+    <div class="how-it-works-container">
         <div id="lottie-box"></div>
         
         <div class="instructions">
