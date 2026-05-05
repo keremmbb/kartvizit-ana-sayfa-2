@@ -286,7 +286,7 @@
         .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
+        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 280px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
 
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
@@ -297,15 +297,13 @@
 
        .card-inner {
     width: 100%;
-    height: 140px; /* Kart yüksekliğini sabitledik */
-    border-radius: 16px;
+    height: 160px; /* Yüksekliği kart formuna getirdik */
+    border-radius: 18px;
     position: relative;
     overflow: hidden;
     background: var(--matte-black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
 }
         .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
@@ -462,49 +460,55 @@
     position: absolute;
     inset: 0;
     z-index: 5;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: space-between; /* Logo üstte, isim altta */
     pointer-events: none;
-    width: 100%;
-    height: 100%;
 }.parallax-element.chip {
-    width: 35px;
-    height: 25px;
-    background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%); /* Altın çip efekti */
-    border-radius: 4px;
-    margin-top: 10px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(135deg, #d4af37, #f9e27b);
+    border-radius: 5px;
+    position: absolute;
+    top: 60px; /* Çipi merkeze yakın bir yere sabitledik */
+    left: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
 }
 
 .parallax-element.card-name {
-    align-self: flex-start;
-    margin-top: auto;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
 }
 
 /* Materyal Seçici Stili */
 .material-selector {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     justify-content: center;
-    margin-top: 25px;
-    background: var(--glass);
-    padding: 10px;
-    border-radius: 30px;
+    margin-top: 20px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .swatch {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid rgba(255,255,255,0.2);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
-
-.swatch.active { transform: scale(1.3); border-color: var(--accent-blue); }
+.swatch.active {
+    transform: scale(1.4);
+    border-color: var(--accent-blue);
+}
 .swatch[data-material="matte-black"] { background: #1a1a1a; }
 .swatch[data-material="brushed-steel"] { background: #7f8c8d; }
 .swatch[data-material="gold-leaf"] { background: #d4af37; }
@@ -519,33 +523,38 @@
     transform: translate(-50%, -50%);
 }
 .parallax-element.logo {
-    width: 60px; /* Logo boyutunu ayarladık */
-    height: auto;
-    filter: brightness(0) invert(1); /* Logo siyahsa beyaz yapar */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
     </style>
 </head>
 <body>
 
 
-<div class="floating-card" id="tiltCard">
-    <div class="card-inner" id="cardBody">
-        <div class="card-layer texture-layer" id="cardTexture"></div>
-        <div class="card-content-parallax">
-            <div class="parallax-element logo">
-                <i class="material-icons" style="font-size: 30px; color: white;">nfc</i>
+<div class="floating-card-container">
+    <div class="floating-card" id="tiltCard">
+        <div class="card-inner" id="cardBody">
+            <div class="card-content-parallax">
+                <i class="material-icons parallax-element logo" data-depth="0.08">nfc</i>
+                <div class="parallax-element chip" data-depth="0.12"></div>
+                <div class="parallax-element card-name" data-depth="0.05">ALPEREN TASCI</div>
             </div>
-            <div class="parallax-element chip" data-depth="0.15"></div>
-            <div class="parallax-element card-name" data-depth="0.05">ALPEREN TASCI</div>
+            <div class="card-shine" id="cardShine"></div>
         </div>
-        <div class="card-shine"></div>
+        
+        <div class="nfc-ui">
+            <div class="nfc-text-item item-1">Okutmak için yaklaştırın</div>
+            <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+        </div>
     </div>
-    
-    <div class="nfc-ui" id="nfcUi">
-        <div class="nfc-text-item item-1">Okutmak için yaklaştırın</div>
-        <div class="nfc-text-item item-2">Instagram: @alperen</div>
-        <div class="nfc-text-item item-3">LinkedIn: Alperen Tasci</div>
-        <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+
+    <div class="material-selector">
+        <div class="swatch active" data-material="matte-black" title="Matte Black"></div>
+        <div class="swatch" data-material="brushed-steel" title="Brushed Steel"></div>
+        <div class="swatch" data-material="gold-leaf" title="Gold Leaf"></div>
     </div>
 </div>
 
@@ -803,24 +812,24 @@
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Kart rotasyonu (Mevcut mantık)
-    const rotateX = (rect.height / 2 - y) / 15;
-    const rotateY = (x - rect.width / 2) / 15;
+    // Kart dönüşü
+    const rotateX = (rect.height / 2 - y) / 10;
+    const rotateY = (x - rect.width / 2) / 10;
     
     card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
 
-    // PARALLAX: Elemanları farklı derinliklerde kaydır
+    // Parallax: Derinlik hissi için her elemanı farklı hızda kaydır
     parallaxElements.forEach(el => {
-        const depth = el.getAttribute('data-depth');
+        const depth = el.getAttribute('data-depth') || 0.1;
         const moveX = (x - rect.width / 2) * depth;
         const moveY = (y - rect.height / 2) * depth;
-        el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0px)`;
+        el.style.transform = `translate3d(${moveX}px, ${moveY}px, 20px)`; // Z ekseninde öne çıkardık
     });
 
-    // SHINE: Parlamayı mouse konumuna göre hareket ettir
+    // Parlama (Shine) takibi
     const shineX = (x / rect.width) * 100;
     const shineY = (y / rect.height) * 100;
-    shine.style.transform = `translate(${shineX - 50}%, ${shineY - 50}%)`;
+    shine.style.background = `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,255,255,0.3) 0%, transparent 60%)`;
 });
     tiltCard.addEventListener('mouseleave', () => {
         isHovering = false;
