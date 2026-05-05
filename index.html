@@ -513,6 +513,40 @@ nav a.active::after {
     width: 100%;
     opacity: 1;
 }
+.qr-overlay {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 8px;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.5s var(--apple-ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-overlay img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 4px !important;
+}
+
+/* Kart büyüdüğünde (NFC aktifken) QR kodun tepkisi */
+.active-nfc .qr-overlay {
+    transform: scale(1.5) translate(-10px, -10px);
+    opacity: 0.8;
+}
+
+/* Hover durumunda hafif parlaması için */
+.floating-card:hover .qr-overlay {
+    background: #ffffff;
+    box-shadow: 0 0 15px var(--accent-blue);
+}
     </style>
 </head>
 <body>
@@ -523,14 +557,13 @@ nav a.active::after {
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
                 <img src="smart kart 6.jpg" alt="Smart Kart">
+                <div class="qr-overlay">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+                </div>
             </div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
             <div class="nfc-ui" id="nfcUi">
-                <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
-                <div class="nfc-text-item item-2">Temassız Bağlantı</div>
-                <div class="nfc-text-item item-3">Dijital Kartvizit</div>
-                <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
-            </div>
+                </div>
         </div>
     </div>
 </div>
