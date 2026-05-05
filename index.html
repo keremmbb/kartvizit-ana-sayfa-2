@@ -418,61 +418,48 @@
     opacity: 1;
     transform: translateY(0);
 }
+/* --- SSS (FAQ) STİLLERİ --- */
 .faq-section {
-    max-width: 1000px; /* Genişliği biraz artırarak ferahlattık */
+    max-width: 900px;
     width: 100%;
-    margin: 120px auto;
-    padding: 0 40px; /* Kenarlardan güvenli boşluk */
-    box-sizing: border-box;
-    overflow: visible; /* Animasyonun kesilmemesi için */
+    margin: 100px auto;
+    padding: 0 20px;
 }
 
 .faq-container {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    width: 100%;
-    align-items: center; /* Kartları ortalar */
+    gap: 15px;
 }
+
 .faq-item {
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 28px;
-    padding: 40px;
-    width: 100%; /* Konteynıra tam yayılır */
-    max-width: 800px; /* Çok yayılmasını engeller */
-    box-sizing: border-box;
-    
-    /* İSTEDİĞİN SÜZÜLME EFEKTİ */
-    opacity: 0;
-    transform: scale(0.95) translateY(40px); /* Scale değerini 0.95 yaparak taşmayı önledik */
-    transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    
-    pointer-events: none; /* Tıklama ve hover kapalı */
-    position: relative;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: var(--smooth-transition);
 }
+
 .faq-question {
     padding: 25px 30px;
     display: flex;
-    justify-content: flex-start; /* Ok gittiği için sola yasladık */
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     user-select: none;
-    transition: background 0.3s ease;
 }
 
 .faq-question h4 {
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--text-main);
-    transition: color 0.3s ease; /* Renk geçişi için */
 }
 
 .faq-icon {
-    display: none; 
+    color: var(--accent-blue);
+    transition: transform 0.4s var(--apple-ease);
 }
 
 .faq-answer {
@@ -491,9 +478,9 @@
 
 /* Açık durum tasarımı */
 .faq-item.active {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    border-color: var(--accent-blue);
 }
+
 .faq-item.active .faq-answer {
     max-height: 300px; /* İçeriğe göre genişler */
     transition: max-height 0.5s cubic-bezier(1, 0, 1, 0);
@@ -501,28 +488,6 @@
 
 .faq-item.active .faq-icon {
     transform: rotate(180deg);
-}
-.faq-item.active .faq-question h4 {
-    color: var(--accent-blue);
-}
-.faq-item:hover {
-    border: 1px solid var(--glass-border) !important;
-    transform: scale(1) translateY(0) !important;
-}
-.faq-item h4 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--accent-blue);
-    margin-bottom: 12px;
-}
-.faq-item p {
-    color: var(--text-dim);
-    line-height: 1.6;
-    font-size: 1.05rem;
-}
-@media (max-width: 768px) {
-    .faq-section { padding: 0 20px; }
-    .faq-item { padding: 30px; }
 }
     </style>
 </head>
@@ -647,32 +612,52 @@
         </div>
     </div>
 </section>
+
 <section id="faq" class="faq-section">
-    <h2 class="reveal" style="font-size: 2.8rem; text-align: center; margin-bottom: 60px; font-weight: 600;">Bilmeniz Gerekenler.</h2>
+    <h2 class="reveal delay-1" style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;">Aklınıza takılanlar.</h2>
     
     <div class="faq-container">
-        <div class="faq-item reveal delay-1">
-            <h4>Uygulama Gerektirmez</h4>
-            <p>Smart Kart kullanmak için karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Sadece dokundurun ve profilinizi saniyeler içinde paylaşın.</p>
-        </div>
-
         <div class="faq-item reveal delay-2">
-            <h4>Geniş Uyumluluk</h4>
-            <p>2018 sonrası çıkan tüm iPhone modelleri ve NFC özelliği bulunan güncel Android cihazlarla kusursuz bir şekilde çalışır.</p>
+            <div class="faq-question">
+                <h4>Uygulama indirmek gerekiyor mu?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Kartınızı telefona yaklaştırdığınızda profiliniz otomatik olarak tarayıcıda açılır.</p>
+            </div>
         </div>
 
         <div class="faq-item reveal delay-3">
-            <h4>Sınırsız Güncelleme</h4>
-            <p>Bilgileriniz değiştiğinde yeni bir kart almanıza gerek yok. Dijital paneliniz üzerinden tüm bilgilerinizi anında güncelleyebilirsiniz.</p>
+            <div class="faq-question">
+                <h4>Hangi telefonlarla uyumlu?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>2018 sonrası çıkan neredeyse tüm iPhone modelleri ve NFC özelliği bulunan tüm Android cihazlarla tam uyumlu çalışır.</p>
+            </div>
         </div>
 
-        <div class="faq-item reveal">
-            <h4>Üst Düzey Güvenlik</h4>
-            <p>Kartınız sadece sizin belirlediğiniz bilgileri paylaşır. Temassız ödeme sistemlerinden farklı bir frekansta çalışarak verilerinizi güvende tutar.</p>
+        <div class="faq-item reveal delay-1">
+            <div class="faq-question">
+                <h4>Bilgilerimi nasıl güncellerim?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Smart Kart paneliniz üzerinden bilgilerinizi dilediğiniz zaman, anlık olarak güncelleyebilirsiniz. Yeni bir kart almanıza gerek kalmaz.</p>
+            </div>
+        </div>
+
+        <div class="faq-item reveal delay-2">
+            <div class="faq-question">
+                <h4>Güvenli mi?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Kesinlikle. Smart Kart sadece paylaşmak istediğiniz bilgileri aktarır. Banka hesaplarınıza veya telefonunuzdaki özel verilere erişim sağlamaz.</p>
+            </div>
         </div>
     </div>
 </section>
-
 <div class="stack-container" id="tasarim">
     <div class="sticky-wrapper">
         <div class="stack-header">
