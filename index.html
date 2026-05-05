@@ -513,6 +513,35 @@ nav a.active::after {
     width: 100%;
     opacity: 1;
 }
+/* QR Kod Konumlandırma */
+.qr-code-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam merkezi hizalama */
+    width: 60px;  /* QR kodun boyutu */
+    height: 60px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.qr-code-overlay img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 4px;
+}
+
+/* Kart NFC modunda büyüdüğünde QR kodu gizlemek veya küçültmek isterseniz: */
+.active-nfc .qr-code-overlay {
+    opacity: 0.2; /* NFC UI açıldığında dikkati dağıtmaması için hafif şeffaf */
+    transition: opacity 0.5s ease;
+}
     </style>
 </head>
 <body>
@@ -523,6 +552,9 @@ nav a.active::after {
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
                 <img src="smart kart 6.jpg" alt="Smart Kart">
+                <div class="qr-code-overlay">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+        </div>
             </div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
             <div class="nfc-ui" id="nfcUi">
