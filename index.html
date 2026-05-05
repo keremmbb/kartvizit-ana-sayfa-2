@@ -307,20 +307,19 @@
     justify-content: center;
     z-index: 1;
 }
-        .card-inner::before {
+    .card-inner::before {
     content: "";
     position: absolute;
-    width: 200%; /* Kart dönerken köşelerin boş kalmaması için genişlettik */
+    width: 200%;
     height: 200%;
-    /* Tek bir akışkan çizgi için yumuşak geçişli gradient */
     background: conic-gradient(
         from 0deg,
         transparent 0%,
-        transparent 65%,
-        var(--accent-blue) 95%,
+        transparent 70%,
+        var(--accent-blue) 90%,
         transparent 100%
     );
-    animation: rotate-border 3s linear infinite; /* Hızı biraz artırdık (3s) */
+    animation: rotate-border 3s linear infinite;
     z-index: -2;
 }
 
@@ -342,7 +341,15 @@
         @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
 
         @media (max-width: 1024px) { 
-            .floating-card-container { display: none; } 
+            .floating-card-container {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    z-index: 10001; /* Nav'ın altında ama her şeyin üstünde */
+    perspective: 1200px;
+}
             .bento-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
             .bento-large { grid-column: span 1; }
             .info-box { flex-direction: column; height: auto; padding: 30px; text-align: center; }
@@ -553,10 +560,11 @@
 .card-inner::after {
     content: "";
     position: absolute;
-    inset: 2px; /* Çizginin kalınlığı (2px) */
-    background: #000; /* Kartın asıl rengi */
+    inset: 2px;
+    background: var(--card-inner-bg, #000); /* Değişken tanımladık */
     border-radius: 16px;
     z-index: -1;
+    transition: background 0.5s ease;
 }
     </style>
 </head>
@@ -878,13 +886,31 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
-    document.querySelectorAll('.swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-        const mat = swatch.getAttribute('data-material');
-        // Kartın içindeki siyah alanı seçilen materyale göre günceller
-        document.styleSheets[0].addRule('.card-inner::after', `background: var(--${mat}) !important;`);
+    // Materyal Seçici ve Renk Değiştirme
+document.querySelectorAll('.swatch').forEach(swatch => {
+    swatch.addEventListener('click', (e) => {
+        e.stopPropagation(); // Tıklamanın karta gitmesini engeller
+        
+        // Aktif butonu güncelle
+        document.querySelector('.swatch.active').classList.remove('active');
+        swatch.classList.add('active');
+
+        // Seçilen rengi al
+        const material = swatch.getAttribute('data-material');
+        let colorValue;
+        
+        if(material === 'matte-black') colorValue = '#1a1a1a';
+        else if(material === 'brushed-steel') colorValue = '#2c3e50';
+        else if(material === 'gold-leaf') colorValue = '#b8860b';
+
+        // Kartın iç rengini CSS değişkeni üzerinden değiştir
+        document.getElementById('cardBody').style.setProperty('--card-inner-bg', colorValue);
+        
+        // Altın renginde ikon rengini siyah yap
+        const logoIcon = document.querySelector('.parallax-element.logo');
+        logoIcon.style.color = (material === 'gold-leaf') ? '#000' : '#fff';
     });
-});;
+});
 </script>
 </body>
 </html>
