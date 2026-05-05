@@ -286,28 +286,40 @@
         .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 280px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
-
+.floating-card-container {
+    position: fixed;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    perspective: 1200px;
+}
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
-        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
+.floating-card {
+    width: 280px;
+    height: 160px;
+    transform-style: preserve-3d;
+    /* Eski kartın o meşhur akıcı dönüşü için transition */
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}           .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-       .card-inner {
+.card-inner {
     width: 100%;
-    height: 160px;
-    border-radius: 18px;
+    height: 100%;
+    border-radius: 20px;
     position: relative;
     overflow: hidden;
-    background: #000; /* Arka planı siyah yapalım ki çizgi görünsün */
+    /* Başlangıç rengi */
+    background: var(--card-inner-bg, #1a1a1a);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
 }
-    .card-inner::before {
+.card-inner::before {
     content: "";
     position: absolute;
     width: 200%;
@@ -561,7 +573,7 @@
     content: "";
     position: absolute;
     inset: 2px;
-    background: var(--card-inner-bg, #000); /* Değişken tanımladık */
+    background: var(--card-inner-bg, #1a1a1a); /* JS buradaki değişkeni değiştiriyor */
     border-radius: 16px;
     z-index: -1;
     transition: background 0.5s ease;
@@ -794,48 +806,11 @@
 
     // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
     window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        // 2. Nav & Tilt Kart
-        nav.style.height = scrollY > 50 ? "50px" : "44px";
-        if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
-            tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
+        if (!isHovering && !tiltCard.classList.contains('active-nfc')) {
+            // Sayfa kaydırıldıkça kart Y ekseninde döner
+            const scrollRotation = window.scrollY * 0.1; 
+            tiltCard.style.transform = `rotateY(${scrollRotation}deg)`;
         }
-
-        // 3. Stacking Boxes Logic
-        const stackRect = stackContainer.getBoundingClientRect();
-        if (stackRect.top < 100 && stackRect.bottom > 0) {
-            html.classList.add('no-snap');
-        } else {
-            html.classList.remove('no-snap');
-        }
-
-        let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
-        stackProgress = Math.max(0, Math.min(1, stackProgress));
-        scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
-
-        boxes.forEach((box, i) => {
-            if (box.matches(':hover')) return;
-            let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
-            boxProgress = Math.max(0, Math.min(1, boxProgress));
-            box.style.zIndex = 10 + i;
-
-            if (i === 0) {
-                box.style.transform = `translate(-50%, calc(-50% + ${stackProgress * -20}px))`;
-                box.style.opacity = "1";
-                box.style.visibility = "visible";
-            } else {
-                if (boxProgress > 0) {
-                    box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 70}vh + ${i * 15}px))`;
-                    box.style.opacity = "1";
-                    box.style.visibility = "visible";
-                } else {
-                    box.style.transform = `translate(-50%, 100vh)`;
-                    box.style.opacity = "0";
-                    box.style.visibility = "hidden";
-                }
-            }
-        });
     });
 
     // --- TILT & NFC CLICK ---
@@ -872,39 +847,47 @@
         tiltCard.classList.add('active-nfc');
         document.body.style.overflow = "hidden";
     });
-
     document.getElementById('closeNfc').addEventListener('click', (e) => {
         e.stopPropagation();
         tiltCard.classList.remove('active-nfc');
         document.body.style.overflow = "";
         isHovering = false;
-        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.1}deg) scale(1)`;
     });
     // Materyal Seçici ve Renk Değiştirme
 document.querySelectorAll('.swatch').forEach(swatch => {
-    swatch.addEventListener('click', (e) => {
-        e.stopPropagation(); // Tıklamanın karta gitmesini engeller
-        
-        // Aktif butonu güncelle
-        document.querySelector('.swatch.active').classList.remove('active');
-        swatch.classList.add('active');
+        swatch.addEventListener('click', (e) => {
+            e.stopPropagation(); // Tıklamanın karta gitmesini engeller
+            
+            const activeSwatch = document.querySelector('.swatch.active');
+            if (activeSwatch) activeSwatch.classList.remove('active');
+            swatch.classList.add('active');
 
-        // Seçilen rengi al
-        const material = swatch.getAttribute('data-material');
-        let colorValue;
-        
-        if(material === 'matte-black') colorValue = '#1a1a1a';
-        else if(material === 'brushed-steel') colorValue = '#2c3e50';
-        else if(material === 'gold-leaf') colorValue = '#b8860b';
+            const material = swatch.getAttribute('data-material');
+            let colorValue = '#1a1a1a'; // Varsayılan siyah
+            if(material === 'brushed-steel') colorValue = '#2c3e50';
+            if(material === 'gold-leaf') colorValue = '#b8860b';
 
-        // Kartın iç rengini CSS değişkeni üzerinden değiştir
-        document.getElementById('cardBody').style.setProperty('--card-inner-bg', colorValue);
-        
-        // Altın renginde ikon rengini siyah yap
-        const logoIcon = document.querySelector('.parallax-element.logo');
-        logoIcon.style.color = (material === 'gold-leaf') ? '#000' : '#fff';
+            cardBody.style.setProperty('--card-inner-bg', colorValue);
+            
+            // Altın renginde ikonu siyah yap, diğerlerinde beyaz
+            const logo = document.querySelector('.parallax-element.logo');
+            if(logo) logo.style.color = (material === 'gold-leaf') ? '#000' : '#fff';
+        });
     });
-});
+tiltCard.addEventListener('mouseleave', () => {
+        isHovering = false;
+        if (!tiltCard.classList.contains('active-nfc')) {
+            // Mouse ayrıldığında scroll konumuna geri döner
+            const scrollRotation = window.scrollY * 0.1;
+            tiltCard.style.transform = `rotateY(${scrollRotation}deg) scale(1)`;
+        }
+    });
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        document.documentElement.classList.toggle('light-mode');
+        const icon = document.getElementById('themeToggle');
+        icon.textContent = document.documentElement.classList.contains('light-mode') ? 'dark_mode' : 'light_mode';
+    });
 </script>
 </body>
 </html>
