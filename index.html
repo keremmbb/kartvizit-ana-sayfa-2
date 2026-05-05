@@ -359,6 +359,60 @@
     opacity: 1;
     background: rgba(255, 255, 255, 0.1);
 }
+.how-it-works-container {
+    max-width: 1000px;
+    width: 90%;
+    margin: 50px auto;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* İkiye bölüyoruz */
+    overflow: hidden;
+    scroll-snap-align: center;
+}
+#lottie-box {
+    width: 100%;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#lottie-box svg {
+    width: 80% !important; /* Animasyonu kutuya göre küçülttük */
+}
+.instructions {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.instructions h2 {
+    font-size: 2rem;
+    color: var(--accent-blue);
+}
+.step-number {
+    background: var(--accent-blue);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.step-text h4 { margin-bottom: 4px; font-weight: 600; }
+.step-text p { color: var(--text-dim); font-size: 0.9rem; }
+@media (max-width: 768px) {
+    .how-it-works-container { grid-template-columns: 1fr; }
+    #lottie-box { height: 300px; }
+}
     </style>
 </head>
 <body>
@@ -396,6 +450,39 @@
 
 <section id="lottie-scroll-section">
     <div id="lottie-container"></div>
+</section>
+<section id="nasil" style="min-height: auto; padding: 50px 20px;">
+    <div class="how-it-works-container reveal">
+        <div id="lottie-box"></div>
+        
+        <div class="instructions">
+            <h2>Nasıl Okutulur?</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <h4>NFC'yi Etkinleştirin</h4>
+                    <p>Telefonunuzun ayarlarından NFC özelliğinin açık olduğundan emin olun.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h4>Doğru Noktaya Yaklaştırın</h4>
+                    <p>iPhone'larda üst kısmı, Android'lerde arka orta kısmı karta yaklaştırın.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <h4>Bağlantı Kuruldu</h4>
+                    <p>Ekranda çıkan bildirime dokunarak profile anında ulaşın.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section id="ozellikler">
@@ -487,14 +574,13 @@
     let isHovering = false;
 
     // --- LOTTIE SCROLL LOGIC ---
-    const nfcAnimation = lottie.loadAnimation({
-        container: document.getElementById('lottie-container'),
-        renderer: 'svg',
-        loop: false,
-        autoplay: false,
-        path: 'nfc-animation.json' // GitHub'daki dosya adın
-    });
-
+   const nfcAnimation = lottie.loadAnimation({
+    container: document.getElementById('lottie-box'), // Yeni kutuya hedefle
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'nfc-animation.json' // Dosya adın aynı kalsın
+});
     // --- TEMA YÖNETİMİ ---
     const performThemeToggle = () => {
         if (html.classList.contains('dark-mode')) {
