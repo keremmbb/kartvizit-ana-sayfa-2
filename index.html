@@ -18,6 +18,9 @@
             --box-glass: rgba(255, 255, 255, 0.03);
             --box-border: rgba(255, 255, 255, 0.08);
             --smooth-transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+            /* Glassmorphism için yeni değişkenler */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
 
         /* Global Grainy Overlay */
@@ -54,7 +57,7 @@
         /* --- DYNAMIC ISLAND NAVIGATION --- */
         nav {
             position: fixed;
-            top: 20px; /* Üstten boşluk */
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: fit-content;
@@ -68,12 +71,11 @@
             align-items: center;
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 22px; /* Tam yuvarlak kenarlar */
+            border-radius: 22px;
             padding: 0 25px;
             transition: all 0.5s var(--apple-ease);
         }
 
-        /* Scroll edildiğinde veya hoverda genişleme efekti */
         nav:hover {
             padding: 0 40px;
             background: rgba(0, 0, 0, 0.8);
@@ -97,7 +99,7 @@
             transform: translateY(-1px);
         }
 
-        /* --- REVEAL ANIMATION CORE --- */
+        /* --- APPLE STYLE STAGGERED REVEAL --- */
         .reveal { 
             opacity: 0; 
             transform: translateY(40px); 
@@ -110,6 +112,28 @@
             transform: translateY(0); 
         }
 
+        .bento-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease);
+            will-change: opacity, transform;
+        }
+
+        .bento-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-bento-1 { transition-delay: 0.6s; }
+        .delay-bento-2 { transition-delay: 0.7s; }
+        .delay-bento-3 { transition-delay: 0.8s; }
+        .delay-bento-4 { transition-delay: 0.9s; }
+        .delay-bento-5 { transition-delay: 1.0s; }
+
+        /* --- SECTION STRUCTURE --- */
         section {
             width: 100%; min-height: 100vh; display: flex; flex-direction: column;
             align-items: center; justify-content: center; padding: 100px 20px;
@@ -128,7 +152,7 @@
 
         .highlight { color: var(--accent-blue); }
 
-        /* --- BENTO GRID SYSTEM --- */
+        /* --- BENTO GRID & GLASSMORPHISM --- */
         .bento-container {
             max-width: 1100px;
             width: 100%;
@@ -140,31 +164,113 @@
         }
 
         .bento-item {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-radius: 24px;
             padding: 30px;
-            border: 1px solid var(--box-border);
+            border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
-            transition: transform 0.4s var(--apple-ease), opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease);
+            transition: transform 0.4s var(--apple-ease), border-color 0.4s var(--apple-ease), opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease); 
+            will-change: transform, opacity;
         }
-        .bento-item:hover { transform: scale(1.02); }
 
-        .bento-item h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; }
-        .bento-item p { color: var(--text-dim); font-size: 0.95rem; }
-
-        .bento-large { grid-column: span 2; display: flex; align-items: center; gap: 30px; }
-        
-        .bento-icon { font-size: 40px; color: var(--accent-blue); margin-bottom: 20px; }
-        
-        .bento-item::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at top left, rgba(255,255,255,0.05) 0%, transparent 50%);
+        /* Işık Oyunu (Spotlight Effect) */
+        .bento-item::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+            z-index: 1;
             pointer-events: none;
         }
 
+        .bento-item:hover { 
+            transform: scale(1.02) !important; 
+            border-color: rgba(255,255,255,0.25); 
+            z-index: 5;
+        }
+
+        .bento-item h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 2; }
+        .bento-item p { color: var(--text-dim); font-size: 0.95rem; position: relative; z-index: 2; }
+
+        .bento-large { grid-column: span 2; display: flex; align-items: center; gap: 30px; }
+        .bento-icon { font-size: 40px; color: var(--accent-blue); margin-bottom: 20px; transition: 0.5s var(--apple-ease); }
+        
+        /* --- ANALYTICS SYNCED ANIMATION --- */
+        .analytics-container {
+            position: relative;
+            width: 100px;
+            height: 40px;
+            margin-bottom: 15px;
+        }
+
+        .analytics-visual {
+            display: flex; gap: 4px; align-items: flex-end; height: 100%;
+        }
+
+        .bar {
+            width: 6px; background: rgba(0, 113, 227, 0.3); border-radius: 2px;
+            height: 0%; 
+            transition: height 0.6s var(--apple-ease), background 0.3s;
+        }
+
+        .bento-item.active .bar { height: var(--h); }
+
+        .graph-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .graph-path {
+            fill: none;
+            stroke: var(--accent-blue);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-dasharray: 150;
+            stroke-dashoffset: 150;
+            transition: stroke-dashoffset 0.8s var(--apple-ease);
+        }
+
+        .bento-item.active .graph-path { stroke-dashoffset: 0; }
+
+        .security-visual {
+            position: absolute; top: 20px; right: 20px; width: 60px; height: 60px;
+        }
+        .pulse-ring {
+            position: absolute; width: 100%; height: 100%;
+            border: 2px solid var(--accent-blue); border-radius: 50%;
+            opacity: 0; animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .eco-glow {
+            position: absolute; top: -20px; right: -20px; width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(48, 209, 88, 0.15) 0%, transparent 70%);
+            border-radius: 50%; animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .bento-large-visual {
+            width: 150px; height: 100px; background: linear-gradient(45deg, #0071e3, #64d2ff); 
+            border-radius: 20px; opacity: 0.1; filter: blur(25px); position: absolute; right: 20px;
+        }
+
         /* --- STACKING AREA --- */
-        .stack-container { position: relative; height: 550vh; background-color: #000; scroll-snap-align: start; }
+        .stack-container { position: relative; height: 600vh; background-color: #000; scroll-snap-align: start; }
         .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
         .stack-header { position: absolute; top: 12vh; text-align: center; z-index: 5; width: 100%; }
@@ -176,15 +282,23 @@
         }
 
         .info-box {
-            position: absolute; background: var(--box-glass);
-            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+            position: absolute; 
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
             color: var(--text-main); padding: 40px; border-radius: 40px; 
-            border: 1px solid var(--box-border); width: 800px; height: 380px; 
+            border: 1px solid var(--glass-border); width: 800px; height: 380px; 
             max-width: 85%; display: flex; align-items: center; justify-content: space-between; 
             gap: 35px; left: 50%; top: 55%; transform: translate(-50%, 100vh);
             opacity: 0; visibility: hidden; will-change: transform, opacity;
-            transition: var(--smooth-transition); 
+            transition: transform 0.4s var(--apple-ease), opacity 0.8s var(--apple-ease); 
             box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        }
+
+        .info-box:hover {
+            transform: translate(-50%, -50%) scale(1.08) !important;
+            border-color: rgba(255,255,255,0.4);
+            z-index: 2000 !important;
         }
 
         .info-box img { 
@@ -206,7 +320,9 @@
         .floating-card-container { 
             position: fixed; left: 40px; top: 50%; transform: translateY(-50%); 
             width: 220px; z-index: 99999; perspective: 1200px; 
-            animation: cardDrop 1.8s var(--apple-ease) forwards;
+            animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; 
+            animation-delay: 0.4s;
+            opacity: 0;
         }
 
         @keyframes cardDrop {
@@ -217,6 +333,24 @@
         .floating-card {
             width: 100%; position: relative; transform-style: preserve-3d;
             transition: transform 0.8s var(--apple-ease); cursor: pointer;
+        }
+
+        /* Kart Arkası Işık Efekti */
+        .floating-card::after {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 130%; height: 130%;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(30px);
+            animation: glowPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .card-inner {
@@ -250,7 +384,8 @@
         .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
 
         .nfc-text-item {
-            position: absolute; background: #1c1c1e; color: white; padding: 10px 18px;
+            position: absolute; background: rgba(28, 28, 30, 0.85);
+            backdrop-filter: blur(10px); color: white; padding: 10px 18px;
             border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255, 255, 255, 0.15);
             white-space: nowrap;
         }
@@ -296,45 +431,59 @@
 </nav>
 
 <section class="hero">
-    <h1 class="reveal">Smart Kart</h1>
-    <p class="reveal">Kartvizitlerin geleceği burada başlar.</p>
-    <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal">
+    <h1 class="reveal delay-1">Smart Kart</h1>
+    <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
+    <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
 
 <section id="ozellikler">
     <div style="width: 100%; max-width: 1100px;">
-        <h2 class="reveal" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
-        <p class="reveal" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
+        <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
+        <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
         
         <div class="bento-container">
-            <div class="bento-item bento-large reveal">
+            <div class="bento-item bento-large bento-reveal delay-bento-1">
                 <div style="flex: 1;">
-                    <i class="material-icons bento-icon">bolt</i>
+                    <i class="material-icons bento-icon" style="color: #ff9f0a;">bolt</i>
                     <h3>Işık Hızında Paylaşım</h3>
                     <p>NFC teknolojisi ile telefonunuzu yaklaştırın ve saniyeler içinde tüm bilgilerinizi aktarın.</p>
                 </div>
-                <div style="width: 120px; height: 120px; background: linear-gradient(45deg, #0071e3, #64d2ff); border-radius: 20px; opacity: 0.2; filter: blur(20px);"></div>
+                <div class="bento-large-visual"></div>
             </div>
 
-            <div class="bento-item reveal">
+            <div class="bento-item bento-reveal delay-bento-2">
+                <div class="security-visual"><div class="pulse-ring"></div></div>
                 <i class="material-icons bento-icon">security</i>
                 <h3>Güvenli</h3>
                 <p>Verileriniz 256-bit şifreleme ile korunur.</p>
             </div>
 
-            <div class="bento-item reveal">
-                <i class="material-icons bento-icon">eco</i>
+            <div class="bento-item bento-reveal delay-bento-3">
+                <div class="eco-glow"></div>
+                <i class="material-icons bento-icon" style="color: #30d158;">eco</i>
                 <h3>Ekolojik</h3>
                 <p>Milyonlarca kağıt israfını önleyerek doğayı koruyoruz.</p>
             </div>
 
-            <div class="bento-item reveal">
+            <div class="bento-item bento-reveal delay-bento-4">
                 <i class="material-icons bento-icon">update</i>
                 <h3>Dinamik</h3>
                 <p>Bilgilerinizi dilediğiniz zaman güncelleyin.</p>
             </div>
 
-            <div class="bento-item reveal">
+            <div class="bento-item bento-reveal delay-bento-5">
+                <div class="analytics-container">
+                    <div class="analytics-visual">
+                        <div class="bar" style="--h: 40%;"></div>
+                        <div class="bar" style="--h: 75%;"></div>
+                        <div class="bar" style="--h: 55%;"></div>
+                        <div class="bar" style="--h: 95%;"></div>
+                        <div class="bar" style="--h: 65%;"></div>
+                    </div>
+                    <svg class="graph-svg" viewBox="0 0 100 40">
+                        <path class="graph-path" d="M5,35 L25,20 L45,28 L70,8 L95,15" />
+                    </svg>
+                </div>
                 <i class="material-icons bento-icon">insights</i>
                 <h3>Analiz</h3>
                 <p>Tıklanma oranlarınızı anlık takip edin.</p>
@@ -351,26 +500,11 @@
         
         <div class="background-footer">© 2026 Smart Kart. Tüm Hakları Saklıdır.</div>
 
-        <div class="info-box">
-            <img src="smart kart 1.png" alt="1">
-            <div class="info-text"><h2>Akıllı Kartvizit</h2><p>Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p></div>
-        </div>
-        <div class="info-box">
-            <img src="smart kart 2.jpg" alt="2">
-            <div class="info-text"><h2>NFC Gücü</h2><p>En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p></div>
-        </div>
-        <div class="info-box">
-            <img src="smart kart 3.jpg" alt="3">
-            <div class="info-text"><h2>Ekolojik Vizyon</h2><p>Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p></div>
-        </div>
-        <div class="info-box">
-            <img src="smart kart 4.jpg" alt="4">
-            <div class="info-text"><h2>Gelişmiş Analiz</h2><p>Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p></div>
-        </div>
-        <div class="info-box">
-            <img src="smart kart 5.jpg" alt="5">
-            <div class="info-text"><h2>Premium Tasarım</h2><p>Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır.</p></div>
-        </div>
+        <div class="info-box"><img src="smart kart 1.png" alt="1"><div class="info-text"><h2>Akıllı Kartvizit</h2><p>Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p></div></div>
+        <div class="info-box"><img src="smart kart 2.jpg" alt="2"><div class="info-text"><h2>NFC Gücü</h2><p>En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p></div></div>
+        <div class="info-box"><img src="smart kart 3.jpg" alt="3"><div class="info-text"><h2>Ekolojik Vizyon</h2><p>Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p></div></div>
+        <div class="info-box"><img src="smart kart 4.jpg" alt="4"><div class="info-text"><h2>Gelişmiş Analiz</h2><p>Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p></div></div>
+        <div class="info-box"><img src="smart kart 5.jpg" alt="5"><div class="info-text"><h2>Premium Tasarım</h2><p>Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır.</p></div></div>
 
         <div class="scroll-hint" id="scrollHint">
             <span>Keşfetmek için kaydırın</span>
@@ -387,61 +521,76 @@
     const nav = document.getElementById('dynamicNav');
     let isHovering = false;
 
-    // --- YENİLENMİŞ SIRALI REVEAL SİSTEMİ ---
-    const revealObserver = new IntersectionObserver((entries) => {
-        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
-        intersectingEntries.forEach((entry, index) => {
-            setTimeout(() => {
-                entry.target.classList.add('active');
-            }, index * 150);
+    // --- SPOTLIGHT IŞIK OYUNU SİSTEMİ ---
+    document.querySelectorAll('.bento-item').forEach(item => {
+        item.addEventListener('mousemove', e => {
+            const rect = item.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            item.style.setProperty('--mouse-x', `${x}px`);
+            item.style.setProperty('--mouse-y', `${y}px`);
         });
+    });
 
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
+    // --- TÜM SAYFA REVEAL SİSTEMİ ---
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
                 entry.target.classList.remove('active');
             }
         });
     }, { 
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.15, 
+        rootMargin: "0px 0px -5% 0px"
     });
 
     window.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('.reveal, .bento-reveal').forEach(el => revealObserver.observe(el));
     });
 
-    // --- SCROLL LOGIC & DYNAMIC NAV ---
+    // --- SCROLL & STACK LOGIC ---
     window.addEventListener('scroll', () => {
         const rect = stackContainer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
 
-        // Navigasyon efekti (Dynamic Island)
+        // Dynamic Nav küçülme efekti
         if (scrollY > 50) {
             nav.style.height = "50px";
             nav.style.background = "rgba(0, 0, 0, 0.85)";
-            nav.style.boxShadow = "0 8px 32px rgba(0,0,0,0.4)";
+            nav.style.padding = "0 35px";
         } else {
             nav.style.height = "44px";
             nav.style.background = "rgba(0, 0, 0, 0.6)";
-            nav.style.boxShadow = "none";
+            nav.style.padding = "0 25px";
         }
 
+        // Kart Dönüş Efekti
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
             tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
         }
 
-        if (rect.top < 100 && rect.bottom > 0) document.documentElement.classList.add('no-snap');
-        else document.documentElement.classList.remove('no-snap');
+        // Stack Bölgesine Gelindiğinde Snap'i kapat
+        if (rect.top < 100 && rect.bottom > 0) {
+            document.documentElement.classList.add('no-snap');
+        } else {
+            document.documentElement.classList.remove('no-snap');
+        }
 
+        // Stacking Boxes
         let progress = -rect.top / (rect.height - windowHeight);
         progress = Math.max(0, Math.min(1, progress));
         scrollHint.style.opacity = progress > 0.05 ? "0" : "1";
 
         boxes.forEach((box, i) => {
+            if (box.matches(':hover')) return;
+
             let boxProgress = (progress - (i / boxes.length)) / (1 / boxes.length);
             boxProgress = Math.max(0, Math.min(1, boxProgress));
             box.style.zIndex = 10 + i;
+
             if (i === 0) {
                 box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
                 box.style.opacity = "1";
@@ -460,6 +609,7 @@
         });
     });
 
+    // --- TILT & NFC INTERACTION ---
     tiltCard.addEventListener('mousemove', (e) => {
         if (tiltCard.classList.contains('active-nfc')) return;
         isHovering = true;
