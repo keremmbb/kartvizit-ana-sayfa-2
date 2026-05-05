@@ -418,6 +418,76 @@
     opacity: 1;
     transform: translateY(0);
 }
+.faq-section {
+    max-width: 900px;
+    width: 100%;
+    margin: 100px auto;
+    padding: 0 20px;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: var(--smooth-transition);
+}
+
+.faq-question {
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.faq-question h4 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.faq-icon {
+    color: var(--accent-blue);
+    transition: transform 0.4s var(--apple-ease);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    padding: 0 30px;
+}
+
+.faq-answer p {
+    padding-bottom: 25px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Açık durum tasarımı */
+.faq-item.active {
+    border-color: var(--accent-blue);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px; /* İçeriğe göre genişler */
+    transition: max-height 0.5s cubic-bezier(1, 0, 1, 0);
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
     </style>
 </head>
 <body>
@@ -537,6 +607,51 @@
                 <i class="material-icons bento-icon">insights</i>
                 <h3>Analiz</h3>
                 <p>Tıklanma oranlarınızı anlık takip edin.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="faq" class="faq-section">
+    <h2 class="reveal delay-1" style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;">Aklınıza takılanlar.</h2>
+    
+    <div class="faq-container">
+        <div class="faq-item reveal delay-2">
+            <div class="faq-question">
+                <h4>Uygulama indirmek gerekiyor mu?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Kartınızı telefona yaklaştırdığınızda profiliniz otomatik olarak tarayıcıda açılır.</p>
+            </div>
+        </div>
+
+        <div class="faq-item reveal delay-3">
+            <div class="faq-question">
+                <h4>Hangi telefonlarla uyumlu?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>2018 sonrası çıkan neredeyse tüm iPhone modelleri ve NFC özelliği bulunan tüm Android cihazlarla tam uyumlu çalışır.</p>
+            </div>
+        </div>
+
+        <div class="faq-item reveal delay-1">
+            <div class="faq-question">
+                <h4>Bilgilerimi nasıl güncellerim?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Smart Kart paneliniz üzerinden bilgilerinizi dilediğiniz zaman, anlık olarak güncelleyebilirsiniz. Yeni bir kart almanıza gerek kalmaz.</p>
+            </div>
+        </div>
+
+        <div class="faq-item reveal delay-2">
+            <div class="faq-question">
+                <h4>Güvenli mi?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer">
+                <p>Kesinlikle. Smart Kart sadece paylaşmak istediğiniz bilgileri aktarır. Banka hesaplarınıza veya telefonunuzdaki özel verilere erişim sağlamaz.</p>
             </div>
         </div>
     </div>
@@ -706,6 +821,18 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
+    document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentElement;
+        
+        // Diğer açık olanları kapat (Opsiyonel: Sadece bir tanesinin açık kalmasını istersen)
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item) otherItem.classList.remove('active');
+        });
+
+        item.classList.toggle('active');
+    });
+});
 </script>
 </body>
 </html>
