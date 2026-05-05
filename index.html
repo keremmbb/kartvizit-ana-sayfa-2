@@ -294,8 +294,13 @@
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-        .card-inner { position: relative; width: 100%; height: 100%; border-radius: 18px; overflow: hidden; padding: 1.5px; background: rgba(128,128,128,0.1); }
-        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s var(--apple-ease);
+}        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
@@ -587,26 +592,27 @@ nav a.active::after {
     opacity: 0.3; /* Yazıların okunması için QR'ı hafif şeffaflaştırdık */
     transform: translate(-50%, -50%) scale(0.8);
 }
-.card-logo-bg {
+.card-front, .card-back {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 300px; /* Devasa bir 'S' harfi (Smart Kart için) */
-    font-weight: 800;
-    color: var(--accent-blue);
-    opacity: 0.05; /* Çok hafif, rahatsız etmeyen bir görünüm */
-    pointer-events: none;
-    z-index: -1; /* Kartın arkasında kalması için */
-    filter: blur(2px);
-    user-select: none;
-    transition: all 0.8s var(--apple-ease);
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Arkası görünmesin ki dönerken birbirine karışmasın */
+    border-radius: 18px;
+    overflow: hidden;
 }
-.active-nfc ~ .card-logo-bg {
-    opacity: 0.1;
-    transform: translate(-50%, -50%) scale(1.2);
-    filter: blur(10px); /* Büyüdüğünde daha yumuşak bir ışık gibi görünsün */
+.card-back {
+    background: #0a0a0a; /* Kartın arka zemin rengi */
+    transform: rotateY(180deg); /* Arkayı 180 derece çeviriyoruz */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--glass-border);
 }
+.back-logo {
+    width: 80%; /* Logonun kartın arkasındaki boyutu */
+    filter: brightness(0.8);
+}
+
     </style>
 </head>
 <body>
@@ -616,21 +622,28 @@ nav a.active::after {
     <div class="card-logo-bg">S</div>
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
-            <div class="card-inner">
-                <img src="smart kart 6.jpg" alt="Smart Kart">
-                <div class="qr-overlay-center">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://smartkart.com" alt="QR Code">
-                </div>
-            </div>
-            <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-            
-            <div class="nfc-ui" id="nfcUi">
-                <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
-                <div class="nfc-text-item item-2">Temassız Bağlantı</div>
-                <div class="nfc-text-item item-3">Dijital Kartvizit</div>
-                <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+    <div class="card-inner">
+        <div class="card-front">
+            <img src="smart kart 6.jpg" alt="Smart Kart">
+            <div class="qr-overlay-center">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://smartkart.com" alt="QR Code">
             </div>
         </div>
+
+        <div class="card-back">
+            <img src="pvc_noir.webp" alt="Logo Arka" class="back-logo">
+        </div>
+    </div>
+    
+    <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
+    
+    <div class="nfc-ui" id="nfcUi">
+        <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+        <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+        <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+        <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+    </div>
+</div>
     </div>
 </div>
 
@@ -936,7 +949,7 @@ cardHitbox.addEventListener('mousemove', (e) => {
     
     const rotateX = (centerY - e.clientY) / 20; 
     const rotateY = (e.clientX - centerX) / 20;
-    
+
     bgLogo.style.transform = `translate(calc(-50% + ${rotateY * 2}px), calc(-50% + ${-rotateX * 2}px))`;
     
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
