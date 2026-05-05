@@ -419,36 +419,41 @@
     transform: translateY(0);
 }
 .faq-section {
-    max-width: 900px;
+    max-width: 1000px; /* Genişliği biraz artırarak ferahlattık */
     width: 100%;
-    margin: 150px auto;
-    padding: 0 20px;
+    margin: 120px auto;
+    padding: 0 40px; /* Kenarlardan güvenli boşluk */
+    box-sizing: border-box;
+    overflow: visible; /* Animasyonun kesilmemesi için */
 }
 
 .faq-container {
     display: flex;
     flex-direction: column;
-    gap: 30px; /* Kutular arası mesafe */
+    gap: 25px;
+    width: 100%;
+    align-items: center; /* Kartları ortalar */
 }
 .faq-item {
     background: var(--glass-bg);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border) !important;
     border-radius: 28px;
     padding: 40px;
+    width: 100%; /* Konteynıra tam yayılır */
+    max-width: 800px; /* Çok yayılmasını engeller */
+    box-sizing: border-box;
     
-    /* İSTEDİĞİN O ÖZEL EFEKT: */
+    /* İSTEDİĞİN SÜZÜLME EFEKTİ */
     opacity: 0;
-    transform: scale(0.9) translateY(50px);
+    transform: scale(0.95) translateY(40px); /* Scale değerini 0.95 yaparak taşmayı önledik */
     transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
                 transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     
-    /* Etkileşimi kapatıyoruz */
-    pointer-events: none; 
-    cursor: default;
+    pointer-events: none; /* Tıklama ve hover kapalı */
+    position: relative;
 }
-
 .faq-question {
     padding: 25px 30px;
     display: flex;
@@ -489,7 +494,6 @@
     opacity: 1;
     transform: scale(1) translateY(0);
 }
-
 .faq-item.active .faq-answer {
     max-height: 300px; /* İçeriğe göre genişler */
     transition: max-height 0.5s cubic-bezier(1, 0, 1, 0);
@@ -502,19 +506,23 @@
     color: var(--accent-blue);
 }
 .faq-item:hover {
-    border-color: var(--glass-border) !important;
+    border: 1px solid var(--glass-border) !important;
     transform: scale(1) translateY(0) !important;
 }
 .faq-item h4 {
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--accent-blue);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 .faq-item p {
     color: var(--text-dim);
-    line-height: 1.7;
+    line-height: 1.6;
     font-size: 1.05rem;
+}
+@media (max-width: 768px) {
+    .faq-section { padding: 0 20px; }
+    .faq-item { padding: 30px; }
 }
     </style>
 </head>
