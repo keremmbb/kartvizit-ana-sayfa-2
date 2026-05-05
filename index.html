@@ -444,21 +444,22 @@
 .faq-question {
     padding: 25px 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Ok gittiği için sola yasladık */
     align-items: center;
     cursor: pointer;
     user-select: none;
+    transition: background 0.3s ease;
 }
 
 .faq-question h4 {
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--text-main);
+    transition: color 0.3s ease; /* Renk geçişi için */
 }
 
 .faq-icon {
-    color: var(--accent-blue);
-    transition: transform 0.4s var(--apple-ease);
+    display: none; 
 }
 
 .faq-answer {
@@ -487,6 +488,12 @@
 
 .faq-item.active .faq-icon {
     transform: rotate(180deg);
+}
+.faq-item.active .faq-question h4 {
+    color: var(--accent-blue);
+}
+.faq-item:hover {
+    border-color: rgba(0, 113, 227, 0.4);
 }
     </style>
 </head>
@@ -616,10 +623,6 @@
     
     <div class="faq-container">
         <div class="faq-item reveal delay-2">
-            <div class="faq-question">
-                <h4>Uygulama indirmek gerekiyor mu?</h4>
-                <i class="material-icons faq-icon">expand_more</i>
-            </div>
             <div class="faq-answer">
                 <p>Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Kartınızı telefona yaklaştırdığınızda profiliniz otomatik olarak tarayıcıda açılır.</p>
             </div>
