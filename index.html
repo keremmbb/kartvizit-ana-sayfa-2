@@ -418,6 +418,94 @@
     opacity: 1;
     transform: translateY(0);
 }
+.customizer-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    max-width: 1100px;
+    width: 100%;
+    padding: 60px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px);
+    border-radius: 40px;
+    border: 1px solid var(--glass-border);
+}
+.preview-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1500px;
+}
+.card-preview {
+    width: 400px;
+    height: 250px;
+    background: #1a1a1a; /* Varsayılan mat siyah */
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    transition: all 0.6s var(--apple-ease);
+    transform-style: preserve-3d;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.card-glow {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+.chip-icon {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+#previewNameDisplay {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.controls-box h2 { font-size: 2rem; margin-bottom: 10px; }
+.controls-box p { color: var(--text-dim); margin-bottom: 30px; }
+
+.control-group { margin-bottom: 25px; }
+.control-group label { display: block; font-size: 0.9rem; margin-bottom: 12px; color: var(--text-dim); }
+
+.material-options { display: flex; gap: 15px; }
+.option {
+    width: 45px; height: 45px; border-radius: 50%;
+    cursor: pointer; border: 2px solid transparent;
+    transition: 0.3s;
+}
+.option.active { border-color: var(--accent-blue); transform: scale(1.1); }
+
+#nameInput {
+    width: 100%; padding: 15px; border-radius: 12px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text-main); font-size: 1rem; outline: none;
+}
+
+.price-tag { margin: 30px 0; font-size: 1.2rem; }
+.price-tag strong { color: var(--accent-blue); font-size: 1.6rem; margin-left: 10px; }
+
+.buy-button {
+    width: 100%; padding: 18px; border-radius: 15px;
+    background: var(--accent-blue); color: white; border: none;
+    font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.3s;
+}
+.buy-button:hover { opacity: 0.9; transform: translateY(-2px); }
+
+@media (max-width: 900px) {
+    .customizer-container { grid-template-columns: 1fr; padding: 30px; }
+    .card-preview { width: 100%; max-width: 350px; }
+}
     </style>
 </head>
 <body>
@@ -541,6 +629,46 @@
         </div>
     </div>
 </section>
+<section id="customizer-section" style="background: var(--hero-gradient);">
+    <div class="customizer-container reveal">
+        <div class="preview-box">
+            <div class="card-preview" id="cardPreview">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <img src="smart-kart-logo-white.png" alt="Logo" class="preview-logo"> <div class="chip-icon"></div>
+                    <h2 id="previewNameDisplay">AD SOYAD</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-box">
+            <h2>Kartını Kişiselleştir</h2>
+            <p>Malzeme ve kimlik detaylarını seçerek sana özel Smart Kart'ı oluştur.</p>
+
+            <div class="control-group">
+                <label>Malzeme Seçimi</label>
+                <div class="material-options">
+                    <div class="option active" data-texture="matte-black" style="background: #1a1a1a;" title="Mat Siyah"></div>
+                    <div class="option" data-texture="brushed-silver" style="background: #e5e5e7;" title="Fırçalanmış Gümüş"></div>
+                    <div class="option" data-texture="premium-gold" style="background: #d4af37;" title="Premium Altın"></div>
+                    <div class="option" data-texture="carbon-fiber" style="background: #2c2c2c; border: 1px dashed #555;" title="Karbon Fiber"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Kart Üzerindeki İsim</label>
+                <input type="text" id="nameInput" placeholder="Örn: Ahmet Yılmaz" maxlength="22">
+            </div>
+
+            <div class="price-tag">
+                <span>Tahmini Fiyat:</span>
+                <strong id="livePrice">1.299 TL</strong>
+            </div>
+
+            <button class="buy-button">Tasarımı Onayla</button>
+        </div>
+    </div>
+</section>
 
 <div class="stack-container" id="tasarim">
     <div class="sticky-wrapper">
@@ -572,9 +700,18 @@
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const html = document.documentElement;
+    const nameInput = document.getElementById('nameInput');
+    const previewName = document.getElementById('previewNameDisplay');
+    const cardPreview = document.getElementById('cardPreview');
+    const materialOptions = document.querySelectorAll('.option');
+    const livePrice = document.getElementById('livePrice');
     let isHovering = false;
 
     // --- LOTTIE SCROLL LOGIC ---
+nameInput.addEventListener('input', (e) => {
+    previewName.innerText = e.target.value || "AD SOYAD";
+});
+
    const nfcAnimation = lottie.loadAnimation({
     container: document.getElementById('lottie-box'),
     renderer: 'svg',
@@ -706,6 +843,47 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
+    materialOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        // Aktif sınıfını güncelle
+        materialOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+
+        const texture = option.dataset.texture;
+        
+        // Kartın görünümünü güncelle
+        if(texture === 'matte-black') {
+            cardPreview.style.background = "#1a1a1a";
+            cardPreview.style.color = "white";
+            livePrice.innerText = "1.299 TL";
+        } else if(texture === 'brushed-silver') {
+            cardPreview.style.background = "linear-gradient(135deg, #d1d1d1 0%, #f5f5f7 100%)";
+            previewName.style.color = "#1d1d1f";
+            livePrice.innerText = "1.499 TL";
+        } else if(texture === 'premium-gold') {
+            cardPreview.style.background = "linear-gradient(135deg, #d4af37 0%, #fcf6ba 100%)";
+            previewName.style.color = "#1d1d1f";
+            livePrice.innerText = "2.499 TL";
+        } else if(texture === 'carbon-fiber') {
+            cardPreview.style.background = "url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #111";
+            previewName.style.color = "white";
+            livePrice.innerText = "1.899 TL";
+        }
+    });
+});
+cardPreview.addEventListener('mousemove', (e) => {
+    const rect = cardPreview.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = (y - rect.height / 2) / 10;
+    const rotateY = (rect.width / 2 - x) / 10;
+    
+    cardPreview.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+
+cardPreview.addEventListener('mouseleave', () => {
+    cardPreview.style.transform = `rotateX(0deg) rotateY(0deg)`;
+});
 </script>
 </body>
 </html>
