@@ -6,7 +6,6 @@
     <title>Smart Kart | Geleceğin Standartı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
         :root {
             /* DARK MODE (VARSAYILAN) */
@@ -25,9 +24,6 @@
             --hero-gradient: radial-gradient(circle at center, #1a1a1c 0%, #000 100%);
             --nfc-bg: rgba(28, 28, 30, 0.85);
             --transition-speed: 0.8s ease;
-            --matte-black: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-            --brushed-steel: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
-            --gold-leaf: linear-gradient(135deg, #d4af37 0%, #f9e27b 50%, #b8860b 100%);
         }
 
         /* LIGHT MODE TASARIMI */
@@ -116,7 +112,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: fit-content;
-            min-width: 320px;
+            min-width: 300px;
             height: 44px;
             background: var(--glass);
             backdrop-filter: blur(25px) saturate(180%);
@@ -286,54 +282,17 @@
         .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-.floating-card-container {
-    position: fixed;
-    left: 50px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    perspective: 1200px;
-}
+        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
+
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-.floating-card {
-    width: 280px;
-    height: 160px;
-    transform-style: preserve-3d;
-    /* Eski kartın o meşhur akıcı dönüşü için transition */
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}           .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
+        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
+        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-.card-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-    /* Başlangıç rengi */
-    background: var(--card-inner-bg, #1a1a1a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-}
-.card-inner::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0%,
-        transparent 70%,
-        var(--accent-blue) 90%,
-        transparent 100%
-    );
-    animation: rotate-border 3s linear infinite;
-    z-index: -2;
-}
+        .card-inner { position: relative; width: 100%; height: 100%; border-radius: 18px; overflow: hidden; padding: 1.5px; background: rgba(128,128,128,0.1); }
+        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
@@ -353,15 +312,7 @@
         @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
 
         @media (max-width: 1024px) { 
-            .floating-card-container {
-    position: fixed;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 280px;
-    z-index: 10001; /* Nav'ın altında ama her şeyin üstünde */
-    perspective: 1200px;
-}
+            .floating-card-container { display: none; } 
             .bento-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
             .bento-large { grid-column: span 1; }
             .info-box { flex-direction: column; height: auto; padding: 30px; text-align: center; }
@@ -384,200 +335,6 @@
     opacity: 1;
     background: rgba(255, 255, 255, 0.1);
 }
-.how-it-works-container {
-    max-width: 950px; /* Kutuyu biraz genişletelim, ferah dursun */
-    width: 90%;
-    min-height: 500px; /* Kutu çok basık durmasın */
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 32px;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    overflow: hidden;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s var(--apple-ease);
-}
-#lottie-box {
-    width: 100%;
-    height: 100%; /* Kapsayıcının tam yüksekliğini alsın */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid var(--glass-border);
-    background: transparent !important;
-}
-#lottie-box svg {
-    width: 75% !important; /* Animasyon kutuyu doldursun */
-}
-.instructions {
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Adımları dikeyde kutunun ortasına hizalar */
-    gap: 30px;
-    height: 100%; /* Kapsayıcının tüm yüksekliğini kullanması için */
-}
-.instructions h2 {
-    font-size: 2rem;
-    color: var(--accent-blue);
-}
-.step-number {
-    background: var(--accent-blue);
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    flex-shrink: 0;
-    margin-top: 4px;
-}
-.step-text h4 { margin-bottom: 4px; font-weight: 600; }
-.step-text p { color: var(--text-dim); font-size: 0.9rem; }
-@media (max-width: 768px) {
-    .how-it-works-container { opacity: 0;
-    transform: translateY(60px); /* Daha aşağıdan başlayarak daha uzun yol kateder */
-    transition: opacity 1.4s cubic-bezier(0.15, 0, 0.2, 1), 
-                transform 1.4s cubic-bezier(0.15, 0, 0.2, 1); }
-    #lottie-box { height: 300px; }
-}
-#nasil {
-    min-height: 100vh; /* Tam ekran kaplasın */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 0 !important; /* Alt ve üstten pay bırakalım */
-    margin-bottom: 100px; /* Altındaki "Tek bir kart" yazısını aşağı iter */
-}
-.step {
-    display: flex;
-    align-items: flex-start; /* İkon ve yazıyı üstten hizalar */
-    gap: 20px;
-}
-.step-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.how-it-works-container.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-.bento-item::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1.5px; /* Border kalınlığı */
-    /* Dark modda beyaz, light modda mavi/gri ışık için düzenlendi */
-    background: radial-gradient(
-        300px circle at var(--mouse-x) var(--mouse-y), 
-        var(--accent-blue), 
-        transparent 80%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: 3;
-    opacity: 0; /* Başlangıçta gizli */
-    transition: opacity 0.4s ease;
-}
-.bento-item:hover::after {
-    opacity: 1;
-}
-.card-content-parallax {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Logo üstte, isim altta */
-    pointer-events: none;
-}.parallax-element.chip {
-    width: 40px;
-    height: 30px;
-    background: linear-gradient(135deg, #d4af37, #f9e27b);
-    border-radius: 5px;
-    position: absolute;
-    top: 60px; /* Çipi merkeze yakın bir yere sabitledik */
-    left: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-}
-
-.parallax-element.card-name {
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.9);
-    text-transform: uppercase;
-}
-
-/* Materyal Seçici Stili */
-.material-selector {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.swatch {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-.swatch.active {
-    transform: scale(1.4);
-    border-color: var(--accent-blue);
-}
-.swatch[data-material="matte-black"] { background: #1a1a1a; }
-.swatch[data-material="brushed-steel"] { background: #7f8c8d; }
-.swatch[data-material="gold-leaf"] { background: #d4af37; }
-
-/* Dinamik Parlama (Shine) */
-.card-shine {
-    position: absolute;
-    top: 0; left: 0; width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 10;
-    transform: translate(-50%, -50%);
-}
-.parallax-element.logo {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-@keyframes rotate-border {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-.card-inner::after {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    background: var(--card-inner-bg, #1a1a1a); /* JS buradaki değişkeni değiştiriyor */
-    border-radius: 16px;
-    z-index: -1;
-    transition: background 0.5s ease;
-}
     </style>
 </head>
 <body>
@@ -585,74 +342,34 @@
 
 <div class="floating-card-container">
     <div class="floating-card" id="tiltCard">
-    <div class="card-inner" id="cardBody">
-        <div class="card-content-parallax" style="justify-content: center; align-items: center;">
-            <i class="material-icons parallax-element logo" data-depth="0.1" style="font-size: 50px; color: white; opacity: 0.9;">nfc</i>
+        <div class="card-inner">
+            <img src="smart kart 6.jpg" alt="Smart Kart">
         </div>
-    </div>
-    
-    <div class="nfc-ui">
-        <div class="nfc-text-item item-1">Okutmak için yaklaştırın</div>
-        <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
-    </div>
-</div>
-
-    <div class="material-selector">
-        <div class="swatch active" data-material="matte-black" title="Matte Black"></div>
-        <div class="swatch" data-material="brushed-steel" title="Brushed Steel"></div>
-        <div class="swatch" data-material="gold-leaf" title="Gold Leaf"></div>
+        <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
+        <div class="nfc-ui" id="nfcUi">
+            <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+            <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+            <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+            <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+        </div>
     </div>
 </div>
 
 <nav id="dynamicNav">
     <a href="#">Smart Kart</a>
-    <a href="#nasil">Nasıl Çalışır?</a> <a href="#ozellikler">Özellikler</a>
+    <a href="#ozellikler">Özellikler</a>
     <a href="#tasarim">Tasarım</a>
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
     </div>
 </nav>
-
 <section class="hero">
     <h1 class="reveal delay-1">Smart Kart</h1>
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
-<section id="nasil">
-    <div class="how-it-works-container reveal">
-        <div id="lottie-box"></div>
-        
-        <div class="instructions">
-    <h2 style="margin-bottom: 20px;">Nasıl Okutulur?</h2>
-    
-    <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-text">
-            <h4>NFC'yi Etkinleştirin</h4>
-            <p>Telefonunuzun ayarlarından NFC özelliğinin açık olduğundan emin olun.</p>
-        </div>
-    </div>
 
-    <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-text">
-            <h4>Doğru Noktaya Yaklaştırın</h4>
-            <p>iPhone'larda üst kısmı, Android'lerde arka orta kısmı karta yaklaştırın.</p>
-        </div>
-    </div>
-
-    <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-text">
-            <h4>Bağlantı Kuruldu</h4>
-            <p>Ekranda çıkan bildirime dokunarak profile anında ulaşın.</p>
-        </div>
-    </div>
-</div>
-    </div>
-</section>
-
-<section id="ozellikler" style="margin-top: 150px;">
+<section id="ozellikler">
     <div style="width: 100%; max-width: 1100px;">
         <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
         <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
@@ -738,21 +455,9 @@
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const html = document.documentElement;
-    const card = document.getElementById('tiltCard');
-    const cardBody = document.getElementById('cardBody');
-    const parallaxElements = document.querySelectorAll('.parallax-element');
-    const shine = document.querySelector('.card-shine');
     let isHovering = false;
 
-    // --- LOTTIE SCROLL LOGIC ---
-   const nfcAnimation = lottie.loadAnimation({
-    container: document.getElementById('lottie-box'),
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: 'nfc-animation.json'
-});
-    // --- TEMA YÖNETİMİ ---
+    // --- TEMA YÖNETİMİ (PROFESYONEL GEÇİŞ) ---
     const performThemeToggle = () => {
         if (html.classList.contains('dark-mode')) {
             html.classList.replace('dark-mode', 'light-mode');
@@ -766,75 +471,114 @@
     };
 
     themeToggle.addEventListener('click', () => {
+        // Eğer tarayıcı modern View Transition API destekliyorsa (Chrome/Edge 111+)
         if (document.startViewTransition) {
             document.startViewTransition(() => performThemeToggle());
         } else {
+            // Desteklemiyorsa düz geçiş (Flaşsız olması için CSS transition devreye girer)
             performThemeToggle();
         }
     });
 
+    // Kayıtlı temayı sayfa yüklenirken kontrol et
     const savedTheme = localStorage.getItem('user-theme');
     if (savedTheme === 'light') {
         html.classList.replace('dark-mode', 'light-mode');
         themeIcon.innerText = 'dark_mode';
     }
 
-    // --- SPOTLIGHT SİSTEMİ ---
+    // --- SPOTLIGHT IŞIK OYUNU SİSTEMİ ---
     document.querySelectorAll('.bento-item').forEach(item => {
-    item.addEventListener('mousemove', e => {
-        const rect = item.getBoundingClientRect();
-        // Mouse koordinatlarını kutunun içine göre hesapla
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        item.style.setProperty('--mouse-x', `${x}px`);
-        item.style.setProperty('--mouse-y', `${y}px`);
+        item.addEventListener('mousemove', e => {
+            const rect = item.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            item.style.setProperty('--mouse-x', `${x}px`);
+            item.style.setProperty('--mouse-y', `${y}px`);
+        });
     });
-});
 
-    // --- REVEAL SİSTEMİ ---
+    // --- TÜM SAYFA REVEAL SİSTEMİ ---
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-            else entry.target.classList.remove('active');
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+            }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
 
     window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.reveal, .bento-reveal').forEach(el => revealObserver.observe(el));
     });
 
-    // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
+    // --- SCROLL & STACK LOGIC ---
     window.addEventListener('scroll', () => {
-        if (!isHovering && !tiltCard.classList.contains('active-nfc')) {
-            // Sayfa kaydırıldıkça kart Y ekseninde döner
-            const scrollRotation = window.scrollY * 0.1; 
-            tiltCard.style.transform = `rotateY(${scrollRotation}deg)`;
+        const rect = stackContainer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+
+        // Nav animasyonu
+        if (scrollY > 50) {
+            nav.style.height = "50px";
+            nav.style.padding = "0 35px";
+        } else {
+            nav.style.height = "44px";
+            nav.style.padding = "0 25px";
         }
+
+        // Kart Dönüş Efekti
+        if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
+            tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
+        }
+
+        // Snap Kontrolü
+        if (rect.top < 100 && rect.bottom > 0) {
+            document.documentElement.classList.add('no-snap');
+        } else {
+            document.documentElement.classList.remove('no-snap');
+        }
+
+        // Stacking Boxes logic
+        let progress = -rect.top / (rect.height - windowHeight);
+        progress = Math.max(0, Math.min(1, progress));
+        scrollHint.style.opacity = progress > 0.05 ? "0" : "1";
+
+        boxes.forEach((box, i) => {
+            if (box.matches(':hover')) return;
+            let boxProgress = (progress - (i / boxes.length)) / (1 / boxes.length);
+            boxProgress = Math.max(0, Math.min(1, boxProgress));
+            box.style.zIndex = 10 + i;
+
+            if (i === 0) {
+                box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
+                box.style.opacity = "1";
+                box.style.visibility = "visible";
+            } else {
+                if (boxProgress > 0) {
+                    box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 70}vh + ${i * 15}px))`;
+                    box.style.opacity = "1";
+                    box.style.visibility = "visible";
+                } else {
+                    box.style.transform = `translate(-50%, 100vh)`;
+                    box.style.opacity = "0";
+                    box.style.visibility = "hidden";
+                }
+            }
+        });
     });
 
-    // --- TILT & NFC CLICK ---
-    card.addEventListener('mousemove', (e) => {
-    if (card.classList.contains('active-nfc')) return;
-
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    // Kart dönüşü
-    const rotateX = (rect.height / 2 - y) / 10;
-    const rotateY = (x - rect.width / 2) / 10;
-    
-    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-
-    // Parallax: Derinlik hissi için her elemanı farklı hızda kaydır
-    parallaxElements.forEach(el => {
-        const depth = el.getAttribute('data-depth') || 0.1;
-        const moveX = (x - rect.width / 2) * depth;
-        const moveY = (y - rect.height / 2) * depth;
-        el.style.transform = `translate3d(${moveX}px, ${moveY}px, 20px)`; // Z ekseninde öne çıkardık
+    // --- TILT & NFC INTERACTION ---
+    tiltCard.addEventListener('mousemove', (e) => {
+        if (tiltCard.classList.contains('active-nfc')) return;
+        isHovering = true;
+        const rect = tiltCard.getBoundingClientRect();
+        const rotateX = (rect.height / 2 - (e.clientY - rect.top)) / 30; 
+        const rotateY = ((e.clientX - rect.left) - rect.width / 2) / 30;
+        tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
     });
-});
+
     tiltCard.addEventListener('mouseleave', () => {
         isHovering = false;
         if (!tiltCard.classList.contains('active-nfc')) {
@@ -847,46 +591,13 @@
         tiltCard.classList.add('active-nfc');
         document.body.style.overflow = "hidden";
     });
+
     document.getElementById('closeNfc').addEventListener('click', (e) => {
         e.stopPropagation();
         tiltCard.classList.remove('active-nfc');
         document.body.style.overflow = "";
         isHovering = false;
-        tiltCard.style.transform = `rotateY(${window.scrollY * 0.1}deg) scale(1)`;
-    });
-    // Materyal Seçici ve Renk Değiştirme
-document.querySelectorAll('.swatch').forEach(swatch => {
-        swatch.addEventListener('click', (e) => {
-            e.stopPropagation(); // Tıklamanın karta gitmesini engeller
-            
-            const activeSwatch = document.querySelector('.swatch.active');
-            if (activeSwatch) activeSwatch.classList.remove('active');
-            swatch.classList.add('active');
-
-            const material = swatch.getAttribute('data-material');
-            let colorValue = '#1a1a1a'; // Varsayılan siyah
-            if(material === 'brushed-steel') colorValue = '#2c3e50';
-            if(material === 'gold-leaf') colorValue = '#b8860b';
-
-            cardBody.style.setProperty('--card-inner-bg', colorValue);
-            
-            // Altın renginde ikonu siyah yap, diğerlerinde beyaz
-            const logo = document.querySelector('.parallax-element.logo');
-            if(logo) logo.style.color = (material === 'gold-leaf') ? '#000' : '#fff';
-        });
-    });
-tiltCard.addEventListener('mouseleave', () => {
-        isHovering = false;
-        if (!tiltCard.classList.contains('active-nfc')) {
-            // Mouse ayrıldığında scroll konumuna geri döner
-            const scrollRotation = window.scrollY * 0.1;
-            tiltCard.style.transform = `rotateY(${scrollRotation}deg) scale(1)`;
-        }
-    });
-    document.getElementById('themeToggle').addEventListener('click', () => {
-        document.documentElement.classList.toggle('light-mode');
-        const icon = document.getElementById('themeToggle');
-        icon.textContent = document.documentElement.classList.contains('light-mode') ? 'dark_mode' : 'light_mode';
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
 </script>
 </body>
