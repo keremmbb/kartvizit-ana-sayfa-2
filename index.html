@@ -513,6 +513,40 @@ nav a.active::after {
     width: 100%;
     opacity: 1;
 }
+/* QR Kod Rozeti */
+.card-qr {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 45px;
+    height: 45px;
+    background: white;
+    padding: 4px;
+    border-radius: 8px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: all 0.5s var(--apple-ease);
+    opacity: 0.9;
+}
+
+/* Kart büyütüldüğünde (active-nfc) QR kodu gizleyelim ki metinler net okunsun */
+.active-nfc .card-qr {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+.card-qr img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 4px !important;
+}
+
+/* Hover efekti */
+.floating-card:hover .card-qr {
+    transform: scale(1.1);
+    opacity: 1;
+}
     </style>
 </head>
 <body>
@@ -523,6 +557,8 @@ nav a.active::after {
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
                 <img src="smart kart 6.jpg" alt="Smart Kart">
+                <div class="card-qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
             </div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
             <div class="nfc-ui" id="nfcUi">
