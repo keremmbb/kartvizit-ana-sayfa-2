@@ -305,12 +305,25 @@
         .nfc-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5; }
         .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
 
-        .nfc-text-item { position: absolute; background: var(--nfc-bg); backdrop-filter: blur(10px); color: var(--text-main); padding: 10px 18px; border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid var(--glass-border); white-space: nowrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-
-        .item-1 { top: -80px; left: 50%; transform: translateX(-50%); } 
-        .item-2 { right: -160px; top: 40%; transform: translateY(-50%); } 
-        .item-3 { left: -160px; top: 40%; transform: translateY(-50%); } 
-        .item-4 { bottom: -80px; left: 50%; transform: translateX(-50%); color: #ff453a; font-weight: 600; } 
+.nfc-text-item {
+    position: absolute;
+    background: var(--nfc-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: var(--text-main);
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid var(--glass-border);
+    white-space: nowrap;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+        .item-1 { top: -90px; left: 50%; transform: translateX(-50%); } 
+        .item-2 { right: -180px; top: 50%; transform: translateY(-50%); } /* 50% yaparak tam ortaladık */
+        .item-3 { left: -180px; top: 50%; transform: translateY(-50%); }  /* 50% yaparak tam ortaladık */
+        .item-4 { bottom: -90px; left: 50%; transform: translateX(-50%); color: #ff453a; font-weight: 600; cursor: pointer; }
 
         @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
 
@@ -547,6 +560,33 @@ nav a.active::after {
     background: #ffffff;
     box-shadow: 0 0 15px var(--accent-blue);
 }
+.qr-overlay-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; /* Boyutu buradan ayarlayabilirsin */
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px;
+    border-radius: 12px;
+    z-index: 2;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: all 0.5s var(--apple-ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.qr-overlay-center img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 4px !important;
+}
+.active-nfc .qr-overlay-center {
+    opacity: 0.3; /* Yazıların okunması için QR'ı hafif şeffaflaştırdık */
+    transform: translate(-50%, -50%) scale(0.8);
+}
     </style>
 </head>
 <body>
@@ -557,13 +597,18 @@ nav a.active::after {
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
                 <img src="smart kart 6.jpg" alt="Smart Kart">
-                <div class="qr-overlay">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+                <div class="qr-overlay-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://smartkart.com" alt="QR Code">
                 </div>
             </div>
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
+            
             <div class="nfc-ui" id="nfcUi">
-                </div>
+                <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+                <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+                <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+                <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
+            </div>
         </div>
     </div>
 </div>
@@ -891,17 +936,16 @@ tiltCard.addEventListener('click', (e) => {
 
 // Kapat butonu düzeltmesi
 closeNfcBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation(); // Tıklamanın karta geçmesini engeller
+    e.stopPropagation(); // Tıklamanın karta (tekrar açılmasına) gitmesini engeller
     
     tiltCard.classList.remove('active-nfc');
-    document.body.style.overflow = "";
-    isHovering = false;
+    document.body.style.overflow = ""; // Scroll'u geri aç
     
-    // Kartı yumuşakça eski pozisyonuna al
+    // Kartı eski pozisyonuna döndür
     setTimeout(() => {
+        isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
-    }, 10);
+    }, 50);
 });
 // --- SCROLLSPY SİSTEMİ ---
 const navLinks = document.querySelectorAll('nav a');
