@@ -285,7 +285,7 @@
         .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
+        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 2000px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
 
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
@@ -587,12 +587,33 @@ nav a.active::after {
     opacity: 0.3; /* Yazıların okunması için QR'ı hafif şeffaflaştırdık */
     transform: translate(-50%, -50%) scale(0.8);
 }
+.card-logo-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 300px; /* Devasa bir 'S' harfi (Smart Kart için) */
+    font-weight: 800;
+    color: var(--accent-blue);
+    opacity: 0.05; /* Çok hafif, rahatsız etmeyen bir görünüm */
+    pointer-events: none;
+    z-index: -1; /* Kartın arkasında kalması için */
+    filter: blur(2px);
+    user-select: none;
+    transition: all 0.8s var(--apple-ease);
+}
+.active-nfc ~ .card-logo-bg {
+    opacity: 0.1;
+    transform: translate(-50%, -50%) scale(1.2);
+    filter: blur(10px); /* Büyüdüğünde daha yumuşak bir ışık gibi görünsün */
+}
     </style>
 </head>
 <body>
 
 
 <div class="floating-card-container">
+    <div class="card-logo-bg">S</div>
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
             <div class="card-inner">
@@ -907,6 +928,7 @@ cardHitbox.addEventListener('mousemove', (e) => {
     
     isHovering = true;
     const rect = tiltCard.getBoundingClientRect();
+    const bgLogo = document.querySelector('.card-logo-bg');
     
     // Titremeyi önlemek için hesaplamayı kartın merkezine göre yapıyoruz
     const centerX = rect.left + rect.width / 2;
@@ -914,6 +936,8 @@ cardHitbox.addEventListener('mousemove', (e) => {
     
     const rotateX = (centerY - e.clientY) / 20; 
     const rotateY = (e.clientX - centerX) / 20;
+    
+    bgLogo.style.transform = `translate(calc(-50% + ${rotateY * 2}px), calc(-50% + ${-rotateX * 2}px))`;
     
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
 });
