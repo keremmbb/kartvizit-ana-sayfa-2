@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark-mode">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Kart | Geleceğin Standartı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
         :root {
+            /* DARK MODE (VARSAYILAN) */
             --bg-color: #000000;
             --card-bg: #111111;
             --text-main: #ffffff;
@@ -18,9 +20,34 @@
             --box-glass: rgba(255, 255, 255, 0.03);
             --box-border: rgba(255, 255, 255, 0.08);
             --smooth-transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
-            /* Glassmorphism için yeni değişkenler */
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.12);
+            --hero-gradient: radial-gradient(circle at center, #1a1a1c 0%, #000 100%);
+            --nfc-bg: rgba(28, 28, 30, 0.85);
+            --transition-speed: 0.8s ease;
+        }
+
+        /* LIGHT MODE TASARIMI */
+        .light-mode {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-dim: #6e6e73;
+            --accent-blue: #0071e3;
+            --glass: rgba(255, 255, 255, 0.7);
+            --box-glass: rgba(0, 0, 0, 0.02);
+            --box-border: rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --hero-gradient: radial-gradient(circle at center, #ffffff 0%, #f5f5f7 100%);
+            --nfc-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* --- SİHİRLİ DOKUNUŞ: VIEW TRANSITION AYARI --- */
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: 0.6s;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Global Grainy Overlay */
@@ -35,7 +62,9 @@
             z-index: 99999;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+        }
 
         html {
             scroll-behavior: smooth;
@@ -52,7 +81,30 @@
             line-height: 1.4;
             letter-spacing: -0.01em;
             -webkit-font-smoothing: antialiased;
+            background-color: var(--bg-color);
         }
+
+        /* --- THEME TOGGLE BUTTON --- */
+        .theme-toggle {
+            position: fixed;
+            top: 22px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s var(--apple-ease);
+        }
+        .theme-toggle:hover { transform: scale(1.1); background: var(--accent-blue); color: white; }
 
         /* --- DYNAMIC ISLAND NAVIGATION --- */
         nav {
@@ -70,19 +122,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
             border-radius: 22px;
             padding: 0 25px;
             transition: all 0.5s var(--apple-ease);
         }
 
         nav:hover {
-            padding: 0 40px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+           padding: 0 25px;
+           background: var(--glass);
+           border: 1px solid var(--glass-border); 
+           box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+           opacity: 1;
         }
-
         nav a { 
             color: var(--text-main);
             text-decoration: none;
@@ -90,16 +142,36 @@
             font-weight: 500;
             margin: 0 15px;
             opacity: 0.6;
-            transition: 0.3s var(--apple-ease);
+            transition: opacity 0.3s var(--apple-ease);
             white-space: nowrap;
         }
         
-        nav a:hover { 
-            opacity: 1;
-            transform: translateY(-1px);
+        nav a:hover { opacity: 1; transform: translateY(-1px); }
+
+        /* --- LOTTIE SCROLL SECTION --- */
+        #lottie-scroll-section {
+            height: 250vh;
+            background: var(--bg-color);
+            position: relative;
+            z-index: 1;
+        }
+        #lottie-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #lottie-container svg {
+            width: 70% !important;
+            max-width: 900px;
+            filter: drop-shadow(0 20px 80px rgba(0,113,227,0.1));
         }
 
-        /* --- APPLE STYLE STAGGERED REVEAL --- */
+        /* --- REVEAL ANIMATIONS --- */
         .reveal { 
             opacity: 0; 
             transform: translateY(40px); 
@@ -107,10 +179,7 @@
             will-change: opacity, transform;
         }
         
-        .reveal.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         .bento-reveal {
             opacity: 0;
@@ -119,10 +188,7 @@
             will-change: opacity, transform;
         }
 
-        .bento-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .bento-reveal.active { opacity: 1; transform: translateY(0); }
 
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
@@ -140,10 +206,10 @@
             position: relative; scroll-snap-align: start;
         }
 
-        .hero { text-align: center; background: radial-gradient(circle at center, #1a1a1c 0%, #000 100%); }
+        .hero { text-align: center; background: var(--hero-gradient); }
         .hero h1 { 
             font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 600; 
-            background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%); 
+            background: linear-gradient(180deg, var(--text-main) 0%, var(--text-dim) 100%); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 10px; letter-spacing: -0.03em;
         }
@@ -152,7 +218,7 @@
 
         .highlight { color: var(--accent-blue); }
 
-        /* --- BENTO GRID & GLASSMORPHISM --- */
+        /* --- BENTO GRID --- */
         .bento-container {
             max-width: 1100px;
             width: 100%;
@@ -172,223 +238,95 @@
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
-            transition: transform 0.4s var(--apple-ease), border-color 0.4s var(--apple-ease), opacity 1.2s var(--apple-ease), transform 1.2s var(--apple-ease); 
+            transition: transform 0.4s var(--apple-ease), border-color 0.4s var(--apple-ease), opacity 1.2s var(--apple-ease); 
             will-change: transform, opacity;
         }
 
-        /* Işık Oyunu (Spotlight Effect) */
+        .light-mode .bento-item { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+
         .bento-item::before {
             content: "";
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0,113,227,0.1), transparent 40%);
             z-index: 1;
             pointer-events: none;
         }
 
-        .bento-item:hover { 
-            transform: scale(1.02) !important; 
-            border-color: rgba(255,255,255,0.25); 
-            z-index: 5;
-        }
-
+        .bento-item:hover { transform: scale(1.02) !important; border-color: var(--accent-blue); z-index: 5; }
         .bento-item h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 2; }
         .bento-item p { color: var(--text-dim); font-size: 0.95rem; position: relative; z-index: 2; }
 
         .bento-large { grid-column: span 2; display: flex; align-items: center; gap: 30px; }
-        .bento-icon { font-size: 40px; color: var(--accent-blue); margin-bottom: 20px; transition: 0.5s var(--apple-ease); }
+        .bento-icon { font-size: 40px; color: var(--accent-blue); margin-bottom: 20px; transition: color 0.3s ease; }
         
-        /* --- ANALYTICS SYNCED ANIMATION --- */
-        .analytics-container {
-            position: relative;
-            width: 100px;
-            height: 40px;
-            margin-bottom: 15px;
-        }
-
-        .analytics-visual {
-            display: flex; gap: 4px; align-items: flex-end; height: 100%;
-        }
-
-        .bar {
-            width: 6px; background: rgba(0, 113, 227, 0.3); border-radius: 2px;
-            height: 0%; 
-            transition: height 0.6s var(--apple-ease), background 0.3s;
-        }
-
-        .bento-item.active .bar { height: var(--h); }
-
-        .graph-svg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        .graph-path {
-            fill: none;
-            stroke: var(--accent-blue);
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-dasharray: 150;
-            stroke-dashoffset: 150;
-            transition: stroke-dashoffset 0.8s var(--apple-ease);
-        }
-
+        /* --- ANALYTICS --- */
+        .analytics-container { position: relative; width: 100px; height: 40px; margin-bottom: 15px; }
+        .analytics-visual { display: flex; gap: 4px; align-items: flex-end; height: 100%; }
+        .bar { width: 6px; background: var(--accent-blue); border-radius: 2px; height: 0%; transition: height 0.6s var(--apple-ease), opacity 0.3s; opacity: 0.4; }
+        .bento-item.active .bar { height: var(--h); opacity: 1; }
+        .graph-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+        .graph-path { fill: none; stroke: var(--accent-blue); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 150; stroke-dashoffset: 150; transition: stroke-dashoffset 0.8s var(--apple-ease); }
         .bento-item.active .graph-path { stroke-dashoffset: 0; }
 
-        .security-visual {
-            position: absolute; top: 20px; right: 20px; width: 60px; height: 60px;
-        }
-        .pulse-ring {
-            position: absolute; width: 100%; height: 100%;
-            border: 2px solid var(--accent-blue); border-radius: 50%;
-            opacity: 0; animation: pulse 3s infinite;
-        }
+        .security-visual { position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; }
+        .pulse-ring { position: absolute; width: 100%; height: 100%; border: 2px solid var(--accent-blue); border-radius: 50%; opacity: 0; animation: pulse 3s infinite; }
 
-        @keyframes pulse {
-            0% { transform: scale(0.5); opacity: 0.5; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
+        @keyframes pulse { 0% { transform: scale(0.5); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }
 
-        .eco-glow {
-            position: absolute; top: -20px; right: -20px; width: 100px; height: 100px;
-            background: radial-gradient(circle, rgba(48, 209, 88, 0.15) 0%, transparent 70%);
-            border-radius: 50%; animation: breathe 4s infinite ease-in-out;
-        }
+        .eco-glow { position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(48, 209, 88, 0.15) 0%, transparent 70%); border-radius: 50%; animation: breathe 4s infinite ease-in-out; }
 
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.3); opacity: 1; } }
 
-        .bento-large-visual {
-            width: 150px; height: 100px; background: linear-gradient(45deg, #0071e3, #64d2ff); 
-            border-radius: 20px; opacity: 0.1; filter: blur(25px); position: absolute; right: 20px;
-        }
+        .bento-large-visual { width: 150px; height: 100px; background: linear-gradient(45deg, #0071e3, #64d2ff); border-radius: 20px; opacity: 0.1; filter: blur(25px); position: absolute; right: 20px; }
 
         /* --- STACKING AREA --- */
-        .stack-container { position: relative; height: 600vh; background-color: #000; scroll-snap-align: start; }
+        .stack-container { position: relative; height: 600vh; background-color: var(--bg-color); scroll-snap-align: start; }
         .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        
         .stack-header { position: absolute; top: 12vh; text-align: center; z-index: 5; width: 100%; }
-        .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; }
-
-        .background-footer {
-            position: absolute; bottom: 30px; width: 100%; text-align: center;
-            color: rgba(255, 255, 255, 0.1); font-size: 0.75rem; z-index: 1;
-        }
+        .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); }
+        .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
 
         .info-box {
-            position: absolute; 
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(40px) saturate(150%);
+            position: absolute; background: var(--glass-bg); backdrop-filter: blur(40px) saturate(150%);
             -webkit-backdrop-filter: blur(40px) saturate(150%);
-            color: var(--text-main); padding: 40px; border-radius: 40px; 
-            border: 1px solid var(--glass-border); width: 800px; height: 380px; 
-            max-width: 85%; display: flex; align-items: center; justify-content: space-between; 
-            gap: 35px; left: 50%; top: 55%; transform: translate(-50%, 100vh);
-            opacity: 0; visibility: hidden; will-change: transform, opacity;
+            color: var(--text-main); padding: 40px; border-radius: 40px; border: 1px solid var(--glass-border); 
+            width: 800px; height: 380px; max-width: 85%; display: flex; align-items: center; justify-content: space-between; 
+            gap: 35px; left: 50%; top: 55%; transform: translate(-50%, 100vh); opacity: 0; visibility: hidden; will-change: transform, opacity;
             transition: transform 0.4s var(--apple-ease), opacity 0.8s var(--apple-ease); 
-            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
         }
 
-        .info-box:hover {
-            transform: translate(-50%, -50%) scale(1.08) !important;
-            border-color: rgba(255,255,255,0.4);
-            z-index: 2000 !important;
-        }
-
-        .info-box img { 
-            width: 360px; height: 260px; object-fit: cover; border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 0.5px solid var(--box-border);
-        }
-
+        .info-box:hover { transform: translate(-50%, -50%) scale(1.05) !important; border-color: var(--accent-blue); z-index: 2000 !important; }
+        .info-box img { width: 360px; height: 260px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 0.5px solid var(--box-border); }
         .info-text h2 { font-size: 2rem; font-weight: 600; margin-bottom: 15px; letter-spacing: -0.02em; }
         .info-text p { font-size: 1.1rem; color: var(--text-dim); line-height: 1.5; }
 
-        .scroll-hint {
-            position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%);
-            color: var(--accent-blue); font-size: 0.8rem;
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-            z-index: 20; animation: bounce 2s infinite;
-        }
+        .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-        .floating-card-container { 
-            position: fixed; left: 40px; top: 50%; transform: translateY(-50%); 
-            width: 220px; z-index: 99999; perspective: 1200px; 
-            animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; 
-            animation-delay: 0.4s;
-            opacity: 0;
-        }
+        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
 
-        @keyframes cardDrop {
-            0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; }
-            100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; }
-        }
+        @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-        .floating-card {
-            width: 100%; position: relative; transform-style: preserve-3d;
-            transition: transform 0.8s var(--apple-ease); cursor: pointer;
-        }
+        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
+        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
-        /* Kart Arkası Işık Efekti */
-        .floating-card::after {
-            content: "";
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 130%; height: 130%;
-            background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            filter: blur(30px);
-            animation: glowPulse 4s infinite ease-in-out;
-        }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        .card-inner {
-            position: relative; width: 100%; height: 100%; border-radius: 18px;
-            overflow: hidden; padding: 1.5px; background: rgba(255,255,255,0.1);
-        }
-
-        .card-inner::before {
-            content: ''; position: absolute; width: 180%; height: 180%;
-            background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent);
-            top: -40%; left: -40%; animation: rotateBeam 4s linear infinite;
-        }
+        .card-inner { position: relative; width: 100%; height: 100%; border-radius: 18px; overflow: hidden; padding: 1.5px; background: rgba(128,128,128,0.1); }
+        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
         @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
-        
         .active-nfc { transform: translate(calc(50vw - 110px), 0) scale(1.5) !important; z-index: 100000; }
-        
-        .card-title-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600;
-            opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2;
-        }
+        .card-title-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600; opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2; color: white; }
         .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
-
-        .nfc-ui { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5;
-        }
+        .nfc-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5; }
         .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
 
-        .nfc-text-item {
-            position: absolute; background: rgba(28, 28, 30, 0.85);
-            backdrop-filter: blur(10px); color: white; padding: 10px 18px;
-            border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid rgba(255, 255, 255, 0.15);
-            white-space: nowrap;
-        }
+        .nfc-text-item { position: absolute; background: var(--nfc-bg); backdrop-filter: blur(10px); color: var(--text-main); padding: 10px 18px; border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid var(--glass-border); white-space: nowrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
         .item-1 { top: -80px; left: 50%; transform: translateX(-50%); } 
         .item-2 { right: -160px; top: 40%; transform: translateY(-50%); } 
@@ -404,10 +342,27 @@
             .info-box { flex-direction: column; height: auto; padding: 30px; text-align: center; }
             .info-box img { width: 100%; height: auto; }
             nav { width: 90%; min-width: auto; }
-        }
+            .theme-toggle { right: 10px; top: 75px; } 
+        }   
+        .theme-toggle-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s var(--apple-ease);
+    opacity: 0.6;
+}
+.theme-toggle-nav:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
     </style>
 </head>
 <body>
+
 
 <div class="floating-card-container">
     <div class="floating-card" id="tiltCard">
@@ -428,12 +383,19 @@
     <a href="#">Smart Kart</a>
     <a href="#ozellikler">Özellikler</a>
     <a href="#tasarim">Tasarım</a>
+    <div class="theme-toggle-nav" id="themeToggle">
+        <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
+    </div>
 </nav>
 
 <section class="hero">
     <h1 class="reveal delay-1">Smart Kart</h1>
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
+</section>
+
+<section id="lottie-scroll-section">
+    <div id="lottie-container"></div>
 </section>
 
 <section id="ozellikler">
@@ -519,80 +481,110 @@
     const boxes = document.querySelectorAll('.info-box');
     const scrollHint = document.getElementById('scrollHint');
     const nav = document.getElementById('dynamicNav');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
     let isHovering = false;
 
-    // --- SPOTLIGHT IŞIK OYUNU SİSTEMİ ---
+    // --- LOTTIE SCROLL LOGIC ---
+    const nfcAnimation = lottie.loadAnimation({
+        container: document.getElementById('lottie-container'),
+        renderer: 'svg',
+        loop: false,
+        autoplay: false,
+        path: 'nfc-animation.json' // GitHub'daki dosya adın
+    });
+
+    // --- TEMA YÖNETİMİ ---
+    const performThemeToggle = () => {
+        if (html.classList.contains('dark-mode')) {
+            html.classList.replace('dark-mode', 'light-mode');
+            themeIcon.innerText = 'dark_mode';
+            localStorage.setItem('user-theme', 'light');
+        } else {
+            html.classList.replace('light-mode', 'dark-mode');
+            themeIcon.innerText = 'light_mode';
+            localStorage.setItem('user-theme', 'dark');
+        }
+    };
+
+    themeToggle.addEventListener('click', () => {
+        if (document.startViewTransition) {
+            document.startViewTransition(() => performThemeToggle());
+        } else {
+            performThemeToggle();
+        }
+    });
+
+    const savedTheme = localStorage.getItem('user-theme');
+    if (savedTheme === 'light') {
+        html.classList.replace('dark-mode', 'light-mode');
+        themeIcon.innerText = 'dark_mode';
+    }
+
+    // --- SPOTLIGHT SİSTEMİ ---
     document.querySelectorAll('.bento-item').forEach(item => {
         item.addEventListener('mousemove', e => {
             const rect = item.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            item.style.setProperty('--mouse-x', `${x}px`);
-            item.style.setProperty('--mouse-y', `${y}px`);
+            item.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            item.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
     });
 
-    // --- TÜM SAYFA REVEAL SİSTEMİ ---
+    // --- REVEAL SİSTEMİ ---
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            } else {
-                entry.target.classList.remove('active');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('active');
+            else entry.target.classList.remove('active');
         });
-    }, { 
-        threshold: 0.15, 
-        rootMargin: "0px 0px -5% 0px"
-    });
+    }, { threshold: 0.15 });
 
     window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.reveal, .bento-reveal').forEach(el => revealObserver.observe(el));
     });
 
-    // --- SCROLL & STACK LOGIC ---
+    // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
     window.addEventListener('scroll', () => {
-        const rect = stackContainer.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
 
-        // Dynamic Nav küçülme efekti
-        if (scrollY > 50) {
-            nav.style.height = "50px";
-            nav.style.background = "rgba(0, 0, 0, 0.85)";
-            nav.style.padding = "0 35px";
-        } else {
-            nav.style.height = "44px";
-            nav.style.background = "rgba(0, 0, 0, 0.6)";
-            nav.style.padding = "0 25px";
+        // 1. Lottie Animasyon Kontrolü
+        const lottieSection = document.getElementById('lottie-scroll-section');
+        const lottieRect = lottieSection.getBoundingClientRect();
+        const lottieStart = lottieSection.offsetTop;
+        const lottieEnd = lottieStart + lottieSection.offsetHeight - windowHeight;
+
+        if (scrollY >= lottieStart && scrollY <= lottieEnd) {
+            const progress = (scrollY - lottieStart) / (lottieSection.offsetHeight - windowHeight);
+            nfcAnimation.goToAndStop(progress * nfcAnimation.totalFrames, true);
         }
 
-        // Kart Dönüş Efekti
+        // 2. Nav & Tilt Kart
+        nav.style.height = scrollY > 50 ? "50px" : "44px";
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
             tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
         }
 
-        // Stack Bölgesine Gelindiğinde Snap'i kapat
-        if (rect.top < 100 && rect.bottom > 0) {
-            document.documentElement.classList.add('no-snap');
+        // 3. Stacking Boxes Logic
+        const stackRect = stackContainer.getBoundingClientRect();
+        if (stackRect.top < 100 && stackRect.bottom > 0) {
+            html.classList.add('no-snap');
         } else {
-            document.documentElement.classList.remove('no-snap');
+            html.classList.remove('no-snap');
         }
 
-        // Stacking Boxes
-        let progress = -rect.top / (rect.height - windowHeight);
-        progress = Math.max(0, Math.min(1, progress));
-        scrollHint.style.opacity = progress > 0.05 ? "0" : "1";
+        let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
+        stackProgress = Math.max(0, Math.min(1, stackProgress));
+        scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
         boxes.forEach((box, i) => {
             if (box.matches(':hover')) return;
-
-            let boxProgress = (progress - (i / boxes.length)) / (1 / boxes.length);
+            let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
             boxProgress = Math.max(0, Math.min(1, boxProgress));
             box.style.zIndex = 10 + i;
 
             if (i === 0) {
-                box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
+                box.style.transform = `translate(-50%, calc(-50% + ${stackProgress * -20}px))`;
                 box.style.opacity = "1";
                 box.style.visibility = "visible";
             } else {
@@ -609,7 +601,7 @@
         });
     });
 
-    // --- TILT & NFC INTERACTION ---
+    // --- TILT & NFC CLICK ---
     tiltCard.addEventListener('mousemove', (e) => {
         if (tiltCard.classList.contains('active-nfc')) return;
         isHovering = true;
