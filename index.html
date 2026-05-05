@@ -6,6 +6,7 @@
     <title>Smart Kart | Geleceğin Standartı</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
         :root {
             /* DARK MODE (VARSAYILAN) */
@@ -112,7 +113,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: fit-content;
-            min-width: 300px;
+            min-width: 320px;
             height: 44px;
             background: var(--glass);
             backdrop-filter: blur(25px) saturate(180%);
@@ -335,45 +336,87 @@
     opacity: 1;
     background: rgba(255, 255, 255, 0.1);
 }
-/* Özellikler ve Kullanım Bölümü */
-.features-grid {
+.how-it-works-container {
+    max-width: 950px; /* Kutuyu biraz genişletelim, ferah dursun */
+    width: 90%;
+    min-height: 500px; /* Kutu çok basık durmasın */
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: 1fr 1.2fr;
+    overflow: hidden;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s var(--apple-ease);
+}   
+#lottie-box {
     width: 100%;
-    max-width: 1200px;
-    margin-top: 50px;
+    height: 100%; /* Kapsayıcının tam yüksekliğini alsın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--glass-border);
+    background: transparent !important;
 }
-
-.feature-card {
-    background: var(--box-glass);
-    border: 1px solid var(--box-border);
+#lottie-box svg {
+    width: 75% !important; /* Animasyon kutuyu doldursun */
+}
+.instructions {
     padding: 40px;
-    border-radius: 30px;
-    text-align: center;
-    transition: 0.5s var(--apple-ease);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Adımları dikeyde kutunun ortasına hizalar */
+    gap: 30px;
+    height: 100%; /* Kapsayıcının tüm yüksekliğini kullanması için */
+}
+.instructions h2 {
+    font-size: 2rem;
+    color: var(--accent-blue);
+}
+.step-number {
+    background: var(--accent-blue);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.step-text h4 { margin-bottom: 4px; font-weight: 600; }
+.step-text p { color: var(--text-dim); font-size: 0.9rem; }
+@media (max-width: 768px) {
+    .how-it-works-container { grid-template-columns: 1fr; }
+    #lottie-box { height: 300px; }
+}
+#nasil {
+    min-height: 100vh; /* Tam ekran kaplasın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 !important; /* Alt ve üstten pay bırakalım */
+    margin-bottom: 100px; /* Altındaki "Tek bir kart" yazısını aşağı iter */
+}
+.step {
+    display: flex;
+    align-items: flex-start; /* İkon ve yazıyı üstten hizalar */
+    gap: 20px;
 }
 
-.feature-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.05);
+.step-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-
-/* Lottie Animasyon Alanı */
-#lottie-container {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 20px;
-}
-
-.feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-.feature-card p {
-    color: var(--text-dim);
-    line-height: 1.6;
+.how-it-works-container.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
     </style>
 </head>
@@ -397,32 +440,104 @@
 
 <nav id="dynamicNav">
     <a href="#">Smart Kart</a>
-    <a href="#ozellikler">Özellikler</a>
+    <a href="#nasil">Nasıl Çalışır?</a> <a href="#ozellikler">Özellikler</a>
     <a href="#tasarim">Tasarım</a>
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
     </div>
 </nav>
+
 <section class="hero">
     <h1 class="reveal delay-1">Smart Kart</h1>
     <p class="reveal delay-2">Kartvizitlerin geleceği burada başlar.</p>
     <img src="pvc_noir.webp" alt="Hero" class="hero-img reveal delay-3">
 </section>
-
-<section id="ozellikler">
-    <h2 class="reveal" style="font-size: 3rem; margin-bottom: 50px;">Nasıl Kullanılır?</h2>
+<section id="nasil">
+    <div class="how-it-works-container reveal">
+        <div id="lottie-box"></div>
+        
+        <div class="instructions">
+    <h2 style="margin-bottom: 20px;">Nasıl Okutulur?</h2>
     
-    <div class="features-grid">
-        <div class="feature-card reveal">
-            <div id="lottie-container"></div>
-            <h3>Yaklaştır ve Paylaş</h3>
-            <p>Smart Kart'ınızı telefonun üst kısmına yaklaştırın. Saniyeler içinde tüm bilgileriniz karşı tarafa iletilsin. Uygulama gerektirmez.</p>
+    <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-text">
+            <h4>NFC'yi Etkinleştirin</h4>
+            <p>Telefonunuzun ayarlarından NFC özelliğinin açık olduğundan emin olun.</p>
         </div>
+    </div>
 
-        <div class="feature-card reveal">
-            <i class="material-icons" style="font-size: 60px; color: var(--accent-blue); margin-bottom: 20px;">update</i>
-            <h3>Anında Güncelle</h3>
-            <p>Bilgileriniz mi değişti? Panelinize giriş yapın ve saniyeler içinde kartınızı güncelleyin. Yeni kart bastırmanıza gerek kalmaz.</p>
+    <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-text">
+            <h4>Doğru Noktaya Yaklaştırın</h4>
+            <p>iPhone'larda üst kısmı, Android'lerde arka orta kısmı karta yaklaştırın.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-text">
+            <h4>Bağlantı Kuruldu</h4>
+            <p>Ekranda çıkan bildirime dokunarak profile anında ulaşın.</p>
+        </div>
+    </div>
+</div>
+    </div>
+</section>
+
+<section id="ozellikler"style="margin-top: 150px;>
+    <div style="width: 100%; max-width: 1100px;">
+        <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
+        <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
+        
+        <div class="bento-container">
+            <div class="bento-item bento-large bento-reveal delay-bento-1">
+                <div style="flex: 1;">
+                    <i class="material-icons bento-icon" style="color: #ff9f0a;">bolt</i>
+                    <h3>Işık Hızında Paylaşım</h3>
+                    <p>NFC teknolojisi ile telefonunuzu yaklaştırın ve saniyeler içinde tüm bilgilerinizi aktarın.</p>
+                </div>
+                <div class="bento-large-visual"></div>
+            </div>
+
+            <div class="bento-item bento-reveal delay-bento-2">
+                <div class="security-visual"><div class="pulse-ring"></div></div>
+                <i class="material-icons bento-icon">security</i>
+                <h3>Güvenli</h3>
+                <p>Verileriniz 256-bit şifreleme ile korunur.</p>
+            </div>
+
+            <div class="bento-item bento-reveal delay-bento-3">
+                <div class="eco-glow"></div>
+                <i class="material-icons bento-icon" style="color: #30d158;">eco</i>
+                <h3>Ekolojik</h3>
+                <p>Milyonlarca kağıt israfını önleyerek doğayı koruyoruz.</p>
+            </div>
+
+            <div class="bento-item bento-reveal delay-bento-4">
+                <i class="material-icons bento-icon">update</i>
+                <h3>Dinamik</h3>
+                <p>Bilgilerinizi dilediğiniz zaman güncelleyin.</p>
+            </div>
+
+            <div class="bento-item bento-reveal delay-bento-5">
+                <div class="analytics-container">
+                    <div class="analytics-visual">
+                        <div class="bar" style="--h: 40%;"></div>
+                        <div class="bar" style="--h: 75%;"></div>
+                        <div class="bar" style="--h: 55%;"></div>
+                        <div class="bar" style="--h: 95%;"></div>
+                        <div class="bar" style="--h: 65%;"></div>
+                    </div>
+                    <svg class="graph-svg" viewBox="0 0 100 40">
+                        <path class="graph-path" d="M5,35 L25,20 L45,28 L70,8 L95,15" />
+                    </svg>
+                </div>
+                <i class="material-icons bento-icon">insights</i>
+                <h3>Analiz</h3>
+                <p>Tıklanma oranlarınızı anlık takip edin.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -459,7 +574,15 @@
     const html = document.documentElement;
     let isHovering = false;
 
-    // --- TEMA YÖNETİMİ (PROFESYONEL GEÇİŞ) ---
+    // --- LOTTIE SCROLL LOGIC ---
+   const nfcAnimation = lottie.loadAnimation({
+    container: document.getElementById('lottie-box'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'nfc-animation.json'
+});
+    // --- TEMA YÖNETİMİ ---
     const performThemeToggle = () => {
         if (html.classList.contains('dark-mode')) {
             html.classList.replace('dark-mode', 'light-mode');
@@ -473,88 +596,70 @@
     };
 
     themeToggle.addEventListener('click', () => {
-        // Eğer tarayıcı modern View Transition API destekliyorsa (Chrome/Edge 111+)
         if (document.startViewTransition) {
             document.startViewTransition(() => performThemeToggle());
         } else {
-            // Desteklemiyorsa düz geçiş (Flaşsız olması için CSS transition devreye girer)
             performThemeToggle();
         }
     });
 
-    // Kayıtlı temayı sayfa yüklenirken kontrol et
     const savedTheme = localStorage.getItem('user-theme');
     if (savedTheme === 'light') {
         html.classList.replace('dark-mode', 'light-mode');
         themeIcon.innerText = 'dark_mode';
     }
 
-    // --- SPOTLIGHT IŞIK OYUNU SİSTEMİ ---
+    // --- SPOTLIGHT SİSTEMİ ---
     document.querySelectorAll('.bento-item').forEach(item => {
         item.addEventListener('mousemove', e => {
             const rect = item.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            item.style.setProperty('--mouse-x', `${x}px`);
-            item.style.setProperty('--mouse-y', `${y}px`);
+            item.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            item.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
     });
 
-    // --- TÜM SAYFA REVEAL SİSTEMİ ---
+    // --- REVEAL SİSTEMİ ---
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            } else {
-                entry.target.classList.remove('active');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('active');
+            else entry.target.classList.remove('active');
         });
-    }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
+    }, { threshold: 0.15 });
 
     window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.reveal, .bento-reveal').forEach(el => revealObserver.observe(el));
     });
 
-    // --- SCROLL & STACK LOGIC ---
+    // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
     window.addEventListener('scroll', () => {
-        const rect = stackContainer.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
         const scrollY = window.scrollY;
-
-        // Nav animasyonu
-        if (scrollY > 50) {
-            nav.style.height = "50px";
-            nav.style.padding = "0 35px";
-        } else {
-            nav.style.height = "44px";
-            nav.style.padding = "0 25px";
-        }
-
-        // Kart Dönüş Efekti
+        const windowHeight = window.innerHeight;
+        // 2. Nav & Tilt Kart
+        nav.style.height = scrollY > 50 ? "50px" : "44px";
         if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
             tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
         }
 
-        // Snap Kontrolü
-        if (rect.top < 100 && rect.bottom > 0) {
-            document.documentElement.classList.add('no-snap');
+        // 3. Stacking Boxes Logic
+        const stackRect = stackContainer.getBoundingClientRect();
+        if (stackRect.top < 100 && stackRect.bottom > 0) {
+            html.classList.add('no-snap');
         } else {
-            document.documentElement.classList.remove('no-snap');
+            html.classList.remove('no-snap');
         }
 
-        // Stacking Boxes logic
-        let progress = -rect.top / (rect.height - windowHeight);
-        progress = Math.max(0, Math.min(1, progress));
-        scrollHint.style.opacity = progress > 0.05 ? "0" : "1";
+        let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
+        stackProgress = Math.max(0, Math.min(1, stackProgress));
+        scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
         boxes.forEach((box, i) => {
             if (box.matches(':hover')) return;
-            let boxProgress = (progress - (i / boxes.length)) / (1 / boxes.length);
+            let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
             boxProgress = Math.max(0, Math.min(1, boxProgress));
             box.style.zIndex = 10 + i;
 
             if (i === 0) {
-                box.style.transform = `translate(-50%, calc(-50% + ${progress * -20}px))`;
+                box.style.transform = `translate(-50%, calc(-50% + ${stackProgress * -20}px))`;
                 box.style.opacity = "1";
                 box.style.visibility = "visible";
             } else {
@@ -571,7 +676,7 @@
         });
     });
 
-    // --- TILT & NFC INTERACTION ---
+    // --- TILT & NFC CLICK ---
     tiltCard.addEventListener('mousemove', (e) => {
         if (tiltCard.classList.contains('active-nfc')) return;
         isHovering = true;
@@ -601,26 +706,6 @@
         isHovering = false;
         tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
     });
-    // Lottie Animasyonunu Yükle (GIF hissi veren yapı)
-lottie.loadAnimation({
-    container: document.getElementById('lottie-container'), 
-    path: 'https://assets9.lottiefiles.com/packages/lf20_m9ubts9y.json', // Örnek bir NFC animasyonu
-    renderer: 'svg',
-    loop: true,
-    autoplay: true
-});
-
-// Sayfa kaydırdıkça kartların belirmesi (Reveal efekti) için
-const observerOptions = { threshold: 0.1 };
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
