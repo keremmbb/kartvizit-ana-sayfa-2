@@ -286,14 +286,13 @@
 
         /* --- FLOATING CARD --- */
 .floating-card-container {
-    position: relative;     /* Fixed olanı Relative yaptık ki sayfa kayınca yukarı gitsin */
-    margin: 120px auto 50px auto; /* Kartı yukarıdan aşağı indirir ve yatayda ortalar */
+    position: relative;       /* Fixed olan her şeyi sildik */
     width: 350px;
     height: 220px;
+    margin: 150px auto 50px auto; /* Kartı navigasyonun altına indirir ve ortalar */
     z-index: 100;
     perspective: 1200px;
-    opacity: 1 !important;  /* Görünürlüğü açtık */
-    animation: none;        /* Giriş animasyonu çakışmasın diye kapattık */
+    display: block;           /* Gizli kalmadığından emin olalım */
 }
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
@@ -608,10 +607,10 @@ nav a.active::after {
         </div>
 
         <div class="card-back">
-            <div class="card-inner" style="background: #000; display: flex; align-items: center; justify-content: center; height: 100%;">
-                <img src="kart logosu.jpg" alt="Logo" style="width: 75%; height: auto; object-fit: contain;">
-            </div>
-        </div>
+    <div class="card-inner" style="background: #000; display: flex; align-items: center; justify-content: center; height: 100%;">
+        <img src="kart logosu.jpg" alt="Logo" style="width: 75%; height: auto; object-fit: contain;">
+    </div>
+</div>
     </div>
 </div>
     <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
@@ -951,9 +950,9 @@ const scrollSpy = () => {
 };
 // Kartın dönüşünü yöneten tek scroll fonksiyonu
 window.addEventListener('scroll', () => {
-    // Sadece NFC menüsü kapalıysa ve fare üzerinde değilse dönsün
     if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
-        const rotation = window.scrollY * 0.1; 
+        const rotation = window.scrollY * 0.1;
+        // Sadece rotateY kullanıyoruz, translate(-50%, -50%) gibi komutları sildik
         tiltCard.style.transform = `rotateY(${rotation}deg)`;
     }
 });
