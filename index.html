@@ -268,14 +268,34 @@
         .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
 
         .info-box {
-            position: absolute; background: var(--glass-bg); backdrop-filter: blur(40px) saturate(150%);
-            -webkit-backdrop-filter: blur(40px) saturate(150%);
-            color: var(--text-main); padding: 40px; border-radius: 40px; border: 1px solid var(--glass-border); 
-            width: 800px; height: 380px; max-width: 85%; display: flex; align-items: center; justify-content: space-between; 
-            gap: 35px; left: 50%; top: 55%; transform: translate(-50%, 100vh); opacity: 0; visibility: hidden; will-change: transform, opacity;
-            transition: transform 0.4s var(--apple-ease), opacity 0.8s var(--apple-ease); 
-            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-        }
+    position: absolute; 
+    background: var(--glass-bg); 
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    color: var(--text-main); 
+    padding: 40px; 
+    border-radius: 40px; 
+    border: 1px solid var(--glass-border); 
+    width: 800px; 
+    height: 380px; 
+    max-width: 85%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 35px; 
+    left: 50%; 
+    top: 55%;
+    opacity: 0; 
+    visibility: hidden; 
+    will-change: transform, opacity;
+    transition: 
+        transform 1.2s cubic-bezier(0.15, 0.9, 0.3, 1), 
+        opacity 1.2s ease, 
+        filter 1.2s ease,
+        box-shadow 0.5s ease;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+    transform-style: preserve-3d;
+}
 
         .info-box:hover {
     transform: translate(-50%, -50%) scale(1.05) !important;
@@ -673,10 +693,16 @@ nav a.active::after {
     object-fit: cover;
 }
 .info-box:nth-child(even) {
-    transform: translate(-150vw, -50%); /* Çift numaralı kutular soldan gelecek */
+    transform: translate(60vw, -50%) scale(0.8); /* Sağda küçük durur */
 }
 .info-box:nth-child(odd) {
-    transform: translate(150vw, -50%); /* Tek numaralı kutular sağdan gelecek */
+    transform: translate(-160vw, -50%) scale(0.8); /* Solda küçük durur */
+}
+.info-box:nth-of-type(1) {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    filter: blur(0) !important;
 }
     </style>
 </head>
@@ -972,28 +998,49 @@ nav a.active::after {
         stackProgress = Math.max(0, Math.min(1, stackProgress));
         scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
-       boxes.forEach((box, i) => {
+     boxes.forEach((box, i) => {
     if (box.matches(':hover')) return;
+    
+    // Her kutunun kendi ilerleme yüzdesi
     let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
     boxProgress = Math.max(0, Math.min(1, boxProgress));
+    
     box.style.zIndex = 10 + i;
 
-    if (boxProgress > 0) {
-        // Kutu aktif olduğunda merkeze (-50%) oturur
-        // boxProgress 0'dan 1'e giderken, yana itme değeri (sideOffset) 0'a iner
-        let sideOffset = (1 - boxProgress) * 150; // 150vw dışarıdan gelir
-        let direction = (i % 2 === 0) ? -sideOffset : sideOffset; 
-        
-        // Y ekseninde (top) hafif bir yığılma efekti için i * 15px ekliyoruz
-        box.style.transform = `translate(calc(-50% + ${direction}vw), calc(-50% + ${i * 15}px))`;
-        box.style.opacity = "1";
+    if (i === 0) {
+        // İLK KUTU: Başlangıçta tam ortada durur. 
+        // Scroll yapıldıkça hafifçe şeffaflaşır ve arkaya gider ama tamamen yok olmaz.
+        box.style.opacity = Math.max(0.2, 1 - (boxProgress * 1.2));
         box.style.visibility = "visible";
+        box.style.filter = `blur(${boxProgress * 8}px)`;
+        // Hafif bir yukarı kayma ve küçülme derinlik katar
+        box.style.transform = `translate(-50%, calc(-50% - ${boxProgress * 40}px)) scale(${1 - boxProgress * 0.05})`;
     } else {
-        // Kutu henüz görünür değilken yönüne göre ekranın dışında bekler
-        let startDir = (i % 2 === 0) ? -150 : 150;
-        box.style.transform = `translate(${startDir}vw, -50%)`;
-        box.style.opacity = "0";
-        box.style.visibility = "hidden";
+        if (boxProgress > 0) {
+            // AKTİF DURUM: Kutular yanlardan ve 3D açıyla merkeze gelir
+            box.style.opacity = "1";
+            box.style.visibility = "visible";
+            box.style.filter = "blur(0px)";
+            
+            let sideOffset = (1 - boxProgress) * 30; // 30vw'den süzülerek gelir
+            let direction = (i % 2 === 0) ? sideOffset : -sideOffset;
+            let rotateAngle = (i % 2 === 0) ? (1 - boxProgress) * 8 : (1 - boxProgress) * -8;
+            
+            box.style.transform = `
+                translate(calc(-50% + ${direction}vw), calc(-50% + ${i * 15}px)) 
+                scale(${0.9 + (boxProgress * 0.1)}) 
+                rotateY(${rotateAngle}deg)
+            `;
+        } else {
+            // BEKLEME DURUMU: Yanlarda "ben de buradayım" diyen kutu kenarları
+            box.style.opacity = "0.25";
+            box.style.visibility = "visible";
+            box.style.filter = "blur(10px)";
+            
+            // Sol kutuları (-105vw) ve sağ kutuları (5vw) ekrana daha yakın konumlandırdık
+            let peekPos = (i % 2 === 0) ? "8vw" : "-108vw"; 
+            box.style.transform = `translate(${peekPos}, -48%) scale(0.75) rotateY(${(i % 2 === 0) ? 12 : -12}deg)`;
+        }
     }
 });
     });
