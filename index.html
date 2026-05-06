@@ -285,25 +285,11 @@
         .scroll-hint { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); color: var(--accent-blue); font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; gap: 5px; z-index: 20; animation: bounce 2s infinite; }
 
         /* --- FLOATING CARD --- */
-.floating-card-container {
-    position: relative;       /* Fixed olan her şeyi sildik */
-    width: 350px;
-    height: 220px;
-    margin: 150px auto 50px auto; /* Kartı navigasyonun altına indirir ve ortalar */
-    z-index: 100;
-    perspective: 1200px;
-    display: block;           /* Gizli kalmadığından emin olalım */
-}
+        .floating-card-container { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); width: 220px; z-index: 99999; perspective: 1200px; animation: cardDrop 1.2s cubic-bezier(0.15, 0, 0.2, 1) forwards; animation-delay: 0.4s; opacity: 0; }
+
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-.floating-card {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s var(--apple-ease);
-    cursor: pointer;
-}
+        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
         .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
@@ -329,6 +315,7 @@
         @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -10px); } }
 
         @media (max-width: 1024px) { 
+            .floating-card-container { display: none; } 
             .bento-container { grid-template-columns: 1fr; grid-auto-rows: auto; }
             .bento-large { grid-column: span 1; }
             .info-box { flex-direction: column; height: auto; padding: 30px; text-align: center; }
@@ -529,19 +516,21 @@ nav a.active::after {
 /* QR Kod Konumlandırma */
 .qr-code-overlay {
     position: absolute;
-    bottom: 15px; /* Alttan 15px */
-    right: 15px;  /* Sağdan 15px */
-    width: 45px;
-    height: 45px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam merkezi hizalama */
+    width: 60px;  /* QR kodun boyutu */
+    height: 60px;
     background: white;
-    padding: 3px;
-    border-radius: 6px;
+    padding: 5px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+
 .qr-code-overlay img {
     width: 100% !important;
     height: 100% !important;
@@ -553,74 +542,29 @@ nav a.active::after {
     opacity: 0.2; /* NFC UI açıldığında dikkati dağıtmaması için hafif şeffaf */
     transition: opacity 0.5s ease;
 }
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
-.card-back {
-    transform: rotateY(180deg);
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.card-back img {
-    width: 80% !important; /* Logonun boyutu */
-    height: auto !important;
-    object-fit: contain;
-}
-.card-container {
-    perspective: 1000px;
-    width: 350px;
-    height: 220px;
-    margin: 120px auto 50px auto; /* Üstten pay bırakarak ortaladık */
-    position: relative;
-    z-index: 10;
-} 
-.card-container:hover .floating-card {
-    transform: rotateY(180deg);
-}
-.card-back .card-inner img {
-    width: 70% !important; /* Logonun kartın içinde ne kadar yer kaplayacağı */
-    height: auto !important;
-    object-fit: contain;
-}
     </style>
 </head>
 <body>
 
 
 <div class="floating-card-container">
-    <div class="floating-card" id="tiltCard">
-        <div class="card-front">
+    <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
+        <div class="floating-card" id="tiltCard">
             <div class="card-inner">
-                <img src="smart kart 6.jpg" alt="Smart Kart Ön">
+                <img src="smart kart 6.jpg" alt="Smart Kart">
                 <div class="qr-code-overlay">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR">
-                </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+        </div>
+            </div>
+            <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
+            <div class="nfc-ui" id="nfcUi">
+                <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
+                <div class="nfc-text-item item-2">Temassız Bağlantı</div>
+                <div class="nfc-text-item item-3">Dijital Kartvizit</div>
+                <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
             </div>
         </div>
-
-        <div class="card-back">
-    <div class="card-inner" style="background: #000; display: flex; align-items: center; justify-content: center; height: 100%;">
-        <img src="kart logosu.jpg" alt="Logo" style="width: 75%; height: auto; object-fit: contain;">
     </div>
-</div>
-    </div>
-</div>
-    <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-    <div class="nfc-ui" id="nfcUi">
-        <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
-        <div class="nfc-text-item item-2">Temassız Bağlantı</div>
-        <div class="nfc-text-item item-3">Dijital Kartvizit</div>
-        <div class="nfc-text-item item-4" id="closeNfc">Kapat</div>
-    </div>
-</div>
 </div>
 
 <nav id="dynamicNav">
@@ -863,6 +807,50 @@ nav a.active::after {
     });
 
     // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        // 2. Nav & Tilt Kart
+        nav.style.height = scrollY > 50 ? "50px" : "44px";
+        if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
+            tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
+        }
+
+        // 3. Stacking Boxes Logic
+        const stackRect = stackContainer.getBoundingClientRect();
+        if (stackRect.top < 100 && stackRect.bottom > 0) {
+            html.classList.add('no-snap');
+        } else {
+            html.classList.remove('no-snap');
+        }
+
+        let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
+        stackProgress = Math.max(0, Math.min(1, stackProgress));
+        scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
+
+        boxes.forEach((box, i) => {
+            if (box.matches(':hover')) return;
+            let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
+            boxProgress = Math.max(0, Math.min(1, boxProgress));
+            box.style.zIndex = 10 + i;
+
+            if (i === 0) {
+                box.style.transform = `translate(-50%, calc(-50% + ${stackProgress * -20}px))`;
+                box.style.opacity = "1";
+                box.style.visibility = "visible";
+            } else {
+                if (boxProgress > 0) {
+                    box.style.transform = `translate(-50%, calc(-50% + ${(1 - boxProgress) * 70}vh + ${i * 15}px))`;
+                    box.style.opacity = "1";
+                    box.style.visibility = "visible";
+                } else {
+                    box.style.transform = `translate(-50%, 100vh)`;
+                    box.style.opacity = "0";
+                    box.style.visibility = "hidden";
+                }
+            }
+        });
+    });
 
     const cardHitbox = document.getElementById('cardHitbox');
 const closeNfcBtn = document.getElementById('closeNfc');
@@ -884,16 +872,11 @@ cardHitbox.addEventListener('mousemove', (e) => {
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
 });
 
-// 2. Mouseleave (Ayrılma) olayını basitleştir
 cardHitbox.addEventListener('mouseleave', () => {
     isHovering = false;
-    // Burada ekstradan bir şey eklemene gerek yok, 
-    // yukarıdaki scroll fonksiyonu isHovering false olduğu için çalışmaya başlayacak.
-});
-
-// 3. Mouseenter (Giriş) olayı
-cardHitbox.addEventListener('mouseenter', () => {
-    isHovering = true;
+    if (!tiltCard.classList.contains('active-nfc')) {
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+    }
 });
 
 // Kartın kendisine tıklama özelliği
@@ -916,8 +899,8 @@ closeNfcBtn.addEventListener('click', (e) => {
     
     // Kartı yumuşakça eski pozisyonuna al
     setTimeout(() => {
-    tiltCard.style.transform = `rotateY(${window.scrollY * 0.1}deg) scale(1)`;
-}, 10);
+        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+    }, 10);
 });
 const navLinks = document.querySelectorAll('nav a');
 const sections = document.querySelectorAll('section, .stack-container');
@@ -946,16 +929,10 @@ const scrollSpy = () => {
         if (href.includes(current) && current !== "") {
             link.classList.add("active");
         }
-    }); 
+    });
 };
-// Kartın dönüşünü yöneten tek scroll fonksiyonu
-window.addEventListener('scroll', () => {
-    if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
-        const rotation = window.scrollY * 0.1;
-        // Sadece rotateY kullanıyoruz, translate(-50%, -50%) gibi komutları sildik
-        tiltCard.style.transform = `rotateY(${rotation}deg)`;
-    }
-});
+
+window.addEventListener('scroll', scrollSpy);
 window.addEventListener('DOMContentLoaded', scrollSpy);
 </script>
 </body>
