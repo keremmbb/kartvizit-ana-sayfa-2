@@ -267,36 +267,34 @@
         .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); }
         .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
 
-        .info-box {
-    position: absolute; 
-    background: var(--glass-bg); 
+       .info-box {
+    position: absolute;
+    background: var(--glass-bg);
     backdrop-filter: blur(40px) saturate(150%);
     -webkit-backdrop-filter: blur(40px) saturate(150%);
-    color: var(--text-main); 
-    padding: 40px; 
-    border-radius: 40px; 
-    border: 1px solid var(--glass-border); 
-    width: 800px; 
-    height: 380px; 
-    max-width: 85%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    gap: 35px; 
-    left: 50%; 
+    color: var(--text-main);
+    padding: 40px;
+    border-radius: 40px;
+    border: 1px solid var(--glass-border);
+    width: 800px;
+    height: 380px;
+    max-width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+    left: 50%;
     top: 55%;
-    opacity: 0; 
-    visibility: hidden; 
+    
+    /* BAŞLANGIÇ DURUMU: Sağ üstte küçük ve şeffaf */
+    transform: translate(25vw, -35vh) scale(0.15);
+    opacity: 0.3;
+    visibility: visible;
+    
     will-change: transform, opacity;
-    transition: 
-        transform 1.2s cubic-bezier(0.15, 0.9, 0.3, 1), 
-        opacity 1.2s ease, 
-        filter 1.2s ease,
-        box-shadow 0.5s ease;
+    transition: transform 0.8s cubic-bezier(0.15, 0, 0.2, 1), opacity 0.5s ease;
     box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-    transform-style: preserve-3d;
 }
-
         .info-box:hover {
     transform: translate(-50%, -50%) scale(1.05) !important;
     z-index: 5000 !important;
@@ -363,11 +361,46 @@
         .active-nfc { transform: translate(calc(50vw - 110px), 0) scale(1.5) !important; z-index: 100000; }
         .card-title-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600; opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2; color: white; }
         .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
-        .nfc-ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.5s ease; z-index: 5; }
-        .active-nfc .nfc-ui { opacity: 1; visibility: visible; pointer-events: auto; }
-
-        .nfc-text-item { position: absolute; background: var(--nfc-bg); backdrop-filter: blur(10px); color: var(--text-main); padding: 10px 18px; border-radius: 12px; font-size: 0.65rem; font-weight: 500; border: 1px solid var(--glass-border); white-space: nowrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-
+.nfc-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Kapsayıcı tıklamayı geçirmeli... */
+    transition: 0.5s ease;
+    z-index: 10;
+} 
+.active-nfc .nfc-ui {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* ...ama aktifken butonlar tıklanabilmeli */
+}
+.nfc-text-item {
+    position: absolute;
+    background: var(--nfc-bg);
+    backdrop-filter: blur(10px);
+    color: var(--text-main);
+    padding: 12px 24px; /* Tıklama alanını genişletmek için padding artırıldı */
+    border-radius: 12px;
+    font-size: 0.75rem; /* Biraz daha okunabilir yapıldı */
+    font-weight: 600;
+    border: 1px solid var(--glass-border);
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    
+    /* KRİTİK DEĞİŞİKLİKLER */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important; /* İmleç her zaman el işareti olsun */
+    user-select: none;
+    transition: all 0.3s var(--apple-ease);
+    pointer-events: auto; /* Tıklamaları alabilmesi için */
+    z-index: 20;
+}
         .item-1 { top: -80px; left: 50%; transform: translateX(-50%); } 
         .item-2 { right: -160px; top: 40%; transform: translateY(-50%); } 
         .item-3 { left: -160px; top: 40%; transform: translateY(-50%); } 
@@ -575,17 +608,17 @@ nav a.active::after {
 }
 /* QR Kod Konumlandırma */
 .qr-code-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 55px; /* Burayı 60px yaparak biraz büyütebilirsin */
-    height: 55px;
-    background: white;
-    padding: 4px;
-    border-radius: 6px;
-    z-index: 5;
-}
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background: white;
+        padding: 4px;
+        border-radius: 6px;
+        z-index: 5;
+    }
 
 .qr-code-overlay img {
     width: 100% !important;
@@ -693,18 +726,68 @@ nav a.active::after {
     object-fit: cover;
 }
 .info-box:nth-child(even) {
-    transform: translate(60vw, -50%) scale(0.8); /* Sağda küçük durur */
+    transform: translate(-120vw, -50%);
 }
 .info-box:nth-child(odd) {
-    transform: translate(-160vw, -50%) scale(0.8); /* Solda küçük durur */
+    transform: translate(120vw, -50%);
 }
-.info-box:nth-of-type(1) {
-    opacity: 1 !important;
-    visibility: visible !important;
+/* Ana butonun (Smart Kart ne işe yarar?) başlangıç hali */
+.item-0 {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-main) !important;
+    padding: 10px 20px !important;
+    box-shadow: none !important;
+    transition: all 0.4s var(--apple-ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
+}
+
+/* İstediğin özel Hover efekti */
+.item-0:hover {
+    background: transparent !important; /* Arka planı kesinlikle şeffaf tutar */
+    color: var(--accent-blue) !important; /* Yazı rengini mavi yapar */
+    
+    /* Yazının etrafına siyah ince çerçeve (outline) ekleme */
+    /* text-shadow yöntemi tarayıcılar arasında en pürüzsüz görünenidir */
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0 0 5px rgba(0, 113, 227, 0.2) !important; /* Hafif mavi bir ışıltı (isteğe bağlı) */
+
+    transform: translate(-50%, -55%) scale(1.05) !important; 
+}
+#closeNfc:hover {
+    background: #ff453a !important;
+    color: white !important;
+    /* Hareket ettiren tüm özellikleri sıfırla */
+    transform: translate(-50%, 0) !important; /* item-4'ün orijinal alt konumu */
+    scale: 1 !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+}
+#closeNfc {
+    /* Genel sınıftan gelebilecek hareketleri engellemek için geçişi sınırlıyoruz */
+    transition: background 0.3s ease, color 0.3s ease, text-shadow 0.3s ease !important;
+}
+.nfc-text-item:hover {
+    background: var(--accent-blue) !important;
+    color: white !important;
+    transform: scale(1.1) translateX(-50%); /* Ortalanmış itemler için */
+}
+.item-1:hover { transform: translateX(-50%) scale(1.1) translateY(-5px) !important; }
+.item-2:hover { transform: translateY(-50%) scale(1.1) translateX(5px) !important; }
+.item-3:hover { transform: translateY(-50%) scale(1.1) translateX(-5px) !important; }
+.item-4:hover { transform: translateX(-50%) scale(1.1) !important; }
+.info-box:first-child {
     transform: translate(-50%, -50%) scale(1) !important;
-    filter: blur(0) !important;
+    opacity: 1 !important;
+    z-index: 10;
 }
-    </style>
+</style>
 </head>
 <body>
 
@@ -714,14 +797,13 @@ nav a.active::after {
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
        <div class="floating-card" id="tiltCard">
     <div class="card-face card-front">
-    <div class="card-border-glow"></div> 
-    <div class="face-content">
-        <img src="smart kart 6.jpg" alt="Smart Kart Ön" class="bg-img">
-        <div class="qr-code-overlay">
-            <img src="QR kod.jpg" alt="Özel QR Kodu">
+        <div class="card-border-glow"></div> <div class="face-content">
+            <img src="smart kart 6.jpg" alt="Smart Kart Ön" class="bg-img">
+            <div class="qr-code-overlay">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+            </div>
         </div>
     </div>
-</div>
 
     <div class="card-face card-back">
         <div class="card-border-glow"></div> <div class="face-content">
@@ -729,8 +811,10 @@ nav a.active::after {
         </div>
     </div>
 
-    <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
     <div class="nfc-ui" id="nfcUi" style="transform: translateZ(50px);">
+    <div class="nfc-text-item item-0" id="toHero" style="cursor: pointer; background: var(--accent-blue); color: white; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;">
+        Smart Kart ne işe yarar?
+    </div>
     <div class="nfc-text-item item-1" data-target="#nasil" style="cursor: pointer;">Nasıl Çalışır?</div>
     <div class="nfc-text-item item-2" data-target="#ozellikler" style="cursor: pointer;">Özellikler</div>
     <div class="nfc-text-item item-3" data-target="#tasarim" style="cursor: pointer;">Bilgiler</div>
@@ -998,48 +1082,52 @@ nav a.active::after {
         stackProgress = Math.max(0, Math.min(1, stackProgress));
         scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
-     boxes.forEach((box, i) => {
+    boxes.forEach((box, i) => {
     if (box.matches(':hover')) return;
-    
-    // Her kutunun kendi ilerleme yüzdesi
+
+    // Kaydırma ilerlemesi
     let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
     boxProgress = Math.max(0, Math.min(1, boxProgress));
     
+    // Her yeni gelen kart bir öncekinin üstünde olmalı
     box.style.zIndex = 10 + i;
 
     if (i === 0) {
-        // İLK KUTU: Başlangıçta tam ortada durur. 
-        // Scroll yapıldıkça hafifçe şeffaflaşır ve arkaya gider ama tamamen yok olmaz.
-        box.style.opacity = Math.max(0.2, 1 - (boxProgress * 1.2));
-        box.style.visibility = "visible";
-        box.style.filter = `blur(${boxProgress * 8}px)`;
-        // Hafif bir yukarı kayma ve küçülme derinlik katar
-        box.style.transform = `translate(-50%, calc(-50% - ${boxProgress * 40}px)) scale(${1 - boxProgress * 0.05})`;
+        // İlk kutu merkezde çakılı kalır
+        box.style.transform = `translate(-50%, -50%) scale(1)`;
+        box.style.opacity = "1";
     } else {
         if (boxProgress > 0) {
-            // AKTİF DURUM: Kutular yanlardan ve 3D açıyla merkeze gelir
-            box.style.opacity = "1";
-            box.style.visibility = "visible";
-            box.style.filter = "blur(0px)";
+            /** * GELİŞ ANI (Interpolation):
+             * X: 25vw'den -> -50%'ye
+             * Y: -35vh'den -> -50%'ye
+             * Scale: 0.15'den -> 1'e
+             */
             
-            let sideOffset = (1 - boxProgress) * 30; // 30vw'den süzülerek gelir
-            let direction = (i % 2 === 0) ? sideOffset : -sideOffset;
-            let rotateAngle = (i % 2 === 0) ? (1 - boxProgress) * 8 : (1 - boxProgress) * -8;
+            // Yüzdesel hesaplama (Linear interpolation)
+            let moveX = 25 - (boxProgress * 75); // 25'ten başlayıp -50'ye (yüzde birimi gibi düşünülürse)
+            let moveY = -35 - (boxProgress * 15); // -35'ten -50'ye
+            let scale = 0.15 + (boxProgress * 0.85); // 0.15'ten 1'e
             
+            // Not: translate içindeki yüzdeler kendi genişliğine göredir, 
+            // vw/vh ise ekran boyutuna göredir. Bu yüzden calc kullanıyoruz.
             box.style.transform = `
-                translate(calc(-50% + ${direction}vw), calc(-50% + ${i * 15}px)) 
-                scale(${0.9 + (boxProgress * 0.1)}) 
-                rotateY(${rotateAngle}deg)
+                translate(calc(-50% + ${(1 - boxProgress) * 75}vw), 
+                calc(-50% + ${(1 - boxProgress) * -40}vh)) 
+                scale(${scale})
             `;
-        } else {
-            // BEKLEME DURUMU: Yanlarda "ben de buradayım" diyen kutu kenarları
-            box.style.opacity = "0.25";
-            box.style.visibility = "visible";
-            box.style.filter = "blur(10px)";
+            box.style.opacity = "1";
             
-            // Sol kutuları (-105vw) ve sağ kutuları (5vw) ekrana daha yakın konumlandırdık
-            let peekPos = (i % 2 === 0) ? "8vw" : "-108vw"; 
-            box.style.transform = `translate(${peekPos}, -48%) scale(0.75) rotateY(${(i % 2 === 0) ? 12 : -12}deg)`;
+            // Hafif bir üst üste binme efekti (Her kart bir öncekinden 2px yukarıda dursun)
+            if (boxProgress === 1) {
+                box.style.transform += ` translateY(${i * -2}px)`;
+            }
+
+        } else {
+            // BEKLEME ANI: Sağ üstte küçük deste
+            // i * 5px kartların birbirinden ayrışık durmasını sağlar
+            box.style.transform = `translate(calc(25vw + ${i * 5}px), calc(-35vh + ${i * 3}px)) scale(0.15)`;
+            box.style.opacity = "0.3";
         }
     }
 });
@@ -1132,27 +1220,49 @@ cardOverlay.addEventListener('click', () => {
 }); // <--- Buraya noktalı virgül eklendi
 
 // NFC butonlarına tıklandığında kaydırma işlemi
+// NFC butonlarına tıklandığında kaydırma işlemi
 document.querySelectorAll('.nfc-text-item[data-target]').forEach(item => {
-    item.addEventListener('click', (e) => {
-        const targetId = item.getAttribute('data-target');
+    item.addEventListener('click', function(e) {
+        // Event'in yayılmasını ve kartın kapanıp açılma çakışmasını engelle
+        e.preventDefault();
+        e.stopPropagation();
+
+        const targetId = this.getAttribute('data-target'); // 'this' her zaman kutuyu ifade eder
         const targetSection = document.querySelector(targetId);
 
         if (targetSection) {
-            // 1. Önce kartı ve overlay'i kapat
+            // 1. Kartı kapat
             closeNfcBtn.click();
 
-            // 2. Kartın kapanma animasyonunu (0.6s) bekleyip sonra kaydır
+            // 2. Kaydır
             setTimeout(() => {
                 targetSection.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
-            }, 600); // Gecikmeyi 600ms yapmak daha pürüzsüz bir geçiş sağlar
+            }, 600);
         }
     });
 });
 
+// Smart Kart ne işe yarar? butonuna tıklama işlevi
+const toHeroBtn = document.getElementById('toHero');
+if (toHeroBtn) {
+    toHeroBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 1. Kartı kapat
+        closeNfcBtn.click();
 
+        // 2. Sayfanın en üstüne kaydır
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 500);
+    });
+}
 window.addEventListener('scroll', scrollSpy);
 window.addEventListener('DOMContentLoaded', scrollSpy);
 </script>
