@@ -787,6 +787,17 @@ nav a.active::after {
     opacity: 1 !important;
     z-index: 10;
 }
+.bento-icon-svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s var(--apple-ease);
+}
+.bento-item:hover .bento-icon-svg {
+    transform: scale(1.1);
+}
 </style>
 </head>
 <body>
@@ -873,7 +884,7 @@ nav a.active::after {
     </div>
 </section>
 
-<section id="ozellikler"style="margin-top: 150px;>
+<section id="ozellikler" style="margin-top: 150px;">
     <div style="width: 100%; max-width: 1100px;">
         <h2 class="reveal delay-1" style="font-size: 3rem; font-weight: 600; text-align: center; margin-bottom: 10px;">Tek bir kart.</h2>
         <p class="reveal delay-2" style="text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1.2rem;">Sonsuz bağlantı kurmanın en modern yolu.</p>
@@ -881,7 +892,9 @@ nav a.active::after {
         <div class="bento-container">
             <div class="bento-item bento-large bento-reveal delay-bento-1">
                 <div style="flex: 1;">
-                    <i class="material-icons bento-icon" style="color: #ff9f0a;">bolt</i>
+                    <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
                     <h3>Işık Hızında Paylaşım</h3>
                     <p>NFC teknolojisi ile telefonunuzu yaklaştırın ve saniyeler içinde tüm bilgilerinizi aktarın.</p>
                 </div>
@@ -890,20 +903,27 @@ nav a.active::after {
 
             <div class="bento-item bento-reveal delay-bento-2">
                 <div class="security-visual"><div class="pulse-ring"></div></div>
-                <i class="material-icons bento-icon">security</i>
+                <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
                 <h3>Güvenli</h3>
                 <p>Verileriniz 256-bit şifreleme ile korunur.</p>
             </div>
 
             <div class="bento-item bento-reveal delay-bento-3">
                 <div class="eco-glow"></div>
-                <i class="material-icons bento-icon" style="color: #30d158;">eco</i>
+                <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#30d158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                </svg>
                 <h3>Ekolojik</h3>
                 <p>Milyonlarca kağıt israfını önleyerek doğayı koruyoruz.</p>
             </div>
 
             <div class="bento-item bento-reveal delay-bento-4">
-                <i class="material-icons bento-icon">update</i>
+                <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                </svg>
                 <h3>Dinamik</h3>
                 <p>Bilgilerinizi dilediğiniz zaman güncelleyin.</p>
             </div>
@@ -917,11 +937,10 @@ nav a.active::after {
                         <div class="bar" style="--h: 95%;"></div>
                         <div class="bar" style="--h: 65%;"></div>
                     </div>
-                    <svg class="graph-svg" viewBox="0 0 100 40">
-                        <path class="graph-path" d="M5,35 L25,20 L45,28 L70,8 L95,15" />
-                    </svg>
                 </div>
-                <i class="material-icons bento-icon">insights</i>
+                <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
                 <h3>Analiz</h3>
                 <p>Tıklanma oranlarınızı anlık takip edin.</p>
             </div>
