@@ -289,16 +289,32 @@
 
         @keyframes cardDrop { 0% { transform: translateY(-110vh) rotateZ(-10deg); opacity: 0; } 100% { transform: translateY(-50%) rotateZ(0deg); opacity: 1; } }
 
-        .floating-card { width: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s var(--apple-ease); cursor: pointer; }
-        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
+.floating-card {
+        width: 100%;
+        height: 140px; /* Görselinizin oranına göre ayarlayabilirsiniz */
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.8s var(--apple-ease);
+        cursor: pointer;
+    }        .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
-        .card-inner { position: relative; width: 100%; height: 100%; border-radius: 18px; overflow: hidden; padding: 1.5px; background: rgba(128,128,128,0.1); }
-        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
+.card-inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        padding: 1.5px;
+        background: rgba(128,128,128,0.1);
+        backface-visibility: hidden; /* Arkadan görünmemesi için */
+    }        .card-inner::before { content: ''; position: absolute; width: 180%; height: 180%; background: conic-gradient(transparent, transparent, transparent, var(--accent-blue), transparent); top: -40%; left: -40%; animation: rotateBeam 4s linear infinite; }
 
-        @keyframes rotateBeam { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
+@keyframes rotateBeam {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }        .floating-card img { width: 100%; border-radius: 16px; display: block; position: relative; z-index: 1; }
         .active-nfc { transform: translate(calc(50vw - 110px), 0) scale(1.5) !important; z-index: 100000; }
         .card-title-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; text-align: center; font-size: 0.85rem; font-weight: 600; opacity: 0; visibility: hidden; transition: 0.5s ease; z-index: 2; color: white; }
         .active-nfc .card-title-overlay { opacity: 1; visibility: visible; }
@@ -515,21 +531,17 @@ nav a.active::after {
 }
 /* QR Kod Konumlandırma */
 .qr-code-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Tam merkezi hizalama */
-    width: 60px;  /* QR kodun boyutu */
-    height: 60px;
-    background: white;
-    padding: 5px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background: white;
+        padding: 4px;
+        border-radius: 6px;
+        z-index: 5;
+    }
 
 .qr-code-overlay img {
     width: 100% !important;
@@ -542,6 +554,31 @@ nav a.active::after {
     opacity: 0.2; /* NFC UI açıldığında dikkati dağıtmaması için hafif şeffaf */
     transition: opacity 0.5s ease;
 }
+.card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .card-back {
+        transform: rotateY(180deg);
+        background: #000; /* Logo gelene kadar siyah zemin */
+    }
+    .card-face img.bg-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .logo-overlay {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
     </style>
 </head>
 <body>
@@ -550,14 +587,19 @@ nav a.active::after {
 <div class="floating-card-container">
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
         <div class="floating-card" id="tiltCard">
-            <div class="card-inner">
-                <img src="smart kart 6.jpg" alt="Smart Kart">
+            <div class="card-face card-front">
+                <img src="smart kart 6.jpg" alt="Smart Kart Ön" class="bg-img">
                 <div class="qr-code-overlay">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
-        </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
+                </div>
             </div>
+
+            <div class="card-face card-back">
+                <img src="kart logosu.jpg" alt="Kart Logosu" class="logo-overlay">
+            </div>
+
             <div class="card-title-overlay">Smart Kart ne işe yarar?</div>
-            <div class="nfc-ui" id="nfcUi">
+            <div class="nfc-ui" id="nfcUi" style="transform: translateZ(50px);">
                 <div class="nfc-text-item item-1">Hızlı Bilgi Paylaşımı</div>
                 <div class="nfc-text-item item-2">Temassız Bağlantı</div>
                 <div class="nfc-text-item item-3">Dijital Kartvizit</div>
