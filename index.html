@@ -70,7 +70,6 @@
             scroll-behavior: smooth;
             background-color: var(--bg-color);
             scroll-snap-type: y mandatory;
-            scroll-padding-top: 20px;
         }
 
         html.no-snap { scroll-snap-type: none !important; }
@@ -262,8 +261,14 @@
         .bento-large-visual { width: 150px; height: 100px; background: linear-gradient(45deg, #0071e3, #64d2ff); border-radius: 20px; opacity: 0.1; filter: blur(25px); position: absolute; right: 20px; }
 
         /* --- STACKING AREA --- */
-        .stack-container { position: relative; height: 600vh; background-color: var(--bg-color); scroll-snap-align: start; }
-        .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.stack-container { 
+    position: relative; 
+    height: 700vh; /* 700vh'den 850vh'ye çıkardık, bu son kutuda bekleme süresidir */
+    background-color: var(--bg-color); 
+    scroll-snap-align: start; 
+    scroll-snap-stop: always;
+}
+    .sticky-wrapper { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .stack-header { position: absolute; top: 12vh; text-align: center; z-index: 5; width: 100%; }
         .stack-header h2 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; color: var(--text-main); }
         .background-footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: var(--text-dim); opacity: 0.3; font-size: 0.75rem; z-index: 1; }
@@ -489,8 +494,7 @@
 .step-text h4 { margin-bottom: 4px; font-weight: 600; }
 .step-text p { color: var(--text-dim); font-size: 0.9rem; }
 @media (max-width: 768px) {
-    .how-it-works-container { grid-template-columns: 1fr; }
-    #lottie-box { height: 300px; }
+    .comparison-static-container { flex-direction: column; }
 }
 #nasil {
     min-height: 100vh; /* Tam ekran kaplasın */
@@ -900,6 +904,85 @@ nav a.active::after {
     letter-spacing: 1px;
     border: 1px solid rgba(255,255,255,0.1);
 }
+.comparison-static-container {
+    display: flex;
+    gap: 30px;
+    width: 90%;
+    max-width: 1100px;
+    height: auto;
+}
+.comp-box {
+    flex: 1;
+    background: var(--glass-bg);
+    border-radius: 32px;
+    border: 1px solid var(--glass-border);
+    padding: 24px;
+    transition: transform 0.4s var(--apple-ease);
+}
+.comp-box:hover { transform: translateY(-10px); border-color: var(--accent-blue); }
+.comp-visual {
+    width: 100%;
+    height: 300px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+.pile-bg { background-image: url('kartvizit.jpg'); filter: grayscale(0.3); }
+.smart-bg { background-image: url('nfc smart kart.jpg'); border: 1px solid var(--accent-blue); }
+.overlay-text {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 10px;
+}
+.comp-info h3 { font-size: 1.4rem; margin-bottom: 8px; }
+.comp-info p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+.comp-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 8px;
+    color: #fff;
+}
+.highlight-badge { background: var(--accent-blue); }
+.light-mode #kiyasa {
+    background: var(--bg-color) !important; /* #000 yerine değişkeni kullan */
+}
+
+.light-mode #kiyasa h2 {
+    color: var(--text-main);
+}
+
+.light-mode .comp-info h3 {
+    color: var(--text-main);
+}
+
+.light-mode .comp-info p {
+    color: var(--text-dim);
+}
+
+/* Eski nesil görselindeki aşırı karanlık filtreyi aydınlık modda yumuşatalım */
+.light-mode .pile-bg {
+    filter: grayscale(0.2) brightness(0.9);
+}
+
+/* Kutu kenarlıklarının aydınlık modda daha belirgin olması için */
+.light-mode .comp-box {
+    border: 1px solid var(--glass-border);
+    background: #ffffff; /* Saf beyaz kartlar daha premium durur */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
 </style>
 </head>
 <body>
@@ -930,7 +1013,7 @@ nav a.active::after {
     </div>
     <div class="nfc-text-item item-1" data-target="#nasil" style="cursor: pointer;">Nasıl Çalışır?</div>
     <div class="nfc-text-item item-2" data-target="#ozellikler" style="cursor: pointer;">Özellikler</div>
-    <div class="nfc-text-item item-3" data-target="#tasarim" style="cursor: pointer;">Bilgiler</div>
+    <div class="nfc-text-item item-3" data-target="#tasarim" style="cursor: pointer;">Tasarım</div>
     <div class="nfc-text-item item-4" id="closeNfc" style="cursor: pointer;">Kapat</div>
 </div>
 </div>
@@ -1115,25 +1198,32 @@ nav a.active::after {
     </div>
 </div>
 <section id="kiyasa" class="comparison-section">
-    <div class="reveal" style="text-align: center; margin-bottom: 30px;">
-        <h2 style="font-size: 2.5rem; font-weight: 600;">Eskiyi Geride Bırakın</h2>
-        <p style="color: #86868b;">Dijital dönüşümü parmaklarınızla hissedin.</p>
+    <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-size: 3rem; font-weight: 600; letter-spacing: -0.02em;">Gelecek vs. Geçmiş</h2>
+        <p style="color: var(--text-dim); font-size: 1.2rem;">Hantal yığınlardan kurtulun, tek bir dokunuşa geçin.</p>
     </div>
 
-    <div class="comparison-wrapper" id="compWrapper">
-        <div class="comp-img comp-before"></div>
-        
-        <div class="comp-img comp-after" id="compAfter"></div>
-        
-        <div class="comp-slider" id="compSlider">
-            <div class="comp-button">↔</div>
+    <div class="comparison-static-container">
+        <div class="comp-box reveal delay-1">
+            <div class="comp-visual pile-bg">
+                <span class="comp-badge">ESKİ NESİL</span>
+            </div>
+            <div class="comp-info">
+                <h3>Yüzlerce Kağıt Yığını</h3>
+                <p>Taşıması zor, kaybolması kolay, güncellenmesi imkansız.</p>
+            </div>
         </div>
 
-        <div class="comp-labels">
-            <span class="comp-label" style="color:#0071e3;">SMART KART</span>
-            <span class="comp-label" style="color: #86868b;">KAĞIT KARTVİZİT</span>
+        <div class="comp-box reveal delay-2">
+            <div class="comp-visual smart-bg">
+                <span class="comp-badge highlight-badge">YENİ NESİL</span>
+            </div>
+            <div class="comp-info">
+                <h3>Tek Bir Akıllı Kart</h3>
+                <p>Her zaman cebinizde, sınırsız paylaşım ve anlık güncelleme.</p>
+            </div>
         </div>
-    </div> 
+    </div>
 </section>
 
 <footer style="padding: 40px; text-align: center; color: var(--text-dim); font-size: 0.8rem; background: var(--bg-color);">
@@ -1141,6 +1231,7 @@ nav a.active::after {
 </footer>
 
 <script>
+    let lastScrollTop = 0;
     const tiltCard = document.getElementById('tiltCard');
     const stackContainer = document.querySelector('.stack-container');
     const boxes = document.querySelectorAll('.info-box');
@@ -1150,6 +1241,7 @@ nav a.active::after {
     const themeIcon = document.getElementById('themeIcon');
     const html = document.documentElement;
     let isHovering = false;
+    let isNavClicking = false;
 
     // --- LOTTIE SCROLL LOGIC ---
    const nfcAnimation = lottie.loadAnimation({
@@ -1208,67 +1300,62 @@ nav a.active::after {
     });
 
     // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
-    let isTeleporting = false; 
-
-window.addEventListener('scroll', () => {
+   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
-    const stackRect = stackContainer.getBoundingClientRect();
-    const kiyasaSection = document.getElementById('kiyasa');
-    const html = document.documentElement;
+    
+    // 1. Kaydırma Yönü Belirleme
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    let isScrollingDown = st > lastScrollTop;
+    lastScrollTop = st <= 0 ? 0 : st;
 
-    // 1. Temel Nav & Kart Animasyonları
+    // 2. Nav & Tilt Kart (Mevcut Ayarların)
     nav.style.height = scrollY > 50 ? "50px" : "44px";
     if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
         tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
     }
 
-    // 2. Tasarım Bölümü İlerleme Hesaplama
-    let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
-    stackProgress = Math.max(0, Math.min(1, stackProgress));
-    scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
+    // 3. Stacking Boxes Logic
+    const stackContainer = document.querySelector('.stack-container');
+    const stackRect = stackContainer.getBoundingClientRect();
+    const kiyasaSection = document.getElementById('kiyasa');
+    const kiyasaRect = kiyasaSection.getBoundingClientRect();
 
-    // 3. --- IŞINLANMA MANTIĞI (DÜZELTİLMİŞ) ---
-    if (!isTeleporting) {
-        // AŞAĞI IŞINLANMA: Kartlar tamamen bittiğinde Kıyasla'ya geç
-        if (stackProgress > 0.99) {
-            isTeleporting = true;
-            kiyasaSection.scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => { isTeleporting = false; }, 1200); 
-            return;
-        }
-
-        // YUKARI IŞINLANMA: Kıyasla'nın tepesindeyken yukarı kaydırınca Tasarım'ın sonuna dön
-        const kiyasaRect = kiyasaSection.getBoundingClientRect();
-        // Sadece Kıyasla bölümü ekranın en tepesindeyse ve yukarı kaydırıyorsan tetiklenir
-        if (kiyasaRect.top > 0 && kiyasaRect.top < 100) {
-             const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-             // Kullanıcı yukarı kaydırma yapmaya çalışıyorsa
-             window.addEventListener('wheel', function(e) {
-                if (e.deltaY < 0 && !isTeleporting && kiyasaRect.top > 0) {
-                    isTeleporting = true;
-                    window.scrollTo({
-                        top: stackContainer.offsetTop + (stackContainer.offsetHeight - windowHeight) - 50,
-                        behavior: 'smooth'
-                    });
-                    setTimeout(() => { isTeleporting = false; }, 1200);
-                }
-             }, { once: true });
-        }
-    }
-
-    // 4. Snap Kontrolü (Tasarım içindeyken snap'i kapatır)
-    if (stackRect.top < 10 && stackRect.bottom > windowHeight) {
+    if (stackRect.top < 100 && stackRect.bottom > 0) {
         html.classList.add('no-snap');
     } else {
         html.classList.remove('no-snap');
     }
 
-    // 5. Kartların Yerleşme Animasyonu (Senin orijinal kodun)
+    let stackProgress = -stackRect.top / (stackRect.height - windowHeight);
+    stackProgress = Math.max(0, Math.min(1, stackProgress));
+    scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
+
+    // --- AKILLI GEÇİŞ MANTIĞI (ÇİFT YÖNLÜ) ---
+
+    // AŞAĞI GİDERKEN: Tasarım bittiğinde Kıyasla'ya ışınla
+    if (isScrollingDown && stackProgress > 0.98) {
+        if (kiyasaRect.top > 10) {
+            kiyasaSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // YUKARI GİDERKEN: Kıyasla'dan çıkarken Tasarım'ın sonuna ışınla
+if (!isNavClicking && !isScrollingDown && kiyasaRect.top > 0 && kiyasaRect.top < 150) {
+    window.scrollTo({
+        top: stackContainer.offsetTop + stackContainer.offsetHeight - windowHeight,
+        behavior: 'smooth'
+    });
+}
+
+    // 4. Kutuların Animasyonu (Mevcut Ayarların Korunarak)
     boxes.forEach((box, i) => {
         if (box.matches(':hover')) return;
 
-        let boxProgress = (stackProgress - (i / boxes.length)) / (1 / boxes.length);
+        let adjustedProgress = stackProgress * 1.35; 
+        adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
+
+        let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
         boxProgress = Math.max(0, Math.min(1, boxProgress));
         
         box.style.zIndex = 10 + i;
@@ -1285,7 +1372,6 @@ window.addEventListener('scroll', () => {
                     scale(${scale})
                 `;
                 box.style.opacity = "1";
-                
                 if (boxProgress === 1) {
                     box.style.transform += ` translateY(${i * -2}px)`;
                 }
@@ -1296,6 +1382,7 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
     const cardHitbox = document.getElementById('cardHitbox');
 const closeNfcBtn = document.getElementById('closeNfc');
 
@@ -1350,34 +1437,38 @@ closeNfcBtn.addEventListener('click', (e) => {
 });
 const navLinks = document.querySelectorAll('nav a');
 const sections = document.querySelectorAll('section, .stack-container');
-
 const scrollSpy = () => {
     let current = "";
     const scrollY = window.scrollY;
 
-    // Eğer sayfanın en tepesindeysek (ilk 100 piksel)
+    // Sayfa tepesindeyken
     if (scrollY < 100) {
         navLinks.forEach(link => link.classList.remove('active'));
-        navLinks[0].classList.add('active'); // "Smart Kart" linkini aktif yap
+        navLinks[0].classList.add('active');
         return;
     }
 
+    // Aktif bölümü bul (Senin mevcut mantığın)
     sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        if (scrollY >= sectionTop - 150) {
+        if (scrollY >= sectionTop - 250) { // Payı biraz artırdık daha hassas tetiklensin
             current = section.getAttribute("id");
         }
     });
 
+    // Menüdeki çizgiyi güncelle (Senin mevcut mantığın)
     navLinks.forEach((link) => {
         link.classList.remove("active");
         const href = link.getAttribute("href");
-        if (href.includes(current) && current !== "") {
+        if (href && href.includes(current) && current !== "") {
             link.classList.add("active");
         }
     });
-    
 };
+
+// Bu satırların mevcut olduğundan emin ol:
+window.addEventListener('scroll', scrollSpy);
+window.addEventListener('DOMContentLoaded', scrollSpy);
 cardOverlay.addEventListener('click', () => {
     closeNfcBtn.click();
 }); // <--- Buraya noktalı virgül eklendi
@@ -1408,27 +1499,41 @@ document.querySelectorAll('.nfc-text-item[data-target]').forEach(item => {
     });
 });
 
+
+document.querySelectorAll('nav a, .nfc-text-item[data-target], #toHero').forEach(link => {
+    link.addEventListener('click', () => {
+        isNavClicking = true;
+        // 1 saniye sonra kilidi kaldır (kaydırma bitince)
+        setTimeout(() => { isNavClicking = false; }, 1000);
+    });
+});
+
+
+
 // Smart Kart ne işe yarar? butonuna tıklama işlevi
 const toHeroBtn = document.getElementById('toHero');
 if (toHeroBtn) {
     toHeroBtn.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // 1. Kartı kapat
+        // 1. Engellemeyi kaldır (isNavClicking'i aktif et)
+        isNavClicking = true;
+
+        // 2. Kartı kapat
         closeNfcBtn.click();
 
-        // 2. Sayfanın en üstüne kaydır
+        // 3. Sayfanın en üstüne kaydır
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        // 4. Kaydırma bitince engellemeyi tekrar pasif et (1 saniye sonra)
         setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }, 500);
+            isNavClicking = false;
+        }, 1000);
     });
 }
-const wrapper = document.getElementById('compWrapper');
-const afterImg = document.getElementById('compAfter');
-const sliderLine = document.getElementById('compSlider');
 let isMoving = false;
 
 function processMove(x) {
@@ -1457,6 +1562,16 @@ wrapper.addEventListener('touchmove', (e) => {
 });
 window.addEventListener('scroll', scrollSpy);
 window.addEventListener('DOMContentLoaded', scrollSpy);
+
+
+document.querySelectorAll('nav a, .nfc-text-item[data-target], #toHero').forEach(link => {
+    link.addEventListener('click', () => {
+        isNavClicking = true;
+        // Kaydırma işlemi bitene kadar (1 saniye) akıllı geçişi durdur
+        setTimeout(() => { isNavClicking = false; }, 1000);
+    });
+});
+
 </script>
 </body>
 </html>
