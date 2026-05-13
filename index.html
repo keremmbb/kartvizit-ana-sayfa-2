@@ -842,19 +842,19 @@ nav a.active::after {
 /* --- COMPARISON SLIDER STYLES --- */
 /* --- COMPARISON SLIDER KESİN ÇÖZÜM --- */
 .comparison-section {
-    position: relative;
-    width: 100%;
-    min-height: 100vh; /* Tam ekran kaplamaya devam etsin */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-color);
-    scroll-snap-align: end; /* Sayfanın en sonunda dursun */
-    padding: 40px 0; /* Alt boşluğu daralttık */
-    overflow: hidden;
+    /* justify-content: flex-start zaten içeriği yukarı itiyor */
+    justify-content: flex-start !important;
+    padding-top: 140px !important; /* Başlığı navigasyondan biraz daha uzaklaştırdık */
+    position: relative;
+    min-height: 100vh;
 }
-
+.comparison-section h2, 
+.comparison-static-container {
+    transform: translateY(-25px);
+    margin-top: 20px !important; /* Bütün grubu biraz daha yukarı kaydır */
+}
 .comparison-wrapper {
     position: relative;
     width: 90%;
@@ -1067,22 +1067,26 @@ nav a.active::after {
 }
 
 .lang-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-main) !important;
+    padding: 6px 12px !important;
+    border-radius: 12px !important; /* Görseldeki gibi daha keskin kavis */
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 12px;
-    backdrop-filter: blur(10px);
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
     transition: all 0.3s ease;
 }
 .lang-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
 }
-
 .lang-btn.active {
     background: var(--accent-blue); /* Projenizdeki mavi rengi kullanır */
     color: #ffffff;
@@ -1104,16 +1108,30 @@ nav a.active::after {
 }
 .lang-dropdown {
     position: absolute;
-    top: 40px; /* Butonun hemen altında açılır */
-    right: 0;
-    background: rgba(20, 20, 20, 0.95);
+    top: calc(100% + 12px); /* Butonun biraz altında başlasın */
+    
+    /* --- ORTALAMA MANTIĞI --- */
+    left: 50%; 
+    transform: translateX(-50%) translateY(-10px) scale(0.95); /* Başlangıçta hem ortalı hem yukarıda */
+    /* ------------------------ */
+    
+    min-width: 110px; /* İçeriğe göre genişlik */
+    background: rgba(28, 28, 30, 0.9) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    display: none; /* Varsayılan olarak gizli */
+    border-radius: 15px;
+    padding: 6px;
+    display: flex;
     flex-direction: column;
-    min-width: 100px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    gap: 2px;
+    
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 10003;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 .lang-current {
     background: rgba(28, 28, 30, 0.7); /* Apple'ın koyu panel rengine yaklaştırıldı */
@@ -1172,19 +1190,33 @@ nav a.active::after {
     transform: rotate(180deg);
     color: #ffffff;
 }
-.lang-dropdown.active { display: flex; }
-.lang-dropdown div:hover { background: var(--accent-blue); color: white; }
+.lang-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    /* X ekseninde -50% sabit kalmalı ki bozulmasın, Y ve Scale düzeliyor */
+    transform: translateX(-50%) translateY(0) scale(1);
+    pointer-events: auto;
+}
+.lang-dropdown div:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
 .lang-dropdown div {
-    padding: 10px;
-    color: white;
+    padding: 10px 16px;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
     cursor: pointer;
-    text-align: center;
+    text-align: center; /* Yazıları kendi içinde ortalar */
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Yazıların tek satırda kalmasını sağlar */
 }
 .lang-selector {
     position: relative;
     margin: 0 10px;
     z-index: 9999; /* En üstte kalmasını sağlar */
+    display: inline-block;
 }
 .lang-item {
     padding: 10px 15px;
@@ -1209,6 +1241,59 @@ nav a.active::after {
 }
 .lang-item.selected {
     color: var(--accent-blue);
+}
+.comparison-section .footer-copy {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin: 0; /* Kaymaya sebep olan dış boşlukları sıfırla */
+    opacity: 0.3;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.lang-selector.fixed-lang {
+    position: fixed;
+    top: 20px;
+    right: 130px; /* Biraz daha sola çektik */
+    z-index: 10002;
+    transition: all 0.3s ease;
+}
+/* Navigasyon daraldığında dil seçicinin de yukarı çekilmesi için (Opsiyonel) */
+#dynamicNav[style*="height: 50px"] ~ .fixed-lang {
+    top: 17px;
+}
+.lang-btn i {
+    font-size: 18px !important;
+    opacity: 0.7;
+    display: inline-block; /* Dönme hareketi için gerekli */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Apple tarzı yumuşak geçiş */
+    pointer-events: none;
+}
+.lang-dropdown.active ~ .lang-btn i {
+    transform: rotate(180deg);
+}
+.light-mode .lang-btn {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.light-mode .lang-dropdown {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(0, 0, 0, 0.05);
+}
+.light-mode .lang-dropdown div {
+    color: #333;
+}
+@keyframes menuSlide {
+    from { opacity: 0; transform: translateY(-5px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.lang-dropdown.active + .lang-btn i, 
+.lang-selector.open .lang-btn i {
+    transform: rotate(180deg);
 }
 </style>
 </head>
@@ -1256,22 +1341,22 @@ nav a.active::after {
     <a href="#faq" data-i18n="nav_faq">SSS</a> 
     <a href="#tasarim" data-i18n="nav_design">Tasarım</a>
     <a href="#kiyasa" data-i18n="nav_compare">Kıyasla</a>
-    
-    <div class="lang-selector">
-        <button class="lang-btn" onclick="toggleLangMenu()">
-            <span id="current-lang">TR</span>
-            <i class="material-icons">expand_more</i>
-        </button>
-        <div class="lang-dropdown">
-            <div onclick="selectLang('tr')">Türkçe</div>
-            <div onclick="selectLang('en')">English</div>
-        </div>
-    </div>
 
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
     </div>
 </nav>
+
+<div class="lang-selector fixed-lang">
+    <button class="lang-btn" onclick="toggleLangMenu()">
+        <span id="current-lang">TR</span>
+        <i class="material-icons">expand_more</i>
+    </button>
+    <div class="lang-dropdown">
+        <div onclick="selectLang('tr')">Türkçe</div>
+        <div onclick="selectLang('en')">English</div>
+    </div>
+</div>
 
 <section class="hero">
     <h1 class="reveal delay-1" data-i18n="hero_title">Smart Kart</h1>
@@ -1464,13 +1549,10 @@ nav a.active::after {
             </div>
         </div>
     </div>
-
-    <p style="margin-top: 80px; color: var(--text-dim); font-size: 0.8rem; opacity: 0.5;" data-i18n="footer_copy">
-        © 2026 Smart Kart. Tüm Hakları Saklıdır.
-    </p>
+<p class="footer-copy" data-i18n="footer_copy">
+    © 2026 Smart Kart. Tüm Hakları Saklıdır.
+</p>
 </section>
-
-
 <script>
 let lastScrollTop = 0;
 const tiltCard = document.getElementById('tiltCard');
@@ -1525,7 +1607,7 @@ let isNavClicking = false;
         faq3_a: "Smart Kart paneliniz üzerinden bilgilerinizi dilediğiniz zaman, anlık olarak güncelleyebilirsiniz. Yeni bir kart almanıza gerek kalmaz.",
         faq4_q: "Güvenli mi?",
         faq4_a: "Kesinlikle. Smart Kart sadece paylaşmak istediğiniz bilgileri aktarır. Banka hesaplarınıza veya telefonunuzdaki özel verilere erişim sağlamaz.",
-        design_main_title: "Her Detayda Perfection.",
+        design_main_title: "Her Detayda Mükemmellik.",
         stack1_title: "Akıllı Kartvizit",
         stack1_desc: "Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.",
         stack2_title: "NFC Gücü",
@@ -1546,9 +1628,10 @@ let isNavClicking = false;
         new_title: "Tek Bir Akıllı Kart",
         new_desc: "Her zaman cebinizde, sınırsız paylaşım ve anlık güncelleme.",
         footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır."
+        
     },
     en: {
-        logo: "TARGET",
+        logo: "HEDEF",
         card_purpose: "What does Smart Card do?",
         nav_brand: "Smart Card",
         nav_how: "How it Works?",
@@ -1613,13 +1696,15 @@ let isNavClicking = false;
 
 function selectLang(lang) {
     const selectedLang = lang.toLowerCase();
+    
+    // UI Güncelleme
     const currentLangText = document.getElementById('current-lang');
     if(currentLangText) currentLangText.innerText = selectedLang.toUpperCase();
     
+    // Çevirileri Uygula
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[selectedLang] && translations[selectedLang][key]) {
-            // Eğer element bir input ise placeholder'ı değiştir, değilse innerText
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = translations[selectedLang][key];
             } else {
@@ -1628,15 +1713,24 @@ function selectLang(lang) {
         }
     });
 
+    // --- DEĞİŞEN KISIM: Menü ve Ok İşaretini Kapat ---
     const dropdown = document.querySelector('.lang-dropdown');
+    const selector = document.querySelector('.lang-selector');
+    
     if(dropdown) dropdown.classList.remove('active');
+    if(selector) selector.classList.remove('open'); // Oku aşağı döndürür
+    
     localStorage.setItem('selectedLang', selectedLang);
 }
 
 function toggleLangMenu() {
-        const dropdown = document.querySelector('.lang-dropdown');
-        if(dropdown) dropdown.classList.toggle('active');
-    }
+    const selector = document.querySelector('.lang-selector');
+    const dropdown = document.querySelector('.lang-dropdown');
+    
+    // Her iki elemente de class ekleyip çıkarıyoruz
+    if(selector) selector.classList.toggle('open');
+    if(dropdown) dropdown.classList.toggle('active');
+}
 
     const performThemeToggle = () => {
         if (html.classList.contains('dark-mode')) {
@@ -1741,12 +1835,12 @@ if (!isNavClicking && !isScrollingDown && kiyasaRect.top > 0 && kiyasaRect.top <
 
     // 4. Kutuların Animasyonu (Mevcut Ayarların Korunarak)
 // Kutuların Animasyonu Döngüsü
+// 4. Kutuların Animasyonu (Görünür Bekleme Güncellemesi)
 boxes.forEach((box, i) => {
     if (box.matches(':hover')) return;
 
-    // Çarpanı 1.35'ten 2.0'a çıkardık, böylece kaydırdığın an kutular fırlar
-    let adjustedProgress = stackProgress * 1.6; // 1.35 yerine 1.6 yaparak kutuları hızlandırdık
-adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
+    let adjustedProgress = stackProgress * 1.6; 
+    adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
 
     let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
     boxProgress = Math.max(0, Math.min(1, boxProgress));
@@ -1754,22 +1848,28 @@ adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
     box.style.zIndex = 10 + i;
 
     if (i === 0) {
+        // İlk kutu merkezde sabit
         box.style.transform = `translate(-50%, -50%) scale(1)`;
         box.style.opacity = "1";
     } else {
         if (boxProgress > 0) {
-            let scale = 0.2 + (boxProgress * 0.8);
-            // 75vw yerine 40vw kullanarak kutuların "yoldan gelme" süresini kısalttık
+            // Kaydırma sırasında aktifleşen hareket
+            let scale = 0.65 + (boxProgress * 0.35); 
             box.style.transform = `
-                translate(calc(-50% + ${(1 - boxProgress) * 40}vw), 
-                calc(-50% + ${(1 - boxProgress) * -20}vh)) 
+                translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
+                calc(-50% + ${(1 - boxProgress) * -10}vh)) 
                 scale(${scale})
             `;
-            box.style.opacity = boxProgress > 0.1 ? "1" : boxProgress * 10;
+            // Kaydırdıkça %20'den %100'e çıkar
+            box.style.opacity = 0.2 + (boxProgress * 0.8);
+            box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
         } else {
-            // Bekleme konumunu da yakına çektik
-            box.style.transform = `translate(15vw, -15vh) scale(0.2)`;
-            box.style.opacity = "0";
+            // BEKLEME DURUMU: Kutu henüz tetiklenmedi ama SAĞDA GÖRÜNÜYOR
+            // Kutuyu görünmez yapmak yerine sağda (35vw) sönük tutuyoruz
+            box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
+            box.style.opacity = "0.2"; // Görünürlük seviyesi (istediğin gibi artırabilirsin)
+            box.style.filter = "blur(5px)"; // Hafif derinlik hissi için flu
+            box.style.pointerEvents = "none"; // Bekleme modundayken tıklamayı engelle
         }
     }
 });
