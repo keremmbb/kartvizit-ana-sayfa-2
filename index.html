@@ -1077,8 +1077,8 @@ nav a.active::after {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 13px;
+    gap: 4px;
+    font-size: 14px;
     font-weight: 500;
     text-transform: uppercase;
     transition: all 0.3s ease;
@@ -1213,10 +1213,13 @@ nav a.active::after {
     white-space: nowrap; /* Yazıların tek satırda kalmasını sağlar */
 }
 .lang-selector {
-    position: relative;
-    margin: 0 10px;
-    z-index: 9999; /* En üstte kalmasını sağlar */
-    display: inline-block;
+    position: absolute !important;
+    top: 17px; 
+    right: 20%;  
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    height: 44px;
 }
 .lang-item {
     padding: 10px 15px;
@@ -1295,9 +1298,221 @@ nav a.active::after {
 .lang-selector.open .lang-btn i {
     transform: rotate(180deg);
 }
+.sales-title {
+    font-size: 4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+}
+
+.sales-sub {
+    color: var(--text-dim);
+    font-size: 1.4rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.highlight-card {
+    border: 1px solid var(--accent-blue) !important;
+    background: rgba(0, 113, 227, 0.05) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.highlight-card::after {
+    content: "EN ÇOK TERCİH EDİLEN";
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background: var(--accent-blue);
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 6px 40px;
+    transform: rotate(45deg);
+    white-space: nowrap;
+}
+
+.why-card h3 {
+    font-size: 1.6rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.light-mode .why-card h3 {
+    color: #1d1d1f !important; /* Başlıklar simsiyah */
+}
+.why-section {
+    padding: 120px 7% !important;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #000; /* Arka planın siyah olduğundan emin olalım */
+}
+
+/* Grid Yapısı: Kartları Yan Yana Getirir */
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 eşit sütun */
+    gap: 24px;
+    margin-top: 60px;
+}
+
+/* Kart Tasarımı */
+.why-card {
+    background: rgba(28, 28, 30, 0.6) !important; /* Apple Koyu Gri */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden; /* Ribbon'un dışarı taşmasını engeller */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* İçerikleri sola yaslar */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.why-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-blue);
+    background: rgba(44, 44, 46, 0.8) !important;
+}
+
+/* İkon Stilini Düzeltme */
+.why-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-blue);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.why-icon i {
+    color: white;
+    font-size: 28px;
+}
+
+/* Metinlerin Hizalanması */
+.why-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #fff;
+    text-align: left;
+}
+
+.why-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #a1a1a6; /* Apple gri metin rengi */
+    text-align: left;
+    margin: 0;
+}
+.light-mode .why-section {
+    background: #f5f5f7 !important; /* Apple'ın standart açık gri arka planı */
+}
+.light-mode .sales-title {
+    background: linear-gradient(135deg, #000 0%, #0071e3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.light-mode .sales-sub {
+    color: #1d1d1f !important;
+}
+.light-mode .why-card {
+    background: rgba(255, 255, 255, 0.8) !important; /* Beyaz cam efekti */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.light-mode .why-card p {
+    color: #424245 !important; /* Açıklamalar koyu gri */
+}
+.light-mode .why-card:hover {
+    background: #ffffff !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.light-mode .highlight-card {
+    border: 2px solid #0071e3 !important;
+}
+.eco-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #000; /* Görsel yüklenmezse en azından siyah kalsın */
+    z-index: 1;
+}
+
+.eco-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* ÖNEMLİ: Dosya adını kontrol et */
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('ağaç2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax */
+    z-index: -1;
+}
+
+.eco-content { color: white; padding: 20px; }
+
+/* Sayaç Rakamı Stili */
+.counter {
+    font-size: 8rem;
+    font-weight: 800;
+    color: #4caf50; /* Gradient çalışmazsa yeşil olsun */
+    background: linear-gradient(180deg, #ffffff 0%, #4caf50 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+.eco-stat-desc {
+    font-size: 1.3rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 30px;
+}
+
+.eco-description { max-width: 600px; margin: 20px auto; font-size: 1.2rem; }
+
+.eco-badge {
+    margin-top: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+    backdrop-filter: blur(15px);
+}
 </style>
 </head>
 <body>
+
+<div class="lang-selector">
+    <div class="lang-btn" onclick="toggleLangMenu()">
+        <span id="current-lang">TR</span>
+        <i class="material-icons">expand_more</i>
+    </div>
+    <div class="lang-dropdown">
+        <div onclick="selectLang('tr')">Türkçe</div>
+        <div onclick="selectLang('en')">English</div>
+    </div>
+</div>
+
 <div class="brand-logo" data-i18n="logo">HEDEF</div>
     <div class="card-overlay" id="cardOverlay"></div>
 
@@ -1341,22 +1556,13 @@ nav a.active::after {
     <a href="#faq" data-i18n="nav_faq">SSS</a> 
     <a href="#tasarim" data-i18n="nav_design">Tasarım</a>
     <a href="#kiyasa" data-i18n="nav_compare">Kıyasla</a>
+    <a href="#neden-smart-kart" data-i18n="nav_why">Neden?</a>
 
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
     </div>
 </nav>
 
-<div class="lang-selector fixed-lang">
-    <button class="lang-btn" onclick="toggleLangMenu()">
-        <span id="current-lang">TR</span>
-        <i class="material-icons">expand_more</i>
-    </button>
-    <div class="lang-dropdown">
-        <div onclick="selectLang('tr')">Türkçe</div>
-        <div onclick="selectLang('en')">English</div>
-    </div>
-</div>
 
 <section class="hero">
     <h1 class="reveal delay-1" data-i18n="hero_title">Smart Kart</h1>
@@ -1553,7 +1759,88 @@ nav a.active::after {
     © 2026 Smart Kart. Tüm Hakları Saklıdır.
 </p>
 </section>
+<section id="neden-smart-kart" class="why-section">
+    <div class="reveal" style="text-align: center; margin-bottom: 80px;">
+        <h2 class="sales-title" data-i18n="why_main_title">Gelecek Sizin Elinizde.</h2>
+        <p class="sales-sub" data-i18n="why_sub_title">Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.</p>
+    </div>
+
+    <div class="why-grid">
+        <div class="why-card reveal delay-1 highlight-card">
+            <div class="why-icon"><i class="material-icons">auto_awesome</i></div>
+            <h3 data-i18n="why1_title">Zirvede Bir İzlenim</h3>
+            <p data-i18n="why1_desc">Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.</p>
+        </div>
+
+        <div class="why-card reveal delay-2">
+            <div class="why-icon"><i class="material-icons">trending_up</i></div>
+            <h3 data-i18n="why2_title">Son Kartvizitiniz</h3>
+            <p data-i18n="why2_desc">Sürekli tükenen, basım maliyeti artan kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.</p>
+        </div>
+
+        <div class="why-card reveal delay-3">
+            <div class="why-icon"><i class="material-icons">bolt</i></div>
+            <h3 data-i18n="why3_title">Dinamik Güç</h3>
+            <p data-i18n="why3_desc">İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış numara basılmış binlerce kartı çöpe atma devri bitti.</p>
+        </div>
+    </div>
+</section>
+<section id="eco-impact" class="eco-section">
+    <div class="eco-bg-overlay"></div>
+    
+    <div class="eco-content">
+        <h2>Doğayı Birlikte Koruyoruz</h2>
+        <div class="counter-box">
+            <span id="tree-counter" class="counter">0</span>
+            <p>Her yıl sadece kartvizitler için kesilen ağaç sayısı</p>
+        </div>
+        <p class="eco-description">
+            Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. 
+            Smart Kart kullanarak bu israfı durdurabilir ve karbon ayak izinizi minimize edebilirsiniz.
+        </p>
+        <div class="eco-badge">
+            <i class="material-icons">eco</i>
+            <span>%100 Sürdürülebilir Seçenek</span>
+        </div>
+    </div>
+</section>
 <script>
+
+
+// Sayaç Fonksiyonu
+function startTreeCounter() {
+    const counterElement = document.getElementById('tree-counter');
+    let count = 0;
+    const target = 100000;
+    const duration = 2000; // 2 saniye
+    const increment = target / (duration / 16); // 60fps hesaplaması
+
+    const updateCount = () => {
+        count += increment;
+        if (count < target) {
+            counterElement.innerText = Math.floor(count).toLocaleString('tr-TR');
+            requestAnimationFrame(updateCount);
+        } else {
+            counterElement.innerText = target.toLocaleString('tr-TR');
+        }
+    };
+    updateCount();
+}
+
+// Scroll İzleyici
+const ecoSection = document.getElementById('eco-impact');
+let started = false;
+
+window.addEventListener('scroll', () => {
+    if (!ecoSection) return;
+    
+    const pos = ecoSection.getBoundingClientRect();
+    // Sayfa ekranın ortasına geldiğinde başla
+    if (pos.top < window.innerHeight / 2 && !started) {
+        startTreeCounter();
+        started = true;
+    }
+});
 let lastScrollTop = 0;
 const tiltCard = document.getElementById('tiltCard');
 const stackContainer = document.querySelector('.stack-container');
@@ -1568,6 +1855,15 @@ let isNavClicking = false;
 
     const translations = {
     tr: {
+        nav_why: "Neden?",
+        why_main_title: "Gelecek Sizin Elinizde.",
+        why_sub_title: "Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.",
+        why1_title: "Zirvede Bir İzlenim",
+        why1_desc: "Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.",
+        why2_title: "Son Kartvizitiniz",
+        why2_desc: "Sürekli tükenen kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.",
+        why3_title: "Dinamik Güç",
+        why3_desc: "İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış basılmış binlerce kartı çöpe atma devri bitti.",
         logo: "HEDEF",
         card_purpose: "Smart Kart ne işe yarar?",
         nav_brand: "Smart Kart",
@@ -1631,6 +1927,15 @@ let isNavClicking = false;
         
     },
     en: {
+        nav_why: "Why?",
+        why_main_title: "The Future in Your Hands.",
+        why_sub_title: "Leave behind the old generation of paper stacks. Meet the new standard of the modern world.",
+        why1_title: "Peak Impression",
+        why1_desc: "Don't be ordinary. The technological awe created the moment you tap your card puts you ahead of your competitors. Prove your professionalism in the first 3 seconds.",
+        why2_title: "Your Last Business Card",
+        why2_desc: "Say goodbye to papers that constantly run out. Buy once, use for a lifetime. Smart Card is not just technology, it's your most profitable business investment.",
+        why3_title: "Dynamic Power",
+        why3_desc: "The business world changes fast. Info changed? Update in seconds. The era of tossing thousands of misprinted cards is over.",
         logo: "HEDEF",
         card_purpose: "What does Smart Card do?",
         nav_brand: "Smart Card",
@@ -1786,7 +2091,8 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
     // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
-   window.addEventListener('scroll', () => {
+// --- GÜNCELLENMİŞ ANA SCROLL DÖNGÜSÜ (Lottie + Stack + Hover Fix) ---
+window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     
@@ -1795,13 +2101,13 @@ window.addEventListener('DOMContentLoaded', () => {
     let isScrollingDown = st > lastScrollTop;
     lastScrollTop = st <= 0 ? 0 : st;
 
-    // 2. Nav & Tilt Kart (Mevcut Ayarların)
+    // 2. Nav & Tilt Kart Ayarları
     nav.style.height = scrollY > 50 ? "50px" : "44px";
     if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
         tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
     }
 
-    // 3. Stacking Boxes Logic
+    // 3. Stacking Boxes Genel Mantığı
     const stackContainer = document.querySelector('.stack-container');
     const stackRect = stackContainer.getBoundingClientRect();
     const kiyasaSection = document.getElementById('kiyasa');
@@ -1817,62 +2123,64 @@ window.addEventListener('DOMContentLoaded', () => {
     stackProgress = Math.max(0, Math.min(1, stackProgress));
     scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
-    // --- AKILLI GEÇİŞ MANTIĞI (ÇİFT YÖNLÜ) ---
-
-    // AŞAĞI GİDERKEN: Tasarım bittiğinde Kıyasla'ya ışınla
-if (isScrollingDown && stackProgress > 0.85) { // 0.98 yerine 0.85 yaptık
-    if (kiyasaRect.top > 50) { 
-        kiyasaSection.scrollIntoView({ behavior: 'smooth' });
-    }
-}
-    // YUKARI GİDERKEN: Kıyasla'dan çıkarken Tasarım'ın sonuna ışınla
-if (!isNavClicking && !isScrollingDown && kiyasaRect.top > 0 && kiyasaRect.top < 150) {
-    window.scrollTo({
-        top: stackContainer.offsetTop + stackContainer.offsetHeight - windowHeight,
-        behavior: 'smooth'
-    });
-}
-
-    // 4. Kutuların Animasyonu (Mevcut Ayarların Korunarak)
-// Kutuların Animasyonu Döngüsü
-// 4. Kutuların Animasyonu (Görünür Bekleme Güncellemesi)
-boxes.forEach((box, i) => {
-    if (box.matches(':hover')) return;
-
-    let adjustedProgress = stackProgress * 1.6; 
-    adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
-
-    let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
-    boxProgress = Math.max(0, Math.min(1, boxProgress));
-    
-    box.style.zIndex = 10 + i;
-
-    if (i === 0) {
-        // İlk kutu merkezde sabit
-        box.style.transform = `translate(-50%, -50%) scale(1)`;
-        box.style.opacity = "1";
-    } else {
-        if (boxProgress > 0) {
-            // Kaydırma sırasında aktifleşen hareket
-            let scale = 0.65 + (boxProgress * 0.35); 
-            box.style.transform = `
-                translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
-                calc(-50% + ${(1 - boxProgress) * -10}vh)) 
-                scale(${scale})
-            `;
-            // Kaydırdıkça %20'den %100'e çıkar
-            box.style.opacity = 0.2 + (boxProgress * 0.8);
-            box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
-        } else {
-            // BEKLEME DURUMU: Kutu henüz tetiklenmedi ama SAĞDA GÖRÜNÜYOR
-            // Kutuyu görünmez yapmak yerine sağda (35vw) sönük tutuyoruz
-            box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
-            box.style.opacity = "0.2"; // Görünürlük seviyesi (istediğin gibi artırabilirsin)
-            box.style.filter = "blur(5px)"; // Hafif derinlik hissi için flu
-            box.style.pointerEvents = "none"; // Bekleme modundayken tıklamayı engelle
+    // --- AKILLI GEÇİŞ MANTIĞI ---
+    if (isScrollingDown && stackProgress > 0.85) {
+        if (kiyasaRect.top > 50) { 
+            kiyasaSection.scrollIntoView({ behavior: 'smooth' });
         }
     }
-});
+    if (!isNavClicking && !isScrollingDown && kiyasaRect.top > 0 && kiyasaRect.top < 150) {
+        window.scrollTo({
+            top: stackContainer.offsetTop + stackContainer.offsetHeight - windowHeight,
+            behavior: 'smooth'
+        });
+    }
+
+    // --- TASARIM KUTULARININ (INFO-BOXES) GÜNCEL ANİMASYONU ---
+    boxes.forEach((box, i) => {
+        // [KRİTİK DÜZELTME]: Mouse üzerindeyse bu kutu için scroll hesaplamasını atla
+        // Böylece CSS'deki :hover kuralları (scale ve z-index) devreye girebilir.
+        if (box.matches(':hover')) {
+            box.style.zIndex = "9999"; 
+            return; 
+        }
+
+        let adjustedProgress = stackProgress * 1.6; 
+        adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
+
+        let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
+        boxProgress = Math.max(0, Math.min(1, boxProgress));
+        
+        // Katman sırası: Normal durumda her kutu bir öncekinin üstündedir
+        box.style.zIndex = 10 + i;
+
+        if (i === 0) {
+            // İlk kutu merkezde sabit kalır
+            box.style.transform = `translate(-50%, -50%) scale(1)`;
+            box.style.opacity = "1";
+            box.style.filter = "blur(0px)";
+            box.style.pointerEvents = "auto";
+        } else {
+            if (boxProgress > 0) {
+                // Kaydırma sırasında aktifleşen hareket
+                let scale = 0.65 + (boxProgress * 0.35); 
+                box.style.transform = `
+                    translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
+                    calc(-50% + ${(1 - boxProgress) * -10}vh)) 
+                    scale(${scale})
+                `;
+                box.style.opacity = 0.2 + (boxProgress * 0.8);
+                box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
+                box.style.pointerEvents = "auto"; 
+            } else {
+                // Bekleme Durumu: Kutu henüz tetiklenmedi ama sağda sönük bekliyor
+                box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
+                box.style.opacity = "0.2";
+                box.style.filter = "blur(5px)";
+                box.style.pointerEvents = "none"; // Henüz gelmeyen kutuya tıklanmasın
+            }
+        }
+    });
 });
 
     const cardHitbox = document.getElementById('cardHitbox');
