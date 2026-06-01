@@ -1917,7 +1917,7 @@ nav a.active::after {
     </div>
 </div>
 <div class="lang-selector">
-    <div class="lang-btn" onclick="toggleLangMenu()">
+    <div class="lang-btn" onclick="toggleLangMenu(event)">
         <span id="current-lang">TR</span>
         <i class="material-icons">expand_more</i>
     </div>
@@ -2372,7 +2372,8 @@ let isNavClicking = false;
         eco_badge_text: "%100 Sürdürülebilir Seçenek",
         footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır.",
         nav_eco: "Doğa",
-        faq1_q: "Dijital kartvizit nedir?"
+        faq1_q: "Dijital kartvizit nedir?",
+        search_placeholder : "Sitede ara..."
     },
     en: {
         faq1_q: "What is a digital business card?",
@@ -2450,7 +2451,8 @@ let isNavClicking = false;
         eco_desc: "88% of traditional paper business cards go to waste within a week. By using Smart Card, you can stop this waste and minimize your carbon footprint.",
         eco_badge_text: "100% Sustainable Option",
         footer_copy: "© 2026 Smart Card. All Rights Reserved.",
-        nav_eco: "Nature"
+        nav_eco: "Nature",
+        search_placeholder: "Search in site..."
     }
 };
 
@@ -2473,24 +2475,53 @@ function selectLang(lang) {
         }
     });
 
-    // --- DEĞİŞEN KISIM: Menü ve Ok İşaretini Kapat ---
     const dropdown = document.querySelector('.lang-dropdown');
     const selector = document.querySelector('.lang-selector');
     
-    if(dropdown) dropdown.classList.remove('active');
-    if(selector) selector.classList.remove('open'); // Oku aşağı döndürür
+if(dropdown) dropdown.classList.remove('active');
+    if(selector) selector.classList.remove('open');
+    
+    // --- YENİ: Arama Kutusunun Yazısını Dile Göre Güncelle ---
+    const globalSearchInput = document.getElementById('globalSearchInput');
+    if (globalSearchInput && translations[selectedLang] && translations[selectedLang]["search_placeholder"]) {
+        globalSearchInput.placeholder = translations[selectedLang]["search_placeholder"];
+    }
     
     localStorage.setItem('selectedLang', selectedLang);
 }
 
-function toggleLangMenu() {
+// Tıklama olayını (e) içeri alarak diğer elementlerin açılma kilitlerini eziyoruz
+function toggleLangMenu(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     const selector = document.querySelector('.lang-selector');
     const dropdown = document.querySelector('.lang-dropdown');
     
-    // Her iki elemente de class ekleyip çıkarıyoruz
+    // Dil menüsü açılırken arama kutusu açıksa onu pürüzsüzce kapatır
+    const searchContainer = document.getElementById('globalSearchContainer');
+    if (searchContainer && searchContainer.classList.contains('active')) {
+        searchContainer.classList.remove('active');
+        const searchIcon = document.getElementById('globalSearchIcon');
+        const searchInput = document.getElementById('globalSearchInput');
+        if (searchIcon) searchIcon.innerText = 'search';
+        if (searchInput) searchInput.value = "";
+    }
+    
     if(selector) selector.classList.toggle('open');
     if(dropdown) dropdown.classList.toggle('active');
 }
+
+// Boşluğa tıklandığında dil menüsünün kapanmasını sağlayan global dinleyici
+document.addEventListener('click', function(event) {
+    const selector = document.querySelector('.lang-selector');
+    const dropdown = document.querySelector('.lang-dropdown');
+    if (dropdown && selector && !selector.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.remove('active');
+        selector.classList.remove('open');
+    }
+});
 
     const performThemeToggle = () => {
         if (html.classList.contains('dark-mode')) {
