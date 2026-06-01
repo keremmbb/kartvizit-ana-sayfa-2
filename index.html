@@ -532,37 +532,56 @@
 }
 /* --- SSS (FAQ) STİLLERİ --- */
 .faq-section {
-    max-width: 800px; /* Kutuları biraz daralttık (900px -> 800px) */
-    width: 100%;
-    margin: 60px auto; /* Üst boşluğu biraz azalttık başlığın yukarı kaçmaması için */
-    padding: 0 20px;
+    padding: 80px 20px;
+    max-width: 800px;
+    margin: 0 auto !important;
 }
 
 .faq-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
 }
 
 .faq-item {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 12px; /* Kutuların birbirine girmesini engeller */
-    height: auto; /* Yüksekliğin otomatik ayarlanmasını sağlar */
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.faq-question {
-    padding: 18px 25px;
+.dark-mode .faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.light-mode .faq-item {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+.faq-question-row {
+    padding: 24px;
     display: flex;
-    justify-content: flex-start; /* Ok gittiği için sola yaslamak daha şık durabilir */
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     user-select: none;
+}
+.faq-question-row h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+.faq-section, #faq {
+    border: none !important;
+    outline: none !important;
+}
+.faq-question {
+    border: none !important;
+    border-bottom: none !important;
 }
 
 .faq-question h4 {
@@ -572,7 +591,9 @@
 }
 
 .faq-icon {
-    display: none;
+    font-size: 24px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    color: var(--accent-blue, #22c55e); /* Projene göre yeşil veya mavi renk çeker */
 }
 
 .faq-answer {
@@ -581,22 +602,37 @@
     transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
     padding: 0 30px;
 }
+
+.faq-answer-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
 .faq-answer p {
     padding-bottom: 20px;
     color: var(--text-dim);
     line-height: 1.6;
     font-size: 0.9rem;
 }
-
+.faq-answer-content {
+    padding: 0 24px 24px 24px;
+    line-height: 1.6;
+    opacity: 0.8;
+    font-size: 1rem;
+}
 /* Açık durum tasarımı */
 .faq-item.active {
-    border-color: var(--accent-blue);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 .faq-item.active .faq-answer {
     max-height: 500px; /* İçeriğin sığması için değeri biraz artırdık */
     padding-bottom: 25px; /* Sadece açıkken alt boşluk verir */
 }
-
+.light-mode .faq-item.active {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+}
 .faq-item.active .faq-icon {
     transform: rotate(180deg);
 }
@@ -1442,14 +1478,11 @@ nav a.active::after {
     border: 2px solid #0071e3 !important;
 }
 .eco-section {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #000; /* Görsel yüklenmezse en azından siyah kalsın */
-    z-index: 1;
+    opacity: 0;
+    transform: translateY(30px); /* Hafif aşağıdan yukarı süzülme */
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
 }
 
 .eco-bg-overlay {
@@ -1466,8 +1499,10 @@ nav a.active::after {
     z-index: -1;
 }
 
-.eco-content { color: white; padding: 20px; }
-
+.eco-content {
+    opacity: 0;
+    transition: opacity 1s ease-out 0.5s; /* 0.5 saniye gecikmeyle başlar */
+}
 /* Sayaç Rakamı Stili */
 .counter {
     font-size: 8rem;
@@ -1497,6 +1532,172 @@ nav a.active::after {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 100px;
     backdrop-filter: blur(15px);
+}
+.eco-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.eco-section.active .eco-content {
+    opacity: 1;
+}
+/* --- Aydınlık Mod Özel Renkleri --- */
+.light-mode .eco-section {
+    background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2071&auto=format&fit=crop') !important;
+    background-attachment: fixed;
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light-mode .eco-bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Çok hafif bir kirli beyaz geçişi */
+    background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.9) 100%) !important;
+    backdrop-filter: blur(12px) saturate(180%) !important; /* Daha yumuşak bir bulanıklık */
+    z-index: 1;
+}
+.light-mode #tree-counter {
+    /* Renk Geçişi (Apple Tarzı) */
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* İçi degrade yeşil oldu */
+    
+    font-size: 9rem; /* Biraz daha devasa ve prestijli */
+    font-weight: 800;
+    line-height: 1;
+    display: block;
+    margin: 10px 0;
+    filter: drop-shadow(0 10px 20px rgba(22, 163, 74, 0.2)); /* Siyah kenarlık yerine yumuşak yeşil gölge */
+    
+    /* İnce bir dokunuş: Çok hafif bir dış ışıma */
+    text-shadow: none; 
+    -webkit-text-stroke: 0px; /* Siyah kenarlığı kaldırdık, kaliteyi artırdık */
+}
+.light-mode .eco-description {
+    color: #334155 !important;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 30px auto;
+    font-weight: 400;
+}
+.light-mode .eco-badge {
+    background: rgba(34, 197, 94, 0.08) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    color: #15803d !important;
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.light-mode .counter-box p {
+    color: #64748b !important;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+/* --- Genel Fade-In Animasyonu (Hem Dark Hem Light İçin) --- */
+.eco-section {
+    opacity: 0;
+    transform: scale(0.98) translateY(20px);
+    transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.eco-section.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+.light-mode .eco-content {
+    position: relative;
+    z-index: 2;
+}
+.light-mode .eco-content h2 {
+    color: #1e293b !important;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.5); }
+    100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+}
+/* Zıplama Animasyonu */
+@keyframes premiumCountJump {
+    0% {
+        transform: scale(1) translateY(0);
+        filter: blur(0px); /* Başlangıç net */
+    }
+    15% {
+        /* Çok hızlı, çok az genleşme */
+        transform: scale(1.02, 0.98) translateY(0);
+    }
+    40% {
+        /* Mikro-Zıplama: Çok az yukarı, dikeyde uzama, yatayda daralma */
+        transform: scale(0.99, 1.04) translateY(-3px);
+        filter: blur(0.2px); /* Çok hafif hareket bulanıklığı */
+    }
+    60% {
+        /* Yere çarpma öncesi toparlanma */
+        transform: scale(1.01, 0.99) translateY(0);
+    }
+    80% {
+        /* Hafif esneme */
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        filter: blur(0px);
+    }
+}
+
+.jump-animation {
+    display: inline-block;
+    will-change: transform, filter; /* Performans optimizasyonu */
+    /* Biraz daha uzun süre, mükemmel cubic-bezier esnekliği */
+    animation: premiumCountJump 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.sticky-faq-title {
+    font-size: 3rem !important;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 50px !important;
+    background: transparent !important;
+    position: static !important; /* Karmaşık yapışkanlık yerine temiz akış */
+}
+.faq-standalone-question {
+    margin-top: 100px; /* Başlıkla soru arasındaki boşluk */
+    padding: 50px 0;
+    text-align: center;
+    width: 100%;
+}
+.faq-standalone-question h4 {
+    font-size: 1.8rem;
+    color: #fff;
+    opacity: 0.9;
+    margin: 0;
+}
+/* Aydınlık mod kullanıyorsan onun için de çizgileri kapatalım */
+.light-mode .sticky-faq-title {
+    background-color: #ffffff !important;
+    color: #000000;
+    border: none !important;
+}
+.faq-item p, 
+.faq-answer, 
+.faq-item::before, 
+.faq-item::after {
+    display: none !important;
+}
+.faq-content-wrapper {
+    padding: 50px 0;
+    display: block;
 }
 </style>
 </head>
@@ -1557,6 +1758,7 @@ nav a.active::after {
     <a href="#tasarim" data-i18n="nav_design">Tasarım</a>
     <a href="#kiyasa" data-i18n="nav_compare">Kıyasla</a>
     <a href="#neden-smart-kart" data-i18n="nav_why">Neden?</a>
+    <a href="#eco-impact" data-i18n="nav_eco">Doğa</a>
 
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
@@ -1666,45 +1868,56 @@ nav a.active::after {
     </div>
 </section>
 
-<section id="faq" class="faq-section">
-    <h2 class="reveal delay-1" style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;" data-i18n="faq_title">Aklınıza takılanlar.</h2>
+<section id="faq" class="faq-section reveal">
+    <h2 class="sticky-faq-title" data-i18n="faq_title">Sıkça Sorulan Sorular</h2>
     
-    <div class="faq-item reveal delay-2">
-        <div class="faq-question">
-            <h4 data-i18n="faq1_q">Uygulama indirmek gerekiyor mu?</h4>
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question-row" onclick="toggleFaq(this)">
+                <h4 data-i18n="faq1_q">Dijital kartvizit nedir?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer-wrapper">
+                <div class="faq-answer-content" data-i18n="faq1_a">
+                    Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur...
+                </div>
+            </div>
         </div>
-        <div class="faq-answer">
-            <p data-i18n="faq1_a">Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Kartınızı telefona yaklaştırdığınızda profiliniz otomatik olarak tarayıcıda açılır.</p>
-        </div>
-    </div>
 
-    <div class="faq-item reveal delay-3">
-        <div class="faq-question">
-            <h4 data-i18n="faq2_q">Hangi telefonlarla uyumlu?</h4>
-            <i class="material-icons faq-icon">expand_more</i>
+        <div class="faq-item">
+            <div class="faq-question-row" onclick="toggleFaq(this)">
+                <h4 data-i18n="faq2_q">Hangi telefonlarla uyumlu?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer-wrapper">
+                <div class="faq-answer-content" data-i18n="faq2_a">
+                    2018 sonrası çıkan neredeyse tüm iPhone modelleri...
+                </div>
+            </div>
         </div>
-        <div class="faq-answer">
-            <p data-i18n="faq2_a">2018 sonrası çıkan neredeyse tüm iPhone modelleri ve NFC özelliği bulunan tüm Android cihazlarla tam uyumlu çalışır.</p>
-        </div>
-    </div>
 
-    <div class="faq-item reveal delay-1">
-        <div class="faq-question">
-            <h4 data-i18n="faq3_q">Bilgilerimi nasıl güncellerim?</h4>
-            <i class="material-icons faq-icon">expand_more</i>
+        <div class="faq-item">
+            <div class="faq-question-row" onclick="toggleFaq(this)">
+                <h4 data-i18n="faq3_q">Bilgilerimi nasıl güncellerim?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer-wrapper">
+                <div class="faq-answer-content" data-i18n="faq3_a">
+                    Smart Kart paneliniz üzerinden bilgilerinizi dilediğiniz zaman...
+                </div>
+            </div>
         </div>
-        <div class="faq-answer">
-            <p data-i18n="faq3_a">Smart Kart paneliniz üzerinden bilgilerinizi dilediğiniz zaman, anlık olarak güncelleyebilirsiniz. Yeni bir kart almanıza gerek kalmaz.</p>
-        </div>
-    </div>
 
-    <div class="faq-item reveal delay-2">
-        <div class="faq-question">
-            <h4 data-i18n="faq4_q">Güvenli mi?</h4>
-            <i class="material-icons faq-icon">expand_more</i>
-        </div>
-        <div class="faq-answer">
-            <p data-i18n="faq4_a">Kesinlikle. Smart Kart sadece paylaşmak istediğiniz bilgileri aktarır. Banka hesaplarınıza veya telefonunuzdaki özel verilere erişim sağlamaz.</p>
+        <div class="faq-item">
+            <div class="faq-question-row" onclick="toggleFaq(this)">
+                <h4 data-i18n="faq4_q">Güvenli mi?</h4>
+                <i class="material-icons faq-icon">expand_more</i>
+            </div>
+            <div class="faq-answer-wrapper">
+                <div class="faq-answer-content" data-i18n="faq4_a">
+                    Kesinlikle. Smart Kart sadece paylaşmak istediğiniz bilgileri aktarır...
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -1785,22 +1998,22 @@ nav a.active::after {
         </div>
     </div>
 </section>
-<section id="eco-impact" class="eco-section">
+<section id="eco-impact" class="eco-section reveal">
     <div class="eco-bg-overlay"></div>
     
     <div class="eco-content">
-        <h2>Doğayı Birlikte Koruyoruz</h2>
+        <h2 data-i18n="eco_title">Doğayı Birlikte Koruyoruz</h2>
         <div class="counter-box">
             <span id="tree-counter" class="counter">0</span>
-            <p>Her yıl sadece kartvizitler için kesilen ağaç sayısı</p>
+            <p data-i18n="eco_counter_desc">Her yıl sadece kartvizitler için kesilen ağaç sayısı</p>
         </div>
-        <p class="eco-description">
+        <p class="eco-description" data-i18n="eco_desc">
             Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. 
             Smart Kart kullanarak bu israfı durdurabilir ve karbon ayak izinizi minimize edebilirsiniz.
         </p>
         <div class="eco-badge">
             <i class="material-icons">eco</i>
-            <span>%100 Sürdürülebilir Seçenek</span>
+            <span data-i18n="eco_badge_text">%100 Sürdürülebilir Seçenek</span>
         </div>
     </div>
 </section>
@@ -1808,23 +2021,38 @@ nav a.active::after {
 
 
 // Sayaç Fonksiyonu
+let currentTreeCount = 0;
+
+let ecoStarted = false; 
+
+
 function startTreeCounter() {
     const counterElement = document.getElementById('tree-counter');
-    let count = 0;
-    const target = 100000;
-    const duration = 2000; // 2 saniye
-    const increment = target / (duration / 16); // 60fps hesaplaması
+    if (!counterElement) return;
 
-    const updateCount = () => {
-        count += increment;
-        if (count < target) {
-            counterElement.innerText = Math.floor(count).toLocaleString('tr-TR');
-            requestAnimationFrame(updateCount);
-        } else {
-            counterElement.innerText = target.toLocaleString('tr-TR');
-        }
+    const target = 350000;
+    const duration = 2000;
+    const startTime = performance.now();
+    const currentLang = localStorage.getItem('selectedLang') || 'tr';
+
+    const updateCount = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentCount = Math.floor(target * easeOut);
+        
+        counterElement.innerText = currentCount.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
+
+        if (progress < 1) {
+    requestAnimationFrame(updateCount);
+} else {
+    counterElement.innerText = target.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
+    
+    // SAYIM BİTTİĞİNDE ZIPLAMAYI BAŞLAT
+    setupCounterJump(); 
+}
     };
-    updateCount();
+    requestAnimationFrame(updateCount);
 }
 
 // Scroll İzleyici
@@ -1855,6 +2083,7 @@ let isNavClicking = false;
 
     const translations = {
     tr: {
+        
         nav_why: "Neden?",
         why_main_title: "Gelecek Sizin Elinizde.",
         why_sub_title: "Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.",
@@ -1894,7 +2123,7 @@ let isNavClicking = false;
         feat4_desc: "Bilgilerinizi dilediğiniz an tek tıkla değiştirin.",
         feat5_title: "Analiz",
         feat5_desc: "Tıklanma oranlarınızı anlık takip edin.",
-        faq_title: "Aklınıza takılanlar.",
+        faq_title: "Sıkça Sorulan Sorular",
         faq1_q: "Uygulama indirmek gerekiyor mu?",
         faq1_a: "Hayır, karşı tarafın herhangi bir uygulama indirmesine gerek yoktur. Kartınızı telefona yaklaştırdığınızda profiliniz otomatik olarak tarayıcıda açılır.",
         faq2_q: "Hangi telefonlarla uyumlu?",
@@ -1923,10 +2152,17 @@ let isNavClicking = false;
         new_gen: "YENİ NESİL",
         new_title: "Tek Bir Akıllı Kart",
         new_desc: "Her zaman cebinizde, sınırsız paylaşım ve anlık güncelleme.",
-        footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır."
-        
+        footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır.",
+        eco_title: "Doğayı Birlikte Koruyoruz",
+        eco_counter_desc: "Her yıl sadece kartvizitler için kesilen ağaç sayısı",
+        eco_desc: "Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. Smart Kart kullanarak bu israfı durdurabilir ve karbon ayak izinizi minimize edebilirsiniz.",
+        eco_badge_text: "%100 Sürdürülebilir Seçenek",
+        footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır.",
+        nav_eco: "Doğa",
+        faq1_q: "Dijital kartvizit nedir?"
     },
     en: {
+        faq1_q: "What is a digital business card?",
         nav_why: "Why?",
         why_main_title: "The Future in Your Hands.",
         why_sub_title: "Leave behind the old generation of paper stacks. Meet the new standard of the modern world.",
@@ -1966,7 +2202,7 @@ let isNavClicking = false;
         feat4_desc: "Change your information anytime with a single click.",
         feat5_title: "Analytics",
         feat5_desc: "Track your click rates in real-time.",
-        faq_title: "Common Questions.",
+        faq_title: "Frequently Asked Questions",
         faq1_q: "Do I need an app?",
         faq1_a: "No, the other party doesn't need to download anything. Your profile opens automatically in the browser.",
         faq2_q: "Is it compatible?",
@@ -1995,7 +2231,13 @@ let isNavClicking = false;
         new_gen: "NEW GENERATION",
         new_title: "One Smart Card",
         new_desc: "Always in your pocket, unlimited sharing and instant updates.",
-        footer_copy: "© 2026 Smart Card. All Rights Reserved."
+        footer_copy: "© 2026 Smart Card. All Rights Reserved.",
+        eco_title: "Protecting Nature Together",
+        eco_counter_desc: "Number of trees cut down every year just for business cards",
+        eco_desc: "88% of traditional paper business cards go to waste within a week. By using Smart Card, you can stop this waste and minimize your carbon footprint.",
+        eco_badge_text: "100% Sustainable Option",
+        footer_copy: "© 2026 Smart Card. All Rights Reserved.",
+        nav_eco: "Nature"
     }
 };
 
@@ -2081,15 +2323,37 @@ document.querySelectorAll('nav a, .nfc-text-item[data-target], #toHero').forEach
     });
 });
 window.addEventListener('DOMContentLoaded', () => {
+    // Tema ve Dil İlk Yükleme
     const savedTheme = localStorage.getItem('user-theme');
     if (savedTheme === 'light') performThemeToggle();
-    
     const savedLang = localStorage.getItem('selectedLang') || 'tr';
     selectLang(savedLang);
-    
-    document.querySelectorAll('.reveal, .bento-reveal').forEach(el => revealObserver.observe(el));
-});
 
+    // DOĞA BÖLÜMÜ ÖZEL OBSERVER
+    const ecoSection = document.getElementById('eco-impact');
+    if (ecoSection) {
+        const ecoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); // Fade-in Başlat
+                    startTreeCounter(); // Sayacı Sıfırdan 350.000'e Başlat
+                } else {
+                    entry.target.classList.remove('active'); // Çıkınca Gizle
+                    const counterElement = document.getElementById('tree-counter');
+                    if(counterElement) counterElement.innerText = "0"; // Sayıyı Sıfırla
+                }
+            });
+        }, { threshold: 0.2 });
+        ecoObserver.observe(ecoSection);
+    }
+
+    // DİĞER REVEAL ELEMANLARI
+    document.querySelectorAll('.reveal, .bento-reveal').forEach(el => {
+        if (el.id !== 'eco-impact') revealObserver.observe(el);
+    });
+
+    if (typeof scrollSpy === "function") scrollSpy();
+});
     // --- ANA SCROLL DÖNGÜSÜ (Lottie + Stack) ---
 // --- GÜNCELLENMİŞ ANA SCROLL DÖNGÜSÜ (Lottie + Stack + Hover Fix) ---
 window.addEventListener('scroll', () => {
@@ -2374,6 +2638,42 @@ document.querySelectorAll('nav a, .nfc-text-item[data-target], #toHero').forEach
 window.onclick = function(event) {
     if (!event.target.closest('.lang-dropdown')) {
         document.querySelector('.lang-dropdown').classList.remove('active');
+    }
+}
+function setupCounterJump() {
+    const counterElement = document.getElementById('tree-counter');
+    if (!counterElement) return;
+
+    // 3 saniyede bir, 1 saniyelik lüks esneme hareketi
+    setInterval(() => {
+        counterElement.classList.add('jump-animation');
+        
+        // Animasyon bitince (1s sonra) sınıfı temizle
+        setTimeout(() => {
+            counterElement.classList.remove('jump-animation');
+        }, 1000); 
+    }, 3000); 
+}
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const answerWrapper = faqItem.querySelector('.faq-answer-wrapper');
+    
+    // Diğer açık olan SSS kutularını kapatmak istersen (Opsiyonel)
+    document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem && item.classList.contains('active')) {
+            item.classList.remove('active');
+            item.querySelector('.faq-answer-wrapper').style.maxHeight = null;
+        }
+    });
+
+    // Tıklanan kutuyu aç/kapat
+    if (faqItem.classList.contains('active')) {
+        faqItem.classList.remove('active');
+        answerWrapper.style.maxHeight = null;
+    } else {
+        faqItem.classList.add('active');
+        // İçeriğin gerçek yüksekliğini alarak pürüzsüz animasyon sağlıyoruz
+        answerWrapper.style.maxHeight = answerWrapper.scrollHeight + "px";
     }
 }
 </script>
