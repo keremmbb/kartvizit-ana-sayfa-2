@@ -2810,12 +2810,18 @@ window.addEventListener('scroll', () => {
     stackProgress = Math.max(0, Math.min(1, stackProgress));
     scrollHint.style.opacity = stackProgress > 0.05 ? "0" : "1";
 
-    // --- AKILLI GEÇİŞ MANTIĞI ---
-    if (isScrollingDown && stackProgress > 0.85) {
+    // --- AKILLI GEÇİŞ MANTIĞI (TEMİZLENDİ VE KUSURSUZLAŞTIRILDI) ---
+    
+    // 1. AŞAĞI DOĞRU OTOMATİK GEÇİŞ:
+    // Menüden bir şeye tıklanmıyorsa (!isNavClicking) otomatik geçiş çalışır. 
+    // Böylece "Doğa"ya basınca araya girip "Kıyasla"da durdurmaz.
+    if (!isNavClicking && isScrollingDown && stackProgress > 0.85) {
         if (kiyasaRect.top > 50) { 
             kiyasaSection.scrollIntoView({ behavior: 'smooth' });
         }
     }
+    
+    // 2. YUKARI DOĞRU OTOMATİK GEÇİŞ: 
     if (!isNavClicking && !isScrollingDown && kiyasaRect.top > 0 && kiyasaRect.top < 150) {
         window.scrollTo({
             top: stackContainer.offsetTop + stackContainer.offsetHeight - windowHeight,
@@ -2825,8 +2831,6 @@ window.addEventListener('scroll', () => {
 
     // --- TASARIM KUTULARININ (INFO-BOXES) GÜNCEL ANİMASYONU ---
     boxes.forEach((box, i) => {
-        // [KRİTİK DÜZELTME]: Mouse üzerindeyse bu kutu için scroll hesaplamasını atla
-        // Böylece CSS'deki :hover kuralları (scale ve z-index) devreye girebilir.
         if (box.matches(':hover')) {
             box.style.zIndex = "9999"; 
             return; 
@@ -2838,18 +2842,15 @@ window.addEventListener('scroll', () => {
         let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
         boxProgress = Math.max(0, Math.min(1, boxProgress));
         
-        // Katman sırası: Normal durumda her kutu bir öncekinin üstündedir
         box.style.zIndex = 10 + i;
 
         if (i === 0) {
-            // İlk kutu merkezde sabit kalır
             box.style.transform = `translate(-50%, -50%) scale(1)`;
             box.style.opacity = "1";
             box.style.filter = "blur(0px)";
             box.style.pointerEvents = "auto";
         } else {
             if (boxProgress > 0) {
-                // Kaydırma sırasında aktifleşen hareket
                 let scale = 0.65 + (boxProgress * 0.35); 
                 box.style.transform = `
                     translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
@@ -2860,18 +2861,17 @@ window.addEventListener('scroll', () => {
                 box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
                 box.style.pointerEvents = "auto"; 
             } else {
-                // Bekleme Durumu: Kutu henüz tetiklenmedi ama sağda sönük bekliyor
                 box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
                 box.style.opacity = "0.2";
                 box.style.filter = "blur(5px)";
-                box.style.pointerEvents = "none"; // Henüz gelmeyen kutuya tıklanmasın
+                box.style.pointerEvents = "none";
             }
         }
     });
+
+    // --- KARTIN HER SAYFADA GÖRÜNÜR KALMASINI SAĞLAYAN MOTOR ---
     const enAltBolum = document.getElementById('en-alt-bolum'); 
     if (enAltBolum && typeof tiltCard !== 'undefined') {
-        // Kartın hiçbir sayfada (en alt sayfa dahil) gizlenmesini istemiyoruz.
-        // Bu yüzden opacity değerini her zaman 1 ve tıklanabilir (auto) yapıyoruz.
         if (!tiltCard.classList.contains('active-nfc')) {
             tiltCard.style.opacity = "1";
             tiltCard.style.pointerEvents = "auto";
