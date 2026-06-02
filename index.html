@@ -2100,6 +2100,83 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     transform: scale(1.02);
     filter: drop-shadow(0 25px 60px rgba(0,0,0,0.2));
 }
+/* Uygulama Izgara (Grid) Yapısı */
+.app-grid {
+    flex: 1;
+    min-width: 320px;
+    max-width: 500px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    justify-items: center;
+    align-content: center;
+}
+
+/* Her Bir Uygulama Kutusunun Apple Tarzı Tasarımı */
+.app-box {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px; /* iOS Squircle Köşe Yumuşaklığı */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Kutu İçindeki Görsellerin Hizalanması */
+.app-box img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+/* Hover Yapınca Kutunun Öne Fırlama Efekti */
+.app-box:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+    z-index: 10;
+}
+
+/* Sağ Taraf: Lottie Container Tasarımı */
+#share-lottie-container {
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--card-bg, #ffffff);
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.12));
+    border: 8px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+#share-lottie-container:hover {
+    transform: scale(1.03);
+    filter: drop-shadow(0 35px 70px rgba(0,0,0,0.18));
+}
+
+/* Mobil Ekranlar İçin Boyut Ayarı */
+@media (max-width: 480px) {
+    .app-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    .app-box {
+        width: 65px;
+        height: 65px;
+        border-radius: 14px;
+    }
+    #share-lottie-container {
+        width: 320px;
+        height: 320px;
+    }
+}
 </style>
 </head>
 <body>
@@ -2421,30 +2498,116 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
 <section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden;">
     
     <div style="text-align: center; margin-bottom: 60px;">
-        <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;" data-i18n="share_title">HEDEF</h2>
-        <h3 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 10px;" data-i18n="share_main_sub">Smart Kart ile Neler Paylaşabilirsin?</h3>
-        <p style="color: var(--text-dim); font-size: 1.2rem;" data-i18n="share_sub_desc">Tüm dijital dünyanızı tek bir dokunuşla aktarın.</p>
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 15px; color: var(--text-color); letter-spacing: -1px;" data-i18n="share_main_title">Diji Card ile Neler Paylaşabilirsin?</h2>
+        <p style="color: var(--text-dim); font-size: 1.2rem; font-weight: 500;" data-i18n="share_sub_desc">Tüm dijital dünyanızı tek bir dokunuşla aktarın.</p>
     </div>
 
-    <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 50px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
+    <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 80px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
         
-        <div class="icon-cloud" style="flex: 1; min-width: 300px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; justify-items: center; justify-content: center;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" width="60" height="60" style="animation: float 3s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="60" height="60" style="animation: float 3.5s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" width="60" height="60" style="animation: float 2.8s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="60" height="60" style="animation: float 3.2s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" width="60" height="60" style="animation: float 3.7s ease-in-out infinite;"> <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Messenger_Logo_2020.svg" width="60" height="60" style="animation: float 3.1s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_of_YouTube_%282015-2017%29.svg" width="60" height="60" style="animation: float 3.4s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_Maps_Icon.svg" width="60" height="60" style="animation: float 2.9s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Facebook_icon_2013.svg" width="60" height="60" style="animation: float 3.6s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" width="60" height="60" style="animation: float 3.3s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" width="60" height="60" style="animation: float 3.0s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Telegram_2019_Logo.svg" width="60" height="60" style="animation: float 3.8s ease-in-out infinite;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/TikTok_logo.svg" width="60" height="60" style="animation: float 3.5s ease-in-out infinite;">
+        <div class="app-grid">
+            <div class="app-box" style="background: #4CD964;">
+                <img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #1DB954;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #34A853;">
+                <img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" style="width: 50%; height: 50%;">
+            </div>
+
+            <div class="app-box" style="background: #25D366;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
+                <img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
+                <img src="https://img.icons8.com/color/100/safari.png" alt="Web" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #9146FF;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #FF0000;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #000000;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" style="width: 45%; height: 45%;">
+            </div>
+
+            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
+                <img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #111111;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" style="width: 50%; height: 50%;">
+            </div>
+
+            <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+                <img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" style="width: 65%; height: 65%;">
+            </div>
+
+            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
+                <img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #1877F2;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #E60023;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #FFFC00;">
+                <img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #FF4500;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" style="width: 50%; height: 50%;">
+            </div>
+
+            <div class="app-box" style="background: #FF5A5F;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #0A66C2;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
+                <img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" style="width: 55%; height: 55%;">
+            </div>
+
+            <div class="app-box" style="background: #E8E2D7;">
+                <img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" style="width: 50%; height: 50%;">
+            </div>
+
+            <div class="app-box" style="background: #FFE600;">
+                <b style="font-family: system-ui, -apple-system, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111; line-height: 1;">S</b>
+            </div>
+
+            <div class="app-box" style="background: #000000;">
+                <img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" style="width: 55%; height: 55%;">
+            </div>
         </div>
 
-        <div class="share-visual" style="flex: 1; min-width: 300px; position: relative; text-align: center; display: flex; align-items: center; justify-content: center;">
-            <div id="share-lottie-container" style="width: 100%; max-width: 500px; height: 500px; border-radius: 50%; overflow: hidden; background: var(--card-bg); filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15)); border: 8px solid white;"></div>
+        <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center;">
+            <div id="share-lottie-container"></div>
         </div>
 
     </div>
