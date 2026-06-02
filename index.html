@@ -2177,6 +2177,118 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
         height: 320px;
     }
 }
+/* --- YENİLENMİŞ KESİNTİSİZ HAVUZ CSS --- */
+/* --- %100 SAF VE KESİNTİSİZ CSS HAVUZU --- */
+.pool-wrapper {
+    display: flex;
+    gap: 25px;
+    height: 520px;
+    overflow: hidden;
+    position: relative;
+    flex: 1;
+    min-width: 320px;
+    max-width: 600px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+/* Sütunları yan yana dikey flex kutusu yapıyoruz */
+.pool-column {
+    display: flex;
+    flex-direction: column;
+    width: 85px;
+    position: relative;
+}
+
+/* Burası sihirli alan: Klon şeritle asıl şeridi alt alta kenetler */
+.pool-track {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-bottom: 25px;
+}
+
+.pool-column .app-box {
+    width: 85px;
+    height: 85px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Hafif su sallanma animasyonu */
+.pool-column .app-box img,
+.pool-column .app-box b {
+    width: 55%;
+    height: 55%;
+    object-fit: contain;
+    transition: transform 0.3s;
+    display: inline-block;
+    animation: waterFloat 4s ease-in-out infinite alternate;
+}
+
+.pool-column:nth-child(2) .app-box img { animation-delay: -1.5s; }
+.pool-column:nth-child(3) .app-box img, .pool-column:nth-child(3) .app-box b { animation-delay: -3s; }
+
+.pool-column .app-box b {
+    font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.pool-column .app-box:hover {
+    transform: scale(1.15) translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+    z-index: 10;
+}
+
+/* --- TAM KESİNTİSİZ CSS MOTORU ANIMASYONLARI --- */
+
+/* 1. Sütun Animasyonu (Yukarıdan Aşağıya) */
+.scroll-down .pool-track {
+    animation: pureScrollDown 26s linear infinite;
+}
+/* 3. Sütun Animasyonu (Yukarıdan Aşağıya - Hızlı) */
+.scroll-down.fast .pool-track {
+    animation: pureScrollDown 18s linear infinite;
+}
+
+/* 2. Sütun Animasyonu (Aşağıdan Yukarıya) */
+.scroll-up .pool-track {
+    animation: pureScrollUp 22s linear infinite;
+}
+
+/* Fare üzerine geldiğinde akışı tamamen duraklat */
+.pool-wrapper:hover .pool-track {
+    animation-play-state: paused;
+}
+
+/* %100 CSS DÖNGÜ FORMÜLÜ (Logoların kaybolmasını imkansız kılan kural) */
+@keyframes pureScrollDown {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(0%); }
+}
+
+@keyframes pureScrollUp {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-100%); }
+}
+
+@keyframes waterFloat {
+    0% { transform: rotate(-3deg) translateX(-1px) translateY(1px); }
+    100% { transform: rotate(3deg) translateX(1px) translateY(-1px); }
+}
+
+@media (max-width: 768px) {
+    .pool-wrapper { height: 400px; gap: 15px; }
+    .pool-column { width: 70px; }
+    .pool-column .app-box { width: 70px; height: 70px; border-radius: 18px; }
+    .pool-track { gap: 15px; padding-bottom: 15px; }
+}
 </style>
 </head>
 <body>
@@ -2495,124 +2607,95 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     </div>
 </section>
 
-<section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden;">
+<section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden; position: relative; z-index: 2;">
     
-    <div style="text-align: center; margin-bottom: 60px;">
-        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 15px; color: var(--text-color); letter-spacing: -1px;" data-i18n="share_main_title">Diji Card ile Neler Paylaşabilirsin?</h2>
+    <div style="text-align: center; margin-bottom: 40px; position: relative; z-index: 10;">
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 15px; color: var(--text-color); letter-spacing: -1px;" data-i18n="share_main_title">Smart Kart ile Neler Paylaşabilirsin?</h2>
         <p style="color: var(--text-dim); font-size: 1.2rem; font-weight: 500;" data-i18n="share_sub_desc">Tüm dijital dünyanızı tek bir dokunuşla aktarın.</p>
     </div>
 
-    <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 80px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
+    <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 60px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
         
-        <div class="app-grid">
-            <div class="app-box" style="background: #4CD964;">
-                <img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" style="width: 55%; height: 55%;">
+        <div class="pool-wrapper">
+            
+            <div class="pool-column scroll-down">
+                <div class="pool-track">
+                    <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
+                    <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
+                    <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
+                    <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
+                    <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
+                    <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
+                </div>
+                <div class="pool-track" aria-hidden="true">
+                    <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
+                    <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
+                    <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
+                    <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
+                    <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
+                    <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
+                </div>
             </div>
 
-            <div class="app-box" style="background: #1DB954;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" style="width: 55%; height: 55%;">
+            <div class="pool-column scroll-up">
+                <div class="pool-track">
+                    <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
+                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
+                    <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
+                    <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
+                    <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
+                    <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
+                </div>
+                <div class="pool-track" aria-hidden="true">
+                    <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
+                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
+                    <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
+                    <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
+                    <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
+                    <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
+                </div>
             </div>
 
-            <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #34A853;">
-                <img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" style="width: 50%; height: 50%;">
-            </div>
-
-            <div class="app-box" style="background: #25D366;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
-                <img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
-                <img src="https://img.icons8.com/color/100/safari.png" alt="Web" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #9146FF;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #FF0000;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #000000;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" style="width: 45%; height: 45%;">
-            </div>
-
-            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
-                <img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #111111;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" style="width: 50%; height: 50%;">
-            </div>
-
-            <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
-                <img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" style="width: 65%; height: 65%;">
-            </div>
-
-            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
-                <img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #1877F2;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #E60023;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #FFFC00;">
-                <img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #FF4500;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" style="width: 50%; height: 50%;">
-            </div>
-
-            <div class="app-box" style="background: #FF5A5F;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #0A66C2;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #ffffff; border: 1px solid #eee;">
-                <img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" style="width: 55%; height: 55%;">
-            </div>
-
-            <div class="app-box" style="background: #E8E2D7;">
-                <img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" style="width: 50%; height: 50%;">
-            </div>
-
-            <div class="app-box" style="background: #FFE600;">
-                <b style="font-family: system-ui, -apple-system, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111; line-height: 1;">S</b>
-            </div>
-
-            <div class="app-box" style="background: #000000;">
-                <img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" style="width: 55%; height: 55%;">
+            <div class="pool-column scroll-down fast">
+                <div class="pool-track">
+                    <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
+                    <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
+                    <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
+                    <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
+                    <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
+                    <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
+                    <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
+                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
+                </div>
+                <div class="pool-track" aria-hidden="true">
+                    <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
+                    <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
+                    <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
+                    <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
+                    <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
+                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
+                    <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
+                    <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
+                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
+                </div>
             </div>
         </div>
 
-        <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center;">
+        <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 5;">
             <div id="share-lottie-container"></div>
         </div>
 
     </div>
 </section>
-
 <script>
 
 
@@ -2756,7 +2839,9 @@ let isNavClicking = false;
         footer_copy: "© 2026 Smart Kart. Tüm Hakları Saklıdır.",
         nav_eco: "Doğa",
         faq1_q: "Dijital kartvizit nedir?",
-        search_placeholder : "Sitede ara..."
+        search_placeholder : "Sitede ara...",
+        share_main_title: "Smart Kart ile Neler Paylaşabilirsin?",
+        share_sub_desc: "Tüm dijital dünyanızı tek bir dokunuşla aktarın."
     },
     en: {
         faq1_q: "What is a digital business card?",
@@ -2835,18 +2920,21 @@ let isNavClicking = false;
         eco_badge_text: "100% Sustainable Option",
         footer_copy: "© 2026 Smart Card. All Rights Reserved.",
         nav_eco: "Nature",
-        search_placeholder: "Search in site..."
+        search_placeholder: "Search in site...",
+        share_main_title: "What Can You Share with Smart Card?",
+        share_sub_desc: "Transfer your entire digital world with just a single tap."
     }
 };
 
+// --- GÜNCELLENMİŞ VE TAM SELECTLANG FONKSİYONU ---
 function selectLang(lang) {
     const selectedLang = lang.toLowerCase();
     
-    // UI Güncelleme
+    // 1. Dil Seçici Buton Metnini Güncelle (TR / EN)
     const currentLangText = document.getElementById('current-lang');
-    if(currentLangText) currentLangText.innerText = selectedLang.toUpperCase();
+    if (currentLangText) currentLangText.innerText = selectedLang.toUpperCase();
     
-    // Çevirileri Uygula
+    // 2. Standart Metin Çevirilerini Uygula (Yazılar ve Form Elemanları)
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[selectedLang] && translations[selectedLang][key]) {
@@ -2858,18 +2946,27 @@ function selectLang(lang) {
         }
     });
 
+    // 3. YENİ EKLENEN: Görsellerin ALT (Açıklama) Etiketlerini Dinamik Çevir
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-alt');
+        if (translations[selectedLang] && translations[selectedLang][key]) {
+            el.setAttribute('alt', translations[selectedLang][key]);
+        }
+    });
+
+    // 4. Dil Menüsünün Kapanmasını Sağla
     const dropdown = document.querySelector('.lang-dropdown');
     const selector = document.querySelector('.lang-selector');
+    if (dropdown) dropdown.classList.remove('active');
+    if (selector) selector.classList.remove('open');
     
-if(dropdown) dropdown.classList.remove('active');
-    if(selector) selector.classList.remove('open');
-    
-    // --- YENİ: Arama Kutusunun Yazısını Dile Göre Güncelle ---
+    // 5. Arama Kutusu Placeholder Alanını Güncelle
     const globalSearchInput = document.getElementById('globalSearchInput');
     if (globalSearchInput && translations[selectedLang] && translations[selectedLang]["search_placeholder"]) {
         globalSearchInput.placeholder = translations[selectedLang]["search_placeholder"];
     }
     
+    // 6. Seçimi Tarayıcı Hafızasına Kaydet
     localStorage.setItem('selectedLang', selectedLang);
 }
 
@@ -3651,9 +3748,6 @@ if (searchInputEl && suggestionsBox) {
         }
     });
 }
-
-// Arama kapatma işlevinin (closeGlobalSearch) tetiklendiği yerlere de şunu ekle:
-// if(suggestionsBox) suggestionsBox.style.display = "none";
 </script>
 </body>
 </html>
