@@ -2060,6 +2060,22 @@ nav a.active::after {
     font-size: 12px !important;
     text-align: center !important;
 }
+.dark-mode #yeni-bos-bolum {
+    background-color: #121212 !important;
+}
+.light-mode #yeni-bos-bolum {
+    background-color: #f8f9fa !important;
+}
+.yeni-alan-reveal.active ~ #cardHitbox, /* ya da senin kart seçicin neyse */
+body:has(.yeni-alan-reveal.active) .tilt-card-sinifi { 
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+#yeni-bos-bolum {
+    position: relative;
+    z-index: 999; /* Kartın z-index değerinden daha yüksek bir sayı verin */
+}
 </style>
 </head>
 <body>
@@ -2369,7 +2385,7 @@ nav a.active::after {
         </div>
         <p class="eco-description" data-i18n="eco_desc">
             Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. 
-            Smart Kart kullanarak bu israfı durdurabilir ve karbon ayak izinizi minimize edebilirsiniz.
+            Smart Kart kullanarak bu israfı durdurabilir and karbon ayak izinizi minimize edebilirsiniz.
         </p>
         <div class="eco-badge">
             <i class="material-icons">eco</i>
@@ -2377,6 +2393,13 @@ nav a.active::after {
         </div>
     </div>
 </section>
+
+<section id="en-alt-bolum" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-color); position: relative;">
+    
+    <div id="alt-lottie-container" style="width: 300px; height: 300px;"></div>
+
+</section>
+
 <script>
 
 
@@ -2738,6 +2761,15 @@ window.addEventListener('DOMContentLoaded', () => {
         ecoObserver.observe(ecoSection);
     }
 
+    // ✅ DOĞRU YER: Doğa gözlemcisinin tamamen bittiği yerin ALTINA, bağımsız olarak ekledik.
+    const altSayfaAnimation = lottie.loadAnimation({
+        container: document.getElementById('alt-lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'animation.json' 
+    });
+
     // DİĞER REVEAL ELEMANLARI
     document.querySelectorAll('.reveal, .bento-reveal').forEach(el => {
         if (el.id !== 'eco-impact') revealObserver.observe(el);
@@ -2836,6 +2868,15 @@ window.addEventListener('scroll', () => {
             }
         }
     });
+    const enAltBolum = document.getElementById('en-alt-bolum'); 
+    if (enAltBolum && typeof tiltCard !== 'undefined') {
+        // Kartın hiçbir sayfada (en alt sayfa dahil) gizlenmesini istemiyoruz.
+        // Bu yüzden opacity değerini her zaman 1 ve tıklanabilir (auto) yapıyoruz.
+        if (!tiltCard.classList.contains('active-nfc')) {
+            tiltCard.style.opacity = "1";
+            tiltCard.style.pointerEvents = "auto";
+        }
+    }
 });
 
     const cardHitbox = document.getElementById('cardHitbox');
