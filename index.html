@@ -2641,6 +2641,140 @@ html.light-mode #paylasim-alani {
     display: block;
     transform: scale(1) !important; /* Büyüme ve zıplama kesinlikle yapmaz */
 }
+/* CSS Yapısı */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
+
+.premium-brand-wrapper {
+    /* Yazının kaybolmasını kesin olarak engeller, görünür katmana çeker */
+    display: inline-block !important; 
+    visibility: visible !important;
+    opacity: 1 !important;
+    
+    /* Konumu sağdaki menüyle dikeyde kusursuz eşitler */
+    position: absolute;
+    top: 50px;
+    transform: translateY(-50%);
+    left: 24px; /* Sol kenardan lüks bir boşluk */
+    z-index: 9999; /* Diğer elementlerin altında kalmasını önler */
+}
+
+.premium-logo {
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    padding-left: 0.35em;
+    text-decoration: none;
+    display: block;
+    line-height: 1; /* Satır yüksekliğini sabitleyerek taşmayı önler */
+    
+    /* Gümüş/Beyaz Metal Gradiyenti */
+    background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 50%, #ffffff 100%);
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+/* Light Mode (Açık Tema) için Kusursuzlaştırma */
+.light-mode .premium-logo {
+    background: linear-gradient(
+        135deg, 
+        #111111 0%, 
+        #333333 30%, 
+        #666666 50%, 
+        #333333 70%, 
+        #111111 100%
+    );
+    background-size: 400% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+/* --- PREMIUM ETKİLEŞİM VE IŞIK OYUNU (HOVER) --- */
+.premium-logo::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    /* Akıllı lüks yeşili çizgi (NFC vurgusu için) */
+    background: linear-gradient(90deg, transparent, #4CD964, transparent);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-50%);
+    opacity: 0;
+    filter: drop-shadow(0 0 4px #4CD964);
+}
+
+.premium-logo:hover {
+    /* Hafif büyüme ve öne çıkma hissi */
+    transform: translateZ(20px) scale(1.03);
+    letter-spacing: 0.4em;
+    
+    /* Logonun içinden geçen gümüş parıltı akışı (Metal Shimmer Efekti) */
+    background-position: right center;
+    
+    filter: drop-shadow(0 4px 12px rgba(76, 217, 100, 0.15));
+}
+
+.premium-logo:hover::before {
+    width: 80%;
+    opacity: 1;
+}
+
+/* Tıklama anında premium bir geri bildirim (Kinetik yay hissi) */
+.premium-logo:active {
+    transform: translateZ(5px) scale(0.98);
+    opacity: 0.8;
+    transition: all 0.1s ease;
+}
+nav, .navbar {
+    display: flex;
+    align-items: center; /* [KRİTİK] Logoyu ve menü elemanlarını dikeyde tam merkezler */
+    justify-content: space-between; /* Logoyu sola, menüyü ortaya/sağa pürüzsüz dağıtır */
+    padding: 0 2rem; /* Kenarlardan şık bir iç boşluk bırakır, tavana yapışmayı önler */
+    height: 50px; /* Parça 7'deki scroll döngünle uyumlu sabit veya esnek yükseklik */
+    box-sizing: border-box;
+}
+
+/* Logonun Kapsayıcısı veya Kendisi İçin Düzeltme */
+.premium-brand-wrapper, .premium-logo {
+    display: inline-flex;
+    align-items: center; /* İçerideki metni kendi kutusunda ortalar */
+    margin: 0; /* Eğer tarayıcı varsayılanı bir margin varsa sıfırlar */
+    line-height: 1; /* Satır yüksekliğinden kaynaklanan kaymaları engeller */
+}
+.dark-mode .premium-logo {
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+/* --- HERO ALANI İÇİN PREMIUM ARKA PLAN MOTORU --- */
+
+.hero {
+    /* Mevcut olabilecek düz siyah veya başka arka planları tamamen sıfırlar */
+    background-color: #060606 !important;
+    
+    /* 3 katmanlı premium stüdyo ışık sızıntılarını basar */
+    background-image: 
+        /* 1. Tam Merkez Işığı: Siyah kartların tam arkasından vurur, kenarlarını parlatıp öne fırlatır */
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 60%),
+        
+        /* 2. Sol Üst Işığı: Siyahın çiğliğini kıran asil ve sinematik gece mavisi derinliği */
+        radial-gradient(circle at 15% 20%, rgba(29, 53, 91, 0.25) 0%, transparent 45%),
+        
+        /* 3. Sağ Alt Işığı: Smart Kart'ın teknolojik ruhunu besleyen hafif yeşil esintisi */
+        radial-gradient(circle at 85% 80%, rgba(76, 217, 100, 0.04) 0%, transparent 50%) !important;
+        
+    /* Sayfa kayarken ışıkların sabit kalıp 3D derinlik hissi yaratmasını sağlar */
+    background-attachment: scroll !important; 
+    
+    /* Eğer arka planın düzgün yayılmasını engelleyen bir durum varsa tam kaplamasını sağlar */
+    background-size: cover !important;
+    background-position: center !important;
+}
 </style>
 </head>
 <body>
@@ -2674,7 +2808,9 @@ html.light-mode #paylasim-alani {
     </div>
 </div>
 
-<div class="brand-logo" data-i18n="logo">HEDEF</div>
+<div class="premium-brand-wrapper">
+    <a href="#hero" class="premium-logo" id="toHero" data-i18n="logo">HEDEF</a>
+</div>
     <div class="card-overlay" id="cardOverlay"></div>
 
 <div class="floating-card-container">
