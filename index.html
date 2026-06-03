@@ -332,12 +332,18 @@
     height: 140px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.8s var(--apple-ease);
+    
+    /* Eski kodundaki o efsane Apple yumuşaklığını buraya aynen yazdık */
+    transition: transform 0.8s var(--apple-ease); 
+    
     cursor: pointer;
-    /* Mavi dış parlama efekti */
     box-shadow: 0 0 20px rgba(0, 113, 227, 0.4), 0 0 40px rgba(0, 113, 227, 0.2);
     border-radius: 18px;
-}      .floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
+}
+#cardHitbox:hover .floating-card {
+    --card-scale: 1.04;
+}
+.floating-card::after { content: ""; position: absolute; top: 50%; left: 50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%); transform: translate(-50%, -50%); z-index: -1; filter: blur(30px); animation: glowPulse 4s infinite ease-in-out; }
 
         @keyframes glowPulse { 0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
 
@@ -2388,6 +2394,88 @@ html.light-mode #paylasim-alani {
     --share-glow-left: rgba(76, 217, 100, 0.04); 
     --share-glow-right: rgba(29, 185, 84, 0.02);
 }
+.target-logo-container {
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) translateZ(0px) !important;
+    
+    width: 65px; /* Kartın içindeki toplam genişlik (Gerekirse 70px-80px yapabilirsin) */
+    height: auto;
+    z-index: 999 !important;
+    pointer-events: none;
+    
+    /* 🎯 YENİ: Logo ve yazıyı alt alta ortalamak için flex düzeni */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.target-brand-logo {
+    width: 100%; /* Kapsayıcının genişliğine uyum sağlar */
+    height: auto;
+    display: block;
+    object-fit: contain;
+    transform: scale(1) !important;
+}
+/* Kart büyütüldüğünde veya üzerine gelindiğinde logonun canlanması için */
+.floating-card:hover .target-logo-container {
+    transform: scale(1.05);
+}
+.target-brand-subtext {
+    width: 105%; /* İdeal büyüklük */
+    height: auto;
+    display: block;
+    object-fit: contain;
+    margin-top: 10px; /* Logo ile arasındaki mesafe */
+    
+    /* BÜYÜME VE ARKA PLAN ENGELLERİ */
+    transform: scale(1) !important; 
+    background: none !important;
+    padding: 0 !important;
+
+    /* 🤍 GÖRSELİ DİREKT SAF BEYAZA BOYAYAN SİHİRLİ SATIRLAR */
+    filter: invert(1) brightness(2) !important; 
+    
+    /* Fare gelince sertçe parlamasın diye geçiş süresi */
+    transition: filter 0.3s ease;
+}
+
+/* Fare karta geldiğinde o narin neon ışıkların kalitesini bozmadan hafifçe belirginleşmesi: */
+#cardHitbox:hover .target-brand-subtext {
+    filter: invert(1) brightness(2) !important;
+}
+/* 🎯 ARKA YÜZDEKİ QR KOD KAPSAYICISI */
+.qr-container {
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    /* translateZ(0px) kart 3D dönerken QR kodun sağa sola fırlamasını engeller */
+    transform: translate(-50%, -50%) translateZ(0px) !important;
+    
+    width: 75px;  /* QR kodun kartın üzerindeki ideal premium boyutu */
+    height: 75px;
+    background: #ffffff; /* QR kodun tarayıcılar tarafından rahat okunması için saf beyaz arka plan */
+    padding: 6px;       /* QR kodun kenarlarında estetik beyaz boşluk bırakır */
+    border-radius: 12px; /* Apple tarzı yumuşatılmış köşeler */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* QR koda derinlik katan lüks gölge */
+    z-index: 999 !important;
+    pointer-events: none;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* QR Kodun Kendisi */
+.qr-code-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transform: scale(1) !important; /* Büyüme ve zıplama kesinlikle yapmaz */
+}
 </style>
 </head>
 <body>
@@ -2408,20 +2496,34 @@ html.light-mode #paylasim-alani {
 <div class="floating-card-container">
     <div id="cardHitbox" style="padding: 60px; margin: -60px;"> 
        <div class="floating-card" id="tiltCard">
-    <div class="card-face card-front">
-        <div class="card-border-glow"></div> <div class="face-content">
-            <img src="smart kart 6.jpg" alt="Smart Kart Ön" class="bg-img">
-            <div class="qr-code-overlay">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartkart.com" alt="QR Code">
-            </div>
+    
+<div class="card-face card-front">
+    <div class="card-border-glow"></div> 
+    <div class="face-content" style="position: relative; transform-style: preserve-3d; width: 100%; height: 100%;">
+        
+        <img src="smart kart 6.jpg" alt="Smart Kart Ön" class="bg-img">
+        
+        <div class="target-logo-container">
+            <img src="HEDEF LOGO3.png" alt="Hedef Logo 3" class="target-brand-logo">
+            
+            <img src="HEDEF LOGO4.png" alt="Hedef Yazı 4" class="target-brand-subtext">
         </div>
-    </div>
 
-    <div class="card-face card-back">
-        <div class="card-border-glow"></div> <div class="face-content">
-            <img src="kart logosu.jpg" alt="Kart Logosu" class="logo-overlay">
-        </div>
     </div>
+</div>
+
+<div class="card-face card-back">
+    <div class="card-border-glow"></div> 
+    <div class="face-content" style="position: relative; transform-style: preserve-3d; width: 100%; height: 100%;">
+        
+        <img src="smart kart 6.jpg" alt="Smart Kart Arka" class="bg-img" style="transform: scaleX(-1);">
+        
+        <div class="qr-container">
+            <img src="QR kod.jpg" alt="Kartvizit QR Kodu" class="qr-code-img">
+        </div>
+
+    </div>
+</div>
 
     <div class="nfc-ui" id="nfcUi" style="transform: translateZ(50px);">
     <div class="nfc-text-item item-0" id="toHero" data-i18n="card_purpose" style="cursor: pointer; background: var(--accent-blue); color: white; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;">
@@ -3323,26 +3425,27 @@ window.addEventListener('scroll', () => {
 const closeNfcBtn = document.getElementById('closeNfc');
 
 cardHitbox.addEventListener('mousemove', (e) => {
-    // Eğer kart büyütülmüş moddaysa animasyon yapma
     if (tiltCard.classList.contains('active-nfc')) return;
     
     isHovering = true;
     const rect = tiltCard.getBoundingClientRect();
     
-    // Titremeyi önlemek için hesaplamayı kartın merkezine göre yapıyoruz
+    // Hesaplama senin orijinal kodundaki gibi tam merkez koordinatlarında
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
     const rotateX = (centerY - e.clientY) / 20; 
     const rotateY = (e.clientX - centerX) / 20;
     
-    tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    // 🎯 DÜZELTME: scale(1.05) tamamen kaldırıldı, sadece senin istediğin yumuşak 3D dönüş kaldı
+    tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 });
 
 cardHitbox.addEventListener('mouseleave', () => {
     isHovering = false;
     if (!tiltCard.classList.contains('active-nfc')) {
-        tiltCard.style.transform = `rotateY(${window.scrollY * 0.05}deg) scale(1)`;
+        // 🎯 DÜZELTME: scale(1) kaldırıldı, sadece senin scroll döngünle pürüzsüzce senkronize oluyor
+        tiltCard.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${window.scrollY * 0.05}deg)`;
     }
 });
 
