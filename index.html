@@ -2267,8 +2267,9 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
 }
 
 /* Fare üzerine geldiğinde akışı tamamen duraklat */
-.pool-wrapper:hover .pool-track {
+.logo-item:hover {
     animation-play-state: paused;
+    cursor: pointer;
 }
 
 /* %100 CSS DÖNGÜ FORMÜLÜ (Logoların kaybolmasını imkansız kılan kural) */
@@ -2522,11 +2523,41 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
         
         <div class="background-footer" data-i18n="footer_copy">© 2026 Smart Kart. Tüm Hakları Saklıdır.</div>
 
-        <div class="info-box"><img src="smart kart 1.png" alt="1"><div class="info-text"><h2 data-i18n="stack1_title">Akıllı Kartvizit</h2><p data-i18n="stack1_desc">Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p></div></div>
-        <div class="info-box"><img src="smart kart 2.jpg" alt="2"><div class="info-text"><h2 data-i18n="stack2_title">NFC Gücü</h2><p data-i18n="stack2_desc">En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p></div></div>
-        <div class="info-box"><img src="smart kart 3.jpg" alt="3"><div class="info-text"><h2 data-i18n="stack3_title">Ekolojik Vizyon</h2><p data-i18n="stack3_desc">Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p></div></div>
-        <div class="info-box"><img src="smart kart 4.jpg" alt="4"><div class="info-text"><h2 data-i18n="stack4_title">Gelişmiş Analiz</h2><p data-i18n="stack4_desc">Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p></div></div>
-        <div class="info-box"><img src="smart kart 5.jpg" alt="5"><div class="info-text"><h2 data-i18n="stack5_title">Premium Tasarım</h2><p data-i18n="stack5_desc">Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır.</p></div></div>
+        <div class="info-box">
+            <img src="smart kart 1.png" alt="1">
+            <div class="info-text">
+                <h2 data-i18n="stack1_title">Akıllı Kartvizit</h2>
+                <p data-i18n="stack1_desc">Smart Kart, tüm dijital varlığınızı tek bir dokunuşla yeni nesil bir deneyime dönüştürür.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 2.jpg" alt="2">
+            <div class="info-text">
+                <h2 data-i18n="stack2_title">NFC Gücü</h2>
+                <p data-i18n="stack2_desc">En son teknoloji NFC entegrasyonu ile bağlantılarınızı ışık hızında paylaşın.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 3.jpg" alt="3">
+            <div class="info-text">
+                <h2 data-i18n="stack3_title">Ekolojik Vizyon</h2>
+                <p data-i18n="stack3_desc">Kağıt tüketimini sıfırlayarak sürdürülebilir bir gelecek inşa ediyoruz.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 4.jpg" alt="4">
+            <div class="info-text">
+                <h2 data-i18n="stack4_title">Gelişmiş Analiz</h2>
+                <p data-i18n="stack4_desc">Hangi bağlantınızın ne zaman ve nerede kurulduğunu takip edin.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <img src="smart kart 5.jpg" alt="5">
+            <div class="info-text">
+                <h2 data-i18n="stack5_title">Premium Tasarım</h2>
+                <p data-i18n="stack5_desc">Her kart, prestijinizi yansıtacak şekilde özenle tasarlanır.</p>
+            </div>
+        </div>
 
         <div class="scroll-hint" id="scrollHint">
             <span data-i18n="scroll_hint">Keşfetmek için kaydırın</span>
@@ -2610,7 +2641,6 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
         </div>
     </div>
 </section>
-
 <section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden; position: relative; z-index: 2;">
     
     <div style="text-align: center; margin-bottom: 40px; position: relative; z-index: 10;">
@@ -2621,7 +2651,6 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 60px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
         
         <div class="pool-wrapper">
-            
             <div class="pool-column scroll-down">
                 <div class="pool-track">
                     <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
@@ -2695,7 +2724,9 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
         </div>
 
         <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 5;">
-            <div id="share-lottie-container"></div>
+            <div id="alt-animation-container" style="width: 100%; max-width: 400px; margin: 0 auto;">
+                <img src="iphoneanimation.gif" alt="iPhone Animation" class="iphone-gif-render" style="width: 100%; height: auto; border-radius: 32px; object-fit: contain;">
+            </div>
         </div>
 
     </div>
@@ -3074,15 +3105,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.2 });
         ecoObserver.observe(ecoSection);
     }
-
-    // Bağımsız Lottie Alanı - En Alt Sayfa Animasyonu
-    const altSayfaAnimation = lottie.loadAnimation({
-        container: document.getElementById('alt-lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'animation.json' 
-    });
 
     // ✅ ENTEGRE EDİLEN YENİ KOD: Paylaşım Bölümündeki Dairesel Animasyonu Başlatır
     const shareAnimation = lottie.loadAnimation({
