@@ -25,8 +25,173 @@
             --hero-gradient: radial-gradient(circle at center, #1a1a1c 0%, #000 100%);
             --nfc-bg: rgba(28, 28, 30, 0.85);
             --transition-speed: 0.8s ease;
+            --premium-blur: blur(16px);
+    --premium-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --premium-border: rgba(255, 255, 255, 0.15);
+    --dropdown-bg: rgba(255, 255, 255, 0.85);
+    --text-primary: #1d1d1f;
         }
+html.dark-mode {
+    --dropdown-bg: rgba(28, 28, 30, 0.85);
+    --premium-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --premium-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f5f5f7;
+}
+.premium-lang-container {
+    position: absolute;
+    /* Üst barın tam ortasına dikeyde kilitler */
+    top: 25px; /* Eğer tam ortalanmazsa navbarının tepe mesafesine göre (örn: 20px-24px) burayı çıtırda değiştirebilirsin */
+    
+    /* Butonu ekranın sağ tarafına taşır */
+    right: 400px; /* Sağ kenardan lüks bir boşluk bırakır */
+    left: auto;  /* Varsa eski sol hizalamayı tamamen sıfırlar */
+    
+    z-index: 1001; /* Kartların veya animasyonların arkasında kalmasını önler */
+}
+/* Tetikleyici Buton */
+.lang-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid var(--premium-border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    backdrop-filter: var(--premium-blur);
+    -webkit-backdrop-filter: var(--premium-blur);
+}
 
+.lang-trigger-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Bayrak SVG Ortak Stili */
+.flag-icon {
+    width: 22px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.lang-trigger-btn:hover .flag-icon {
+    transform: scale(1.05);
+}
+
+.lang-text-label {
+    opacity: 0.9;
+}
+
+.arrow-icon {
+    font-size: 1.1rem !important;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0.7;
+}
+
+/* Menü Açıkken Ok Dönüşü */
+.premium-lang-container.open .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Açılır Menü Paneli (Dropdown) */
+.lang-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 160px;
+    background: var(--dropdown-bg);
+    backdrop-filter: var(--premium-blur);
+    -webkit-backdrop-filter: var(--premium-blur);
+    border: 1px solid var(--premium-border);
+    border-radius: 14px;
+    box-shadow: var(--premium-shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Menü Aktif Sınıfı */
+.premium-lang-container.open .lang-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Üstteki Küçük Ok Tasarımı */
+.dropdown-arrow-tip {
+    position: absolute;
+    top: -6px;
+    right: 22px;
+    width: 12px;
+    height: 12px;
+    background: var(--dropdown-bg);
+    border-left: 1px solid var(--premium-border);
+    border-top: 1px solid var(--premium-border);
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.lang-options-list {
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+}
+
+/* Dil Satırları */
+.lang-option-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.lang-option-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+html.light-mode .lang-option-item:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* Onay İkonu (Check) Yönetimi */
+.check-icon {
+    font-size: 1rem !important;
+    margin-left: auto;
+    color: #4cd964;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 0.2s ease;
+}
+
+/* Seçili olan dile göre JavaScript dinamik aktiflik verecek */
+.lang-option-item.selected .check-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.lang-option-item.selected {
+    font-weight: 600;
+}
         /* LIGHT MODE TASARIMI */
         .light-mode {
             --bg-color: #f5f5f7;
@@ -2479,14 +2644,33 @@ html.light-mode #paylasim-alani {
 </style>
 </head>
 <body>
-<div class="lang-selector">
-    <div class="lang-btn" onclick="toggleLangMenu(event)">
-        <span id="current-lang">TR</span>
-        <i class="material-icons">expand_more</i>
-    </div>
-    <div class="lang-dropdown">
-        <div onclick="selectLang('tr')">Türkçe</div>
-        <div onclick="selectLang('en')">English</div>
+<div class="premium-lang-container">
+    <button class="lang-trigger-btn" id="langTrigger" onclick="toggleLangMenu(event)" aria-haspopup="true" aria-expanded="false">
+        <span class="active-flag-wrapper" id="current-flag">
+            <svg class="flag-icon" viewBox="0 0 1200 800"><path fill="#e30a17" d="M0 0h1200v800H0z"/><circle cx="400" cy="400" r="240" fill="#fff"/><circle cx="460" cy="400" r="192" fill="#e30a17"/><path fill="#fff" d="M683 400l-114-37 70-97-15 119-115 37 115 37 15 119-70-97 114-37z"/></svg>
+        </span>
+        <span id="current-lang" class="lang-text-label">TR</span>
+        <i class="material-icons arrow-icon">expand_more</i>
+    </button>
+
+    <div class="lang-dropdown-menu" id="langDropdown">
+        <div class="dropdown-arrow-tip"></div>
+        <ul class="lang-options-list">
+            <li class="lang-option-item" onclick="selectLang('tr')">
+                <span class="option-flag">
+                    <svg class="flag-icon" viewBox="0 0 1200 800"><path fill="#e30a17" d="M0 0h1200v800H0z"/><circle cx="400" cy="400" r="240" fill="#fff"/><circle cx="460" cy="400" r="192" fill="#e30a17"/><path fill="#fff" d="M683 400l-114-37 70-97-15 119-115 37 115 37 15 119-70-97 114-37z"/></svg>
+                </span>
+                <span class="option-name">Türkçe</span>
+                <i class="material-icons check-icon">check</i>
+            </li>
+            <li class="lang-option-item" onclick="selectLang('en')">
+                <span class="option-flag">
+                    <svg class="flag-icon" viewBox="0 0 741 390"><path fill="#012169" d="M0 0h741v390H0z"/><path fill="#fff" d="M0 0l741 390m0-390L0 390M370.5 0v390M0 195h741" stroke="#fff" stroke-width="78"/><path fill="#c8102e" d="M0 0l741 390m0-390L0 390" stroke="#c8102e" stroke-width="52"/><path fill="#fff" d="M370.5 0v390M0 195h741" stroke="#fff" stroke-width="130"/><path fill="#c8102e" d="M370.5 0v390M0 195h741" stroke="#c8102e" stroke-width="78"/></svg>
+                </span>
+                <span class="option-name">English</span>
+                <i class="material-icons check-icon">check</i>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -3161,12 +3345,31 @@ let isNavClicking = false;
 };
 
 // --- GÜNCELLENMİŞ VE TAM SELECTLANG FONKSİYONU ---
+// Dil Seçildiğinde Tetiklenen Premium Fonksiyon
 function selectLang(lang) {
     const selectedLang = lang.toLowerCase();
     
     // 1. Dil Seçici Buton Metnini Güncelle (TR / EN)
     const currentLangText = document.getElementById('current-lang');
     if (currentLangText) currentLangText.innerText = selectedLang.toUpperCase();
+    
+    // [YENİ]: Aktif Bayrak SVG İçeriğini Dinamik Değiştir
+    const currentFlagContainer = document.getElementById('current-flag');
+    const trFlagSvg = `<svg class="flag-icon" viewBox="0 0 1200 800"><path fill="#e30a17" d="M0 0h1200v800H0z"/><circle cx="400" cy="400" r="240" fill="#fff"/><circle cx="460" cy="400" r="192" fill="#e30a17"/><path fill="#fff" d="M683 400l-114-37 70-97-15 119-115 37 115 37 15 119-70-97 114-37z"/></svg>`;
+    const enFlagSvg = `<svg class="flag-icon" viewBox="0 0 741 390"><path fill="#012169" d="M0 0h741v390H0z"/><path fill="#fff" d="M0 0l741 390m0-390L0 390M370.5 0v390M0 195h741" stroke="#fff" stroke-width="78"/><path fill="#c8102e" d="M0 0l741 390m0-390L0 390" stroke="#c8102e" stroke-width="52"/><path fill="#fff" d="M370.5 0v390M0 195h741" stroke="#fff" stroke-width="130"/><path fill="#c8102e" d="M370.5 0v390M0 195h741" stroke="#c8102e" stroke-width="78"/></svg>`;
+    
+    if (currentFlagContainer) {
+        currentFlagContainer.innerHTML = (selectedLang === 'tr') ? trFlagSvg : enFlagSvg;
+    }
+
+    // [YENİ]: Açılır listedeki Check (Onay) işaretlerini yönet
+    document.querySelectorAll('.lang-option-item').forEach(item => {
+        if (item.getAttribute('onclick').includes(`'${selectedLang}'`)) {
+            item.classList.add('selected');
+        } else {
+            item.classList.remove('selected');
+        }
+    });
     
     // 2. Standart Metin Çevirilerini Uygula (Yazılar ve Form Elemanları)
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -3180,7 +3383,7 @@ function selectLang(lang) {
         }
     });
 
-    // 3. YENİ EKLENEN: Görsellerin ALT (Açıklama) Etiketlerini Dinamik Çevir
+    // 3. Görsellerin ALT Etiketlerini Dinamik Çevir
     document.querySelectorAll('[data-i18n-alt]').forEach(el => {
         const key = el.getAttribute('data-i18n-alt');
         if (translations[selectedLang] && translations[selectedLang][key]) {
@@ -3188,11 +3391,13 @@ function selectLang(lang) {
         }
     });
 
-    // 4. Dil Menüsünün Kapanmasını Sağla
-    const dropdown = document.querySelector('.lang-dropdown');
-    const selector = document.querySelector('.lang-selector');
-    if (dropdown) dropdown.classList.remove('active');
-    if (selector) selector.classList.remove('open');
+    // 4. [GÜNCELLENDİ]: Dil Menüsünün Kapanmasını Sağla
+    const container = document.querySelector('.premium-lang-container');
+    if (container) {
+        container.classList.remove('open');
+        const trigger = document.getElementById('langTrigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
     
     // 5. Arama Kutusu Placeholder Alanını Güncelle
     const globalSearchInput = document.getElementById('globalSearchInput');
@@ -3204,16 +3409,21 @@ function selectLang(lang) {
     localStorage.setItem('selectedLang', selectedLang);
 }
 
-// Tıklama olayını (e) içeri alarak diğer elementlerin açılma kilitlerini eziyoruz
+// Menüyü Açma / Kapatma Tetikleyicisi
 function toggleLangMenu(e) {
     if (e) {
         e.preventDefault();
         e.stopPropagation();
     }
-    const selector = document.querySelector('.lang-selector');
-    const dropdown = document.querySelector('.lang-dropdown');
+    const container = document.querySelector('.premium-lang-container');
+    const trigger = document.getElementById('langTrigger');
     
-    // Dil menüsü açılırken arama kutusu açıksa onu pürüzsüzce kapatır
+    if (container) {
+        const isOpen = container.classList.toggle('open');
+        if (trigger) trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+    
+    // Dil menüsü açılırken arama kutusu açıksa kapatır
     const searchContainer = document.getElementById('globalSearchContainer');
     if (searchContainer && searchContainer.classList.contains('active')) {
         searchContainer.classList.remove('active');
@@ -3222,18 +3432,15 @@ function toggleLangMenu(e) {
         if (searchIcon) searchIcon.innerText = 'search';
         if (searchInput) searchInput.value = "";
     }
-    
-    if(selector) selector.classList.toggle('open');
-    if(dropdown) dropdown.classList.toggle('active');
 }
 
-// Boşluğa tıklandığında dil menüsünün kapanmasını sağlayan global dinleyici
+// Boşluğa tıklandığında menünün pürüzsüz kapanmasını sağlayan global dinleyici
 document.addEventListener('click', function(event) {
-    const selector = document.querySelector('.lang-selector');
-    const dropdown = document.querySelector('.lang-dropdown');
-    if (dropdown && selector && !selector.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.remove('active');
-        selector.classList.remove('open');
+    const container = document.querySelector('.premium-lang-container');
+    const trigger = document.getElementById('langTrigger');
+    if (container && !container.contains(event.target)) {
+        container.classList.remove('open');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
     }
 });
 
