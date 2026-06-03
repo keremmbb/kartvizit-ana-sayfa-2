@@ -2114,19 +2114,13 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
 
 /* Her Bir Uygulama Kutusunun Apple Tarzı Tasarımı */
 .app-box {
-    width: 72px;
-    height: 72px;
-    border-radius: 16px; /* iOS Squircle Köşe Yumuşaklığı */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Aydınlık modda da sırıtmayacak soft gölge */
+    border: 1px solid var(--share-box-border) !important; 
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.5s ease; 
 }
-
 /* Kutu İçindeki Görsellerin Hizalanması */
 .app-box img {
     width: 60%;
@@ -2136,8 +2130,11 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
 
 /* Hover Yapınca Kutunun Öne Fırlama Efekti */
 .app-box:hover {
-    transform: scale(1.15) translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+    /* 🌟 GELİŞTİRİLMİŞ HOVER ETKİSİ: */
+    /* Senin ölçeklemeni koruduk, yumuşak bir yükselme ivmesi verdik */
+    transform: scale(1.15) translateY(-5px); 
+    /* Fareyle üzerine gelindiğinde gölgeyi derinleştirip parlaklık hissi veriyoruz */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.05); 
     z-index: 10;
 }
 
@@ -2167,18 +2164,24 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
     }
-    .app-box {
-        width: 65px;
-        height: 65px;
-        border-radius: 14px;
-    }
+.app-box {
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    
+    /* 🌟 EKLEDİĞİMİZ PREMIUM KATMANLAR: */
+    /* Logoların arkasındaki keskinliği yumuşatan lüks derinlik gölgesi */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); 
+    /* Logoların etrafına çok ince, lüks bir cam kontür çekiyoruz (Koyu modda harika parlar) */
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+    /* Fare üzerine geldiğinde veya ayrıldığında geçişin lüks animasyon hızı */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; 
+}
     #share-lottie-container {
         width: 320px;
         height: 320px;
     }
 }
-/* --- YENİLENMİŞ KESİNTİSİZ HAVUZ CSS --- */
-/* --- %100 SAF VE KESİNTİSİZ CSS HAVUZU --- */
 .pool-wrapper {
     display: flex;
     gap: 25px;
@@ -2191,9 +2194,10 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     padding-left: 25px;
     min-width: 320px;
     max-width: 600px;
+    
+    /* Pürüzsüz geçiş maskesi (Sende zaten vardı, aynen korundu) */
     mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-    
 }
 
 /* Sütunları yan yana dikey flex kutusu yapıyoruz */
@@ -2294,6 +2298,96 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     .pool-column .app-box { width: 70px; height: 70px; border-radius: 18px; }
     .pool-track { gap: 15px; padding-bottom: 15px; }
 }
+#paylasim-alani {
+    /* Karanlık mod için lüks koyu radyal geçiş */
+    --share-bg: radial-gradient(circle at 50% 50%, #141517 0%, #0b0c0e 100%);
+    --share-text: linear-gradient(180deg, #ffffff 0%, #b0b0b0 100%);
+    --share-desc: rgba(255, 255, 255, 0.5);
+    --share-box-bg: rgba(255, 255, 255, 0.03);
+    --share-box-border: rgba(255, 255, 255, 0.08);
+    --share-glow-left: rgba(76, 217, 100, 0.08);
+    --share-glow-right: rgba(29, 185, 84, 0.05);
+
+    background: var(--share-bg) !important;
+    position: relative;
+    transition: background 0.5s ease;
+}
+
+/* Sol ve sağ tarafa gözü yormayan iki hafif neon parlama maskesi ekleyelim */
+#paylasim-alani::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--share-glow-left) 0%, transparent 70%);
+    pointer-events: none;
+    transition: background 0.5s ease;
+}
+#paylasim-alani::after {
+    content: "";
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--share-glow-right) 0%, transparent 70%);
+    pointer-events: none;
+    transition: background 0.5s ease;
+}
+#paylasim-alani h2 {
+    background: var(--share-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background 0.5s ease;
+}
+#paylasim-alani p {
+    color: var(--share-desc) !important;
+    transition: color 0.5s ease;
+}
+#alt-animation-container {
+    background: var(--share-box-bg);
+    border: 1px solid var(--share-box-border);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 40px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: all 0.5s ease;
+}
+
+#alt-animation-container:hover {
+    border-color: rgba(76, 217, 100, 0.4);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2), 
+                0 0 40px rgba(76, 217, 100, 0.15);
+}
+
+/* İçindeki telefon görselini/GIF'i koruyalım */
+.iphone-gif-render {
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+body.light-mode #paylasim-alani {
+    /* Aydınlık mod için lüks premium açık gri/beyaz radyal geçiş */
+    --share-bg: radial-gradient(circle at 50% 50%, #f9f9fb 0%, #f0f2f5 100%);
+    --share-text: linear-gradient(180deg, #1d1d1f 0%, #434345 100%);
+    --share-desc: rgba(0, 0, 0, 0.6);
+    --share-box-bg: rgba(0, 0, 0, 0.02);
+    --share-box-border: rgba(0, 0, 0, 0.06);
+    --share-glow-left: rgba(76, 217, 100, 0.04); /* Aydınlık modda göz yormayan hafif yeşil aura */
+    --share-glow-right: rgba(29, 185, 84, 0.02);
+}
+html.light-mode #paylasim-alani {
+    /* Aydınlık mod için lüks premium açık gri/beyaz radyal geçiş */
+    --share-bg: radial-gradient(circle at 50% 50%, #f9f9fb 0%, #f0f2f5 100%);
+    --share-text: linear-gradient(180deg, #1d1d1f 0%, #434345 100%);
+    --share-desc: rgba(0, 0, 0, 0.6);
+    --share-box-bg: rgba(0, 0, 0, 0.02);
+    --share-box-border: rgba(0, 0, 0, 0.06);
+    --share-glow-left: rgba(76, 217, 100, 0.04); 
+    --share-glow-right: rgba(29, 185, 84, 0.02);
+}
 </style>
 </head>
 <body>
@@ -2353,6 +2447,7 @@ body:has(.yeni-alan-reveal.active) .tilt-card-sinifi {
     <a href="#kiyasa" data-i18n="nav_compare">Kıyasla</a>
     <a href="#neden-smart-kart" data-i18n="nav_why">Neden?</a>
     <a href="#eco-impact" data-i18n="nav_eco">Doğa</a>
+    <a href="#paylasim-alani" data-i18n="nav_share">Paylaşım</a>
 
     <div class="theme-toggle-nav" id="themeToggle">
         <i class="material-icons" id="themeIcon" style="font-size: 18px;">light_mode</i>
@@ -2876,7 +2971,8 @@ let isNavClicking = false;
         faq1_q: "Dijital kartvizit nedir?",
         search_placeholder : "Sitede ara...",
         share_main_title: "Smart Kart ile Neler Paylaşabilirsin?",
-        share_sub_desc: "Tüm dijital dünyanızı tek bir dokunuşla aktarın."
+        share_sub_desc: "Tüm dijital dünyanızı tek bir dokunuşla aktarın.",
+        "nav_share": "Paylaşım"
     },
     en: {
         faq1_q: "What is a digital business card?",
@@ -2957,7 +3053,8 @@ let isNavClicking = false;
         nav_eco: "Nature",
         search_placeholder: "Search in site...",
         share_main_title: "What Can You Share with Smart Card?",
-        share_sub_desc: "Transfer your entire digital world with just a single tap."
+        share_sub_desc: "Transfer your entire digital world with just a single tap.",
+        "nav_share": "Share"
     }
 };
 
