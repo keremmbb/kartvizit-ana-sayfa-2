@@ -5492,49 +5492,63 @@ html.light-mode #eco-impact .eco-badge {
 /* 2. Mobil (Telefon) Görünümü */
 @media screen and (max-width: 768px) {
     
-    /* 🎯 HAZIR DİL SEÇİCİNİ MOBİLDE HAMBURGERİN SOLUNA ÇİVİLİYORUZ */
+    /* 🎯 GÜNCELLENDİ: DİL SEÇİCİ KAPSAYICISI 
+       Daha kibar, hafif şeffaf ve çakışmaları önlemek için yukarı/sağa yanaştı */
     .premium-lang-container {
         position: fixed !important;
-        top: 17px !important; /* Hamburger ile milimetrik aynı hizada */
-        right: 70px !important; /* Hamburger butonunun tam soluna denk gelen altın oran */
-        z-index: 10000 !important; /* Her şeyin üstünde, her an tıklanabilir */
+        top: 12px !important; /* 17px'den 12px'e çekildi */
+        right: 58px !important; /* Hamburger küçüldüğü için ideal hizaya çekildi */
+        z-index: 10000 !important;
+        opacity: 0.85 !important; /* İçeriklerin üstünde sırıtmaması için hafif şeffaflık */
+        transition: opacity 0.2s ease !important;
+    }
+    
+    .premium-lang-container:active {
+        opacity: 1 !important; /* Dokunulduğunda tam parlar */
     }
 
-    /* Dil butonunun mobil ekranda kaba durmaması için küçük dokunuşlar */
+    /* GÜNCELLENDİ: Dil butonunun kendisi (Yükseklik 38px -> 32px yapıldı) */
     .lang-trigger-btn {
-        background: rgba(15, 15, 15, 0.95) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 6px 10px !important;
-        border-radius: 20px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-        height: 38px !important; /* Hamburger butonuyla eşit boyuta getirdik */
+        background: rgba(15, 15, 15, 0.92) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 4px 8px !important; /* İç boşluklar daraltıldı */
+        border-radius: 16px !important; /* Kapsül yapısı kibarlaştırıldı */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25) !important;
+        height: 32px !important; /* Yükseklik azaltıldı */
         display: flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 4px !important;
     }
 
-    /* Bayrak ikonunun mobildeki boyutu */
+    /* GÜNCELLENDİ: Bayrak ikonunun yeni boyutu */
     .flag-icon {
-        width: 18px !important;
+        width: 15px !important; /* 18px -> 15px */
         height: auto !important;
     }
 
+    /* GÜNCELLENDİ: Dil metni boyutu */
     .lang-text-label {
-        font-size: 12px !important;
+        font-size: 11px !important; /* 12px -> 11px */
         font-weight: 700 !important;
         color: #fff !important;
     }
 
-    /* Açılan dil listesinin (dropdown) mobilde butonun hemen altında düzgünce açılması */
+    /* YENİ: Aşağı açılan minik ok işareti mobilde kaba durmasın diye küçültüldü */
+    .arrow-icon {
+        font-size: 14px !important;
+        margin-left: -2px !important;
+    }
+
+    /* GÜNCELLENDİ: Açılan dil listesinin (dropdown) konumu yeni boyuta uyarlandı */
     .lang-dropdown-menu {
         position: absolute !important;
-        top: 45px !important;
+        top: 38px !important; /* Buton küçüldüğü için mesafe daraltıldı */
         right: 0 !important;
         background: rgba(20, 20, 20, 0.98) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-        width: 130px !important;
+        border-radius: 10px !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+        width: 120px !important;
     }
 
 
@@ -5602,23 +5616,157 @@ html.light-mode #eco-impact .eco-badge {
         display: flex !important;
     }
 
-    /* Senin o yuvarlak malzeme ikonlu hamburger butonun */
+    /* 🎯 GÜNCELLENDİ: HAMBURGER BUTONU 
+       Boyutu 38px'den zarif bir 32px'e düşürüldü, kenarlara daha iyi yanaştı */
     button#mobileMenuToggle {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         position: fixed !important;
-        top: 17px !important;
-        right: 20px !important;
+        top: 12px !important; /* Dil seçici ile aynı hizada */
+        right: 15px !important; /* Ekranın sağına daha iyi yanaştı */
         z-index: 10000 !important;
-        background: rgba(15, 15, 15, 0.95) !important;
+        background: rgba(15, 15, 15, 0.92) !important;
         border: none !important;
         color: white !important;
-        width: 38px !important;
-        height: 38px !important;
+        
+        /* Zarif yeni boyutlar */
+        width: 32px !important;
+        height: 32px !important;
         border-radius: 50% !important;
         cursor: pointer !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important;
+        opacity: 0.85 !important;
+        transition: opacity 0.2s ease !important;
+    }
+    
+    button#mobileMenuToggle:active {
+        opacity: 1 !important;
+    }
+
+    /* GÜNCELLENDİ: İçindeki menü ikonunun boyutu yeni kutuya göre küçültüldü */
+    button#mobileMenuToggle i {
+        font-size: 18px !important; /* 24px civarından 18px'e çekildi */
+    }
+}
+/* --- NASIL ÇALIŞIR (BENTO GRID) MOBİL UYUMLULUK AYARLARI --- */
+@media screen and (max-width: 768px) {
+    
+    /* Bölümün genel boşluklarını mobil için optimize ediyoruz */
+    .nasil-section {
+        padding: 60px 0 !important;
+    }
+
+    .nasil-container {
+        width: 92% !important;
+        margin: 0 auto !important;
+    }
+
+    /* Üst başlık grubunun mobil yazı boyutları */
+    .nasil-header-group {
+        text-align: center !important;
+        margin-bottom: 40px !important;
+    }
+
+    .nasil-badge {
+        font-size: 11px !important;
+        padding: 4px 10px !important;
+    }
+
+    .nasil-main-title {
+        font-size: 28px !important; /* Mobilde çok devasa durmaması için ideal boyut */
+        line-height: 1.2 !important;
+        margin: 12px 0 !important;
+    }
+
+    .nasil-header-group p {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* 🎯 SİHİRLİ DOKUNUŞ: Bento Grid'i yan yana dizilimden kurtarıp pürüzsüzce alt alta diziyoruz */
+    .nasil-bento-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important; /* Kartların arasındaki dikey mesafe */
+    }
+
+    /* Kartların mobildeki genel yapısı */
+    .nasil-card {
+        grid-column: span 12 !important; /* Grid yapısını tamamen sıfırlıyoruz */
+        padding: 30px 24px !important;
+        border-radius: 20px !important;
+        min-height: auto !important; /* Sabit yükseklik varsa kaldırıp içeriğe göre açılmasını sağlıyoruz */
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        overflow: hidden !important; /* Görsellerin karttan dışarı taşmasını engeller */
+    }
+
+    /* Adım numaraları (01, 02, 03) ve ikonların hizası */
+    .card-step-num {
+        font-size: 16px !important;
+        opacity: 0.5 !important;
+    }
+
+    .card-icon-wrapper {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .card-icon-wrapper i {
+        font-size: 22px !important;
+    }
+
+    /* İçerik Yazıları */
+    .card-content h3 {
+        font-size: 18px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .card-content p {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    /* 🎯 EFEKT VE GÖRSELLERİN (`card-visual`) MOBİLDE PATLAMAMASI İÇİN AYARLAR */
+    .card-visual {
+        position: relative !important;
+        width: 100% !important;
+        height: 140px !important; /* Mobilde efektlere sabit şık bir alan tanıyoruz */
+        margin-top: 10px !important;
+        top: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* 01. Karttaki NFC Dalga Efektinin Mobilde Ortalanması */
+    .nfc-wave-effect {
+        height: 100px !important;
+    }
+
+    /* 02. Karttaki Telefon ve Lazer Efektinin Sığdırılması */
+    .phone-scan-mockup {
+        height: 160px !important;
+    }
+    
+    .mockup-phone {
+        width: 70px !important;
+        height: 130px !important;
+    }
+
+    /* 03. Karttaki Başarı Parlaması ve Tik İkonunun Hizası */
+    .success-sparkle-effect {
+        height: 120px !important;
+    }
+    
+    .success-badge i {
+        font-size: 48px !important;
     }
 }
 </style>
