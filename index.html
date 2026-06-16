@@ -5905,6 +5905,103 @@ html.light-mode #eco-impact .eco-badge {
     }
 
 }
+@media screen and (max-width: 991px) {
+    .premium-walkthrough-section {
+        padding: 50px 0 !important;
+        overflow: hidden !important;
+        width: 100% !important;
+    }
+
+    .premium-walkthrough-section .container {
+        padding: 0 15px !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .walkthrough-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
+    }
+
+    /* Üst Menü Şeridi (Yatayda pürüzsüz kaymaya devam etsin) */
+    .walkthrough-menu {
+        display: flex !important; 
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        white-space: nowrap !important;
+        width: calc(100% + 30px) !important;
+        margin-left: -15px !important;
+        padding: 10px 15px !important;
+        box-sizing: border-box !important;
+    }
+    .walkthrough-menu::-webkit-scrollbar { display: none !important; }
+
+    .walkthrough-btn {
+        display: inline-flex !important; 
+        flex: 0 0 auto !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 10px 18px !important;
+        margin-right: 10px !important;
+        border-radius: 30px !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        width: auto !important;
+    }
+
+    .walkthrough-btn .step-num { margin: 0 !important; font-size: 0.8rem !important; }
+    .walkthrough-btn .step-text { font-size: 0.85rem !important; }
+
+    /* 🎯 GÖSTERGE KARTI (Yatay kaydırma kilitlerini kırdık, normal kutu yaptık) */
+    .walkthrough-display-card {
+        display: block !important; 
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important; 
+        min-height: unset !important;
+        padding: 30px 20px !important; /* Padding'i karta verdik */
+        border-radius: 24px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* 🎯 İÇERİK ELEMANLARI (Sadece aktif olan şak diye ekrana gelecek) */
+    .walkthrough-content-item {
+        display: none !important; /* Varsayılan olarak hepsini tamamen kapat */
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important; 
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        
+        /* Animasyon kütüphanesinin opacity kilitlerini ezmek için */
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: none !important; 
+    }
+
+    /* Ekranda aktif duran kartı zorla parlat ve görünür kıl */
+    .walkthrough-content-item.active {
+        display: flex !important; /* Aktif olanı zorla aç */
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .wt-icon-box { margin: 0 auto 15px auto !important; width: 60px !important; height: 60px !important; }
+    .wt-icon-box i { font-size: 28px !important; }
+    .walkthrough-content-item h3 { font-size: 1.2rem !important; margin-bottom: 10px !important; line-height: 1.4 !important; }
+    .walkthrough-content-item p { font-size: 0.88rem !important; line-height: 1.5 !important; opacity: 0.7 !important; margin: 0 !important; }
+}
 </style>
 </head>
 <body>
@@ -8236,25 +8333,102 @@ if (searchInputEl && suggestionsBox) {
 }
 // Trowas İnteraktif Kılavuz Adım Değiştirme Motoru
 function switchWalkthroughStep(stepNumber) {
-    // 1. Tüm menü butonlarındaki 'active' sınıfını temizle
-    const menuButtons = document.querySelectorAll('.walkthrough-btn');
-    menuButtons.forEach(btn => btn.classList.remove('active'));
+    // 1. Üstteki menü butonlarını güncelle
+    const menuButtons = document.querySelectorAll('.walkthrough-menu .walkthrough-btn');
+    menuButtons.forEach((btn, idx) => {
+        if (idx === (stepNumber - 1)) {
+            btn.classList.add('active');
+            if (window.innerWidth <= 991) {
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 
-    // 2. Tüm içerik kartlarındaki 'active' sınıfını temizle
+    // 2. İçerik Kartlarını Yönet
     const contentItems = document.querySelectorAll('.walkthrough-content-item');
-    contentItems.forEach(item => item.classList.remove('active'));
-
-    // 3. Tıklanan adımı aktif et (Buton listesi 0 tabanlı index kullanır, bu yüzden stepNumber - 1)
-    if (menuButtons[stepNumber - 1]) {
-        menuButtons[stepNumber - 1].classList.add('active');
-    }
-
-    // 4. İlgili display içeriğini görünür kıl
-    const targetContent = document.getElementById(`wt-content-${stepNumber}`);
-    if (targetContent) {
-        targetContent.classList.add('active');
-    }
+    
+    contentItems.forEach((item, idx) => {
+        if (window.innerWidth > 991) {
+            // MASAÜSTÜ SİSTEMİ
+            item.classList.remove('active');
+            item.style.display = 'none';
+            if (idx === (stepNumber - 1)) {
+                item.classList.add('active');
+                item.style.display = 'block';
+            }
+        } else {
+            // MOBİL SİSTEMİ: Reveal kütüphanesinin tüm inline kilitlerini tek tek kırıyoruz!
+            if (idx === (stepNumber - 1)) {
+                item.classList.add('active');
+                item.style.setProperty('display', 'flex', 'important');
+                item.style.setProperty('opacity', '1', 'important');
+                item.style.setProperty('visibility', 'visible', 'important');
+                item.style.setProperty('transform', 'none', 'important');
+            } else {
+                item.classList.remove('active');
+                item.style.setProperty('display', 'none', 'important');
+                item.style.setProperty('opacity', '0', 'important');
+                item.style.setProperty('visibility', 'hidden', 'important');
+            }
+        }
+    });
 }
+// --- KART KAYDIRILDIĞINDA MENÜYÜ OTOMATİK GÜNCELLEME MOTORU ---
+const displayCardEl = document.querySelector('.walkthrough-display-card');
+
+if (displayCardEl) {
+    displayCardEl.addEventListener('scroll', () => {
+        // Sadece mobil görünümdeyken bu tetiklensin
+        if (window.innerWidth <= 991) {
+            const cardWidth = displayCardEl.clientWidth;
+            // Kaydırma miktarına göre hangi adımda olduğumuzu matematiksel olarak buluyoruz
+            const currentStep = Math.round(displayCardEl.scrollLeft / cardWidth) + 1;
+            
+            // 1. Üstteki menü butonlarının active sınıflarını güncelle
+            const menuButtons = document.querySelectorAll('.walkthrough-btn');
+            menuButtons.forEach((btn, idx) => {
+                if (idx === (currentStep - 1)) {
+                    btn.classList.add('active');
+                    // Mobilde aktif olan menü butonunu da otomatik görüş alanına kaydır
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // 2. İçerik kartlarının opacity ve scale efektleri için active sınıfını yönet
+            const contentItems = document.querySelectorAll('.walkthrough-content-item');
+            contentItems.forEach((item, idx) => {
+                if (idx === (currentStep - 1)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+    });
+}
+
+// Mevcut masaüstü tıklama fonksiyonunu da bozmamak için küçük bir güncelleme:
+const originalSwitchWalkthroughStep = switchWalkthroughStep;
+switchWalkthroughStep = function(stepNumber) {
+    // Eğer orijinal fonksiyon varsa çalıştır
+    if (typeof originalSwitchWalkthroughStep === 'function') {
+        originalSwitchWalkthroughStep(stepNumber);
+    }
+    
+    // Üstteki butona basıldığında, aşağıdaki kaydırmalı kutuyu da o adıma kaydır
+    const displayCard = document.querySelector('.walkthrough-display-card');
+    if (displayCard && window.innerWidth <= 991) {
+        const cardWidth = displayCard.clientWidth;
+        displayCard.scrollTo({
+            left: (stepNumber - 1) * cardWidth,
+            behavior: 'smooth'
+        });
+    }
+};
 function toggleFaq(element) {
     if (window.event) window.event.stopPropagation();
 
@@ -8312,34 +8486,42 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // --- MOBİL NAVBAR METİN OPTİMİZASYON MOTORU ---
 document.addEventListener("DOMContentLoaded", function() {
-    const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-    const menuIcon = document.getElementById("menuIcon");
-    const dynamicNav = document.getElementById("dynamicNav");
-    const navLinks = document.querySelectorAll("nav#dynamicNav a");
+    const displayCardEl = document.querySelector('.walkthrough-display-card');
+    
+    if (displayCardEl) {
+        let isScrolling;
+        displayCardEl.addEventListener('scroll', () => {
+            if (window.innerWidth <= 991) {
+                // Kaydırma işlemi bitene kadar bekle (Debounce)
+                window.clearTimeout(isScrolling);
+                isScrolling = setTimeout(() => {
+                    const cardWidth = displayCardEl.clientWidth;
+                    const currentStep = Math.round(displayCardEl.scrollLeft / cardWidth) + 1;
+                    
+                    // Sadece kaydırma ile adım değiştiyse sınıfları güncelle
+                    const menuButtons = document.querySelectorAll('.walkthrough-menu .walkthrough-btn');
+                    const contentItems = document.querySelectorAll('.walkthrough-content-item');
+                    
+                    menuButtons.forEach((btn, idx) => {
+                        if (idx === (currentStep - 1)) {
+                            btn.classList.add('active');
+                            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
 
-    if (mobileMenuToggle && dynamicNav) {
-        mobileMenuToggle.addEventListener("click", function() {
-            // Menüyü aç/kapat (CSS'teki menu-open sınıfını ekler/çıkarır)
-            dynamicNav.classList.toggle("menu-open");
-
-            // Butondaki ikonun şeklini değiştir (Menü açılınca "close" yani X ikonu olur)
-            if (dynamicNav.classList.contains("menu-open")) {
-                menuIcon.textContent = "close";
-            } else {
-                menuIcon.textContent = "menu";
+                    contentItems.forEach((item, idx) => {
+                        if (idx === (currentStep - 1)) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                }, 100);
             }
-        });
+        }, { passive: true });
     }
-
-    // Menü açıkken kullanıcı bir linke tıklayıp sayfada o bölüme giderse menüyü otomatik kapat
-    navLinks.forEach(link => {
-        link.addEventListener("click", function() {
-            if (dynamicNav) {
-                dynamicNav.classList.remove("menu-open");
-                if (menuIcon) menuIcon.textContent = "menu";
-            }
-        });
-    });
 });
 document.addEventListener("DOMContentLoaded", function() {
     const mobileLangToggle = document.getElementById("mobileLangToggle");
