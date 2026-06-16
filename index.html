@@ -5383,41 +5383,99 @@ html.light-mode #eco-impact .eco-badge {
     transition: transform 0.3s ease;
 }
 
-/* Mobil Ekran Sınırı (Tablet ve Telefonlar) */
-@media screen and (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: block; /* Butonu mobilde görünür yap */
-    }
-
-    nav#dynamicNav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Menüyü başlangıçta ekranın sağ dışına gizle */
-        width: 70%;    /* Ekranın %70'ini kaplasın */
-        height: 100vh;
-        background: rgba(15, 15, 15, 0.95); /* Arkası hafif transparan koyu tema */
-        backdrop-filter: blur(10px); /* Premium buzlu cam efekti */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 25px;
-        z-index: 1000;
-        transition: right 0.4s cubic-bezier(0.1, 1, 0.1, 1); /* Pürüzsüz kayma */
-        box-shadow: -5px 0 25px rgba(0,0,0,0.5);
-    }
-
     /* Menü Aktif Olduğunda Ekrana Kayma Sınıfı */
-    nav#dynamicNav.mobile-active {
-        right: 0;
+@media screen and (max-width: 768px) {
+    /* 🎯 Menünün ilk (KAPALI) hali: Tamamen görünmez, sıfır çizgi */
+    nav#dynamicNav {
+        position: fixed !important;
+        top: 15px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 90% !important;
+        max-width: 400px !important;
+        
+        /* Çizgileri ve arka planı tamamen kazıdık */
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        
+        /* Kapalıyken ekranda yer kaplamasın */
+        padding: 0px !important;
+        height: 0px !important;
+        overflow: visible !important; /* Butonun ve açılan menünün görünmesi için önemli */
+        
+        z-index: 9999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0px !important;
+        transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease !important;
     }
 
+    /* Mobilde linklerin varsayılan durumu (GİZLİ) */
     nav#dynamicNav a {
-        font-size: 20px;
-        width: 100%;
-        text-align: center;
+        display: none !important;
+        width: 100% !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        padding: 12px 0 !important;
+        text-align: center !important;
+        color: white !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    /* Tema butonu da kapalıyken gizli */
+    .theme-toggle-nav {
+        display: none !important;
+        justify-content: center;
         padding: 12px 0;
-        display: block;
+        color: white !important;
+    }
+
+    /* 🎯 SİHİRLİ SINIF: Menü açıldığında her şey jilet gibi geri gelir */
+    nav#dynamicNav.menu-open {
+        height: auto !important; /* İçerik boyutu kadar uzasın */
+        background: rgba(15, 15, 15, 0.96) !important;
+        backdrop-filter: blur(12px) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        padding: 20px !important;
+        gap: 4px !important;
+        border-radius: 25px !important; /* Oval kapsül görüntüsü sadece açılınca gelsin */
+    }
+
+    nav#dynamicNav.menu-open a {
+        display: block !important;
+    }
+
+    nav#dynamicNav.menu-open .theme-toggle-nav {
+        display: flex !important;
+    }
+
+    /* Senin yuvarlak hamburger butonun */
+    button#mobileMenuToggle {
+        display: flex !important;
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 10000 !important;
+        background: rgba(15, 15, 15, 0.95) !important;
+        border: none !important;
+        color: white !important;
+        padding: 10px !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    }
+}
+
+/* Masaüstü (PC) Ayarları */
+@media screen and (min-width: 769px) {
+    button#mobileMenuToggle {
+        display: none !important;
+    }
+    nav#dynamicNav a {
+        display: inline-block !important;
     }
 }
 </style>
@@ -7824,6 +7882,37 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+});
+// --- MOBİL NAVBAR METİN OPTİMİZASYON MOTORU ---
+document.addEventListener("DOMContentLoaded", function() {
+    const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+    const menuIcon = document.getElementById("menuIcon");
+    const dynamicNav = document.getElementById("dynamicNav");
+    const navLinks = document.querySelectorAll("nav#dynamicNav a");
+
+    if (mobileMenuToggle && dynamicNav) {
+        mobileMenuToggle.addEventListener("click", function() {
+            // Menüyü aç/kapat (CSS'teki menu-open sınıfını ekler/çıkarır)
+            dynamicNav.classList.toggle("menu-open");
+
+            // Butondaki ikonun şeklini değiştir (Menü açılınca "close" yani X ikonu olur)
+            if (dynamicNav.classList.contains("menu-open")) {
+                menuIcon.textContent = "close";
+            } else {
+                menuIcon.textContent = "menu";
+            }
+        });
+    }
+
+    // Menü açıkken kullanıcı bir linke tıklayıp sayfada o bölüme giderse menüyü otomatik kapat
+    navLinks.forEach(link => {
+        link.addEventListener("click", function() {
+            if (dynamicNav) {
+                dynamicNav.classList.remove("menu-open");
+                if (menuIcon) menuIcon.textContent = "menu";
+            }
+        });
+    });
 });
 </script>
 </body>
