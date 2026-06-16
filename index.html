@@ -194,6 +194,8 @@ html.light-mode .lang-option-item:hover {
 }
         /* LIGHT MODE TASARIMI */
         .light-mode {
+            --animation-color: #2c3e50; /* Kart çizgileri aydınlık modda şık bir lacivert/füme olsun */
+    --card-body-bg: #f0f2f5;
             --bg-color: #f5f5f7;
             --card-bg: #ffffff;
             --text-main: #1d1d1f;
@@ -3996,571 +3998,571 @@ nav, .navbar {
 }
 
 /* Animasyonları Elementlere Atama (6 saniyelik yeni ritim) */
-.logo-wa { animation: flyOutWA 6s ease-out infinite; transform-origin: center; }
-.logo-yt { animation: flyOutYT 6s ease-out infinite; transform-origin: center; }
-.logo-in { animation: flyOutIN 6s ease-out infinite; transform-origin: center; }
-.logo-ig { animation: flyOutIG 6s ease-out infinite; transform-origin: center; }
-.logo-ph { animation: flyOutPH 6s ease-out infinite; transform-origin: center; }
-.logo-mail { animation: flyOutMail 6s ease-out infinite; transform-origin: center; }
+    .logo-wa { animation: flyOutWA 6s ease-out infinite; transform-origin: center; }
+    .logo-yt { animation: flyOutYT 6s ease-out infinite; transform-origin: center; }
+    .logo-in { animation: flyOutIN 6s ease-out infinite; transform-origin: center; }
+    .logo-ig { animation: flyOutIG 6s ease-out infinite; transform-origin: center; }
+    .logo-ph { animation: flyOutPH 6s ease-out infinite; transform-origin: center; }
+    .logo-mail { animation: flyOutMail 6s ease-out infinite; transform-origin: center; }
 
-.app-icon-text {
-    pointer-events: none;
-    user-select: none;
-}
-/* ☁️ Bulutun Hafifçe Havada Yaylanması */
-@keyframes cloudGlowFloat {
-    0%, 100% { transform: translate(160px, 70px) scale(1); filter: drop-shadow(0 0 2px rgba(0,242,254,0.2)); }
-    50% { transform: translate(160px, 66px) scale(1.02); filter: drop-shadow(0 0 10px rgba(0,242,254,0.6)); }
-}
-.svg-cloud-group {
-    animation: cloudGlowFloat 4s ease-in-out infinite;
-}
-
-/* ⚡ Buluttan Karta Akan Veri Çizgileri Animasyonu */
-@keyframes streamFlow {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -30; }
-}
-.stream-line {
-    animation: streamFlow 1.5s linear infinite;
-}
-.stream-line.s-2 {
-    animation-direction: reverse; /* Çift yönlü veri akış hissi */
-    animation-duration: 1.2s;
-}
-
-/* ✨ Kartın Güncellenme (Parlayıp Kendine Gelme) Ritmi */
-/* Veri aktıkça 6 saniyede bir kartın elemanları sihirli bir şekilde renk değiştirir */
-@keyframes lineUpdateEffect {
-    0%, 100% { fill: rgba(255,255,255,0.2); filter: none; }
-    30% { fill: rgba(0, 242, 254, 0.2); }
-    35% { fill: #00f2fe; filter: drop-shadow(0 0 5px #00f2fe); } /* Tam o an bilgi güncellendi! */
-    55% { fill: #4facfe; filter: drop-shadow(0 0 3px #4facfe); }
-    75% { fill: rgba(255,255,255,0.3); filter: none; }
-}
-
-.line-name { animation: lineUpdateEffect 5s ease-in-out infinite; }
-.line-job { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.3s; }
-.line-link1 { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.6s; }
-.line-link2 { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.9s; }
-
-/* 💳 Kart Gövdesinin Arka Planda Nabız Gibi Atması */
-@keyframes cardPulse {
-    0%, 100% { stroke: rgba(255,255,255,0.15); filter: none; }
-    35% { stroke: #00f2fe; filter: drop-shadow(0 0 8px rgba(0,242,254,0.4)); }
-}
-.sync-card-base {
-    animation: cardPulse 5s ease-in-out infinite;
-}
-/* 📊 SÜTUNLARIN YÜKLENME VE CANLI NABIZ ANİMASYONU (6 Saniyelik Döngü) */
-@keyframes barGrowAndPulse {
-    0% { height: 0; transform: translateY(0); }
-    15% { height: var(--max-h); transform: translateY(calc(var(--max-h) * -1)); } /* İlk fırlama */
-    45%, 55% { height: calc(var(--max-h) - 10px); transform: translateY(calc((var(--max-h) - 10px) * -1)); } /* Canlı oynama */
-    85% { height: var(--max-h); transform: translateY(calc(var(--max-h) * -1)); }
-    100% { height: 0; transform: translateY(0); } /* Döngü başa sarıyor */
-}
-
-.live-bar {
-    transform-origin: bottom;
-    animation: barGrowAndPulse 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-}
-
-/* Her sütuna özel hedef yükseklik (--max-h) ve gecikme (delay) tanımlıyoruz */
-.live-bar.b-1 { --max-h: 120px; animation-delay: 0.1s; }
-.live-bar.b-2 { --max-h: 180px; animation-delay: 0.2s; }
-.live-bar.b-3 { --max-h: 140px; animation-delay: 0.3s; }
-.live-bar.b-4 { --max-h: 220px; animation-delay: 0.4s; }
-.live-bar.b-5 { --max-h: 190px; animation-delay: 0.5s; }
-.live-bar.b-6 { --max-h: 250px; animation-delay: 0.6s; }
-
-/* 📈 ÜSTTEKİ DALGALI ÇİZGİ GRAFİK ANİMASYONU (Dash Hat Efekti) */
-@keyframes lineDraw {
-    0%, 100% { stroke-dasharray: 0, 1000; opacity: 0; }
-    20%, 80% { stroke-dasharray: 1000, 0; opacity: 1; }
-}
-.analytics-trend-line {
-    stroke-dasharray: 1000;
-    animation: lineDraw 6s ease-in-out infinite;
-}
-
-/* 🟢 ÇİZGİ ÜZERİNDE GEZİNEN CANLI VERİ NOKTASI ANİMASYONU */
-@keyframes dotFollow {
-    0% { motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100"); offset-distance: 0%; opacity: 0; }
-    15% { opacity: 1; }
-    80% { opacity: 1; }
-    85%, 100% { motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100"); offset-distance: 100%; opacity: 0; }
-}
-/* Modern tarayıcılar için CSS Motion Path desteği kullanarak noktayı grafik üzerinde yürüütüyoruz */
-.live-data-dot {
-    motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100");
-    animation: dotFollow 6s linear infinite;
-}
-
-/* 🟢 PANELİN SOL ÜSTÜNDEKİ "LIVE" IŞIĞININ YANIP SÖNMESİ */
-@keyframes liveBlink {
-    0%, 100% { opacity: 0.3; filter: blur(1px); }
-    50% { opacity: 1; filter: drop-shadow(0 0 4px #00f2fe); }
-}
-.live-pulse {
-    animation: liveBlink 1.5s infinite;
-}
-/* 🙋‍♂️ SSS Ana Alanı */
-.premium-faq-section {
-    padding: 140px 20px;
-    background: #04050a; /* Uzay siyahı */
-    display: flex;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.faq-wrapper {
-    max-width: 800px;
-    width: 100%;
-    position: relative;
-    z-index: 5;
-}
-/* Başlık Grubu */
-.faq-header {
-    text-align: center;
-    margin-bottom: 70px;
-}
-
-.faq-badge {
-    background: linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(121, 40, 202, 0.1) 100%);
-    color: #00f2fe;
-    padding: 6px 18px;
-    border-radius: 30px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    display: inline-block;
-    margin-bottom: 20px;
-    border: 1px solid rgba(0, 242, 254, 0.15);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.05);
-}
-.faq-header h2 {
-    color: #fff;
-    font-size: 46px;
-    font-weight: 900;
-    margin-bottom: 15px;
-    letter-spacing: -1px;
-    background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.faq-header p {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 16px;
-    font-weight: 400;
-}
-
-.faq-item-native {
-    background: rgba(255, 255, 255, 0.01) !important;
-    border: 1px solid rgba(255, 255, 255, 0.03) !important;
-    border-radius: 24px !important; /* Ultra modern geniş köşeler */
-    margin-bottom: 20px;
-    backdrop-filter: blur(20px);
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-.faq-item-native:hover {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    transform: scale(1.01);
-}
-
-.faq-item-native[open] {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border-color: rgba(0, 242, 254, 0.15) !important;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                0 0 50px rgba(0, 242, 254, 0.02);
-}
-.faq-question-native {
-    padding: 28px 35px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    outline: none;
-    list-style: none;
-}
-
-.faq-question-native::-webkit-details-marker {
-    display: none;
-}
-/* Soru Kutuları Listesi */
-.faq-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.faq-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-/* Soru Üzerine Gelindiğinde (Hover) */
-.faq-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(0, 242, 254, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 242, 254, 0.05);
-    transform: translateY(-2px);
-}
-
-/* Soru Başlık Alanı */
-.faq-question {
-    padding: 24px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.faq-question h3 {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0;
-    transition: color 0.3s ease;
-}
-
-.faq-icon {
-    color: rgba(255, 255, 255, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
-}
-
-/* Cevap Alanı (Varsayılan olarak kapalı) */
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), padding 0.4s ease;
-    padding: 0 30px;
-}
-
-.faq-answer p {
-    color: #ffffff !important; /* Yazı rengi kesinlikle saf beyaz */
-    font-size: 15px !important;
-    line-height: 1.6 !important;
-    margin: 0 !important;
-    padding: 15px 30px 25px 30px !important;
-}
-/* 🔥 AKTİF (AÇIK) SORU STİLLERİ */
-.faq-item.active {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: #00f2fe;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.1);
-}
-
-.faq-item.active .faq-question h3 {
-    color: #00f2fe; /* Soru açıkken başlık parlar */
-}
-
-.faq-item.active .faq-icon {
-    transform: rotate(135deg); /* Artı simgesi çarpıya/eksiye döner */
-    color: #00f2fe;
-}
-
-/* Mobil Uyum */
-@media (max-width: 768px) {
-    .faq-header h2 { font-size: 28px; }
-    .faq-question { padding: 20px; }
-    .faq-question h3 { font-size: 16px; }
-    .faq-answer { padding: 0 20px; }
-}
-.faq-question-native h3 {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 19px;
-    margin: 0;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-.faq-item-native[open] .faq-question-native h3 {
-    color: #fff;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-.faq-question-native::after {
-    content: '↓';
-    color: rgba(255, 255, 255, 0.25);
-    font-size: 20px;
-    font-weight: 400;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
-    background: rgba(255, 255, 255, 0.03);
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-.faq-item-native[open] .faq-question-native::after {
-    transform: rotate(180deg);
-    color: #00f2fe;
-    background: rgba(0, 242, 254, 0.08);
-    border-color: rgba(0, 242, 254, 0.3);
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
-}
-.faq-answer-native p {
-    color: rgba(255, 255, 255, 0.55) !important;
-    font-size: 15.5px !important;
-    line-height: 1.75 !important;
-    margin: 0 !important;
-    padding: 0 35px 32px 35px !important;
-    animation: luxuryFade 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-.premium-faq-section::before {
-    content: '';
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, rgba(0,0,0,0) 70%);
-    top: -20%;
-    right: -10%;
-    pointer-events: none;
-}
-@keyframes fadeInFaq {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
+    .app-icon-text {
+        pointer-events: none;
+        user-select: none;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    /* ☁️ Bulutun Hafifçe Havada Yaylanması */
+    @keyframes cloudGlowFloat {
+        0%, 100% { transform: translate(160px, 70px) scale(1); filter: drop-shadow(0 0 2px rgba(0,242,254,0.2)); }
+        50% { transform: translate(160px, 66px) scale(1.02); filter: drop-shadow(0 0 10px rgba(0,242,254,0.6)); }
     }
-}
-
-/* Mobil Cihazlar İçin Kusursuz Uyum (Responsive) */
-@media (max-width: 768px) {
-    .premium-faq-section { padding: 90px 15px; }
-    .faq-header h2 { font-size: 34px; }
-    .faq-question-native { padding: 22px 25px; }
-    .faq-question-native h3 { font-size: 16.5px; }
-    .faq-question-native::after { width: 32px; height: 32px; font-size: 16px; }
-    .faq-answer-native p { padding: 0 25px 25px 25px !important; font-size: 14.5px !important; }
-}
-.premium-faq-section::after {
-    content: '';
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(121, 40, 202, 0.05) 0%, rgba(0,0,0,0) 70%);
-    bottom: -20%;
-    left: -10%;
-    pointer-events: none;
-}
-.faq-item-native::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 0;
-    background: linear-gradient(180deg, #00f2fe 0%, #4facfe 100%);
-    border-radius: 0 4px 4px 0;
-    transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-.faq-item-native[open]::before {
-    height: 60%;
-}
-.faq-item-native:hover .faq-question-native::after {
-    color: rgba(255, 255, 255, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-@keyframes luxuryFade {
-    from {
-        opacity: 0;
-        transform: translateY(-8px);
+    .svg-cloud-group {
+        animation: cloudGlowFloat 4s ease-in-out infinite;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* ⚡ Buluttan Karta Akan Veri Çizgileri Animasyonu */
+    @keyframes streamFlow {
+        0% { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: -30; }
     }
-}
-/* --- AYDINLIK MOD ANA ARKA PLAN DÜZELTMESİ --- */
-html.light-mode body,
-html.light-mode main,
-html.light-mode #hero, 
-html.light-mode .hero-section,
-html.light-mode section:first-of-type {
-    /* Siyah gradyanı tamamen ezip yerine lüks, pürüzsüz bir açık gri/beyaz gradyan koyuyoruz */
-    background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    color: #111111 !important;
-}
+    .stream-line {
+        animation: streamFlow 1.5s linear infinite;
+    }
+    .stream-line.s-2 {
+        animation-direction: reverse; /* Çift yönlü veri akış hissi */
+        animation-duration: 1.2s;
+    }
 
-/* Üst Navigasyon Barı (Header) Aydınlık Mod Uyumu */
-html.light-mode nav,
-html.light-mode .nav-container,
-html.light-mode .dynamic-nav {
-    background: rgba(255, 255, 255, 0.7) !important;
-    backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-}
+    /* ✨ Kartın Güncellenme (Parlayıp Kendine Gelme) Ritmi */
+    /* Veri aktıkça 6 saniyede bir kartın elemanları sihirli bir şekilde renk değiştirir */
+    @keyframes lineUpdateEffect {
+        0%, 100% { fill: rgba(255,255,255,0.2); filter: none; }
+        30% { fill: rgba(0, 242, 254, 0.2); }
+        35% { fill: #00f2fe; filter: drop-shadow(0 0 5px #00f2fe); } /* Tam o an bilgi güncellendi! */
+        55% { fill: #4facfe; filter: drop-shadow(0 0 3px #4facfe); }
+        75% { fill: rgba(255,255,255,0.3); filter: none; }
+    }
 
-/* Navigasyonun içindeki aktif sekme kapsayıcısı (Ortadaki oval menü) */
-html.light-mode .premium-nav-menu,
-html.light-mode nav ul {
-    background: rgba(0, 0, 0, 0.05) !important; /* Koyu gri yerine çok hafif şeffaf siyah/gri tonu */
-}
+    .line-name { animation: lineUpdateEffect 5s ease-in-out infinite; }
+    .line-job { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.3s; }
+    .line-link1 { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.6s; }
+    .line-link2 { animation: lineUpdateEffect 5s ease-in-out infinite; animation-delay: 0.9s; }
 
-/* Menüdeki yazıların renkleri */
-html.light-mode nav a,
-html.light-mode .nav-link,
-html.light-mode .brand-logo,
-html.light-mode #logo {
-    color: #222222 !important;
-}
+    /* 💳 Kart Gövdesinin Arka Planda Nabız Gibi Atması */
+    @keyframes cardPulse {
+        0%, 100% { stroke: rgba(255,255,255,0.15); filter: none; }
+        35% { stroke: #00f2fe; filter: drop-shadow(0 0 8px rgba(0,242,254,0.4)); }
+    }
+    .sync-card-base {
+        animation: cardPulse 5s ease-in-out infinite;
+    }
+    /* 📊 SÜTUNLARIN YÜKLENME VE CANLI NABIZ ANİMASYONU (6 Saniyelik Döngü) */
+    @keyframes barGrowAndPulse {
+        0% { height: 0; transform: translateY(0); }
+        15% { height: var(--max-h); transform: translateY(calc(var(--max-h) * -1)); } /* İlk fırlama */
+        45%, 55% { height: calc(var(--max-h) - 10px); transform: translateY(calc((var(--max-h) - 10px) * -1)); } /* Canlı oynama */
+        85% { height: var(--max-h); transform: translateY(calc(var(--max-h) * -1)); }
+        100% { height: 0; transform: translateY(0); } /* Döngü başa sarıyor */
+    }
 
-/* --- KARTLARIN VE METİNLERİN AYDINLIK MOD AYARLARI --- */
+    .live-bar {
+        transform-origin: bottom;
+        animation: barGrowAndPulse 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
 
-/* Ana başlık ve alt açıklama yazıları */
-html.light-mode h1,
-html.light-mode .hero_title,
-html.light-mode h1 span {
-    color: #000000 !important;
-    text-shadow: none !important;
-}
+    /* Her sütuna özel hedef yükseklik (--max-h) ve gecikme (delay) tanımlıyoruz */
+    .live-bar.b-1 { --max-h: 120px; animation-delay: 0.1s; }
+    .live-bar.b-2 { --max-h: 180px; animation-delay: 0.2s; }
+    .live-bar.b-3 { --max-h: 140px; animation-delay: 0.3s; }
+    .live-bar.b-4 { --max-h: 220px; animation-delay: 0.4s; }
+    .live-bar.b-5 { --max-h: 190px; animation-delay: 0.5s; }
+    .live-bar.b-6 { --max-h: 250px; animation-delay: 0.6s; }
 
-html.light-mode p,
-html.light-mode .hero_desc,
-html.light-mode .sub-title {
-    color: #444444 !important;
-}
+    /* 📈 ÜSTTEKİ DALGALI ÇİZGİ GRAFİK ANİMASYONU (Dash Hat Efekti) */
+    @keyframes lineDraw {
+        0%, 100% { stroke-dasharray: 0, 1000; opacity: 0; }
+        20%, 80% { stroke-dasharray: 1000, 0; opacity: 1; }
+    }
+    .analytics-trend-line {
+        stroke-dasharray: 1000;
+        animation: lineDraw 6s ease-in-out infinite;
+    }
 
-/* Sol taraftaki parlayan küçük kart (Hitbox / Tilt Card) */
-html.light-mode .tilt-card,
-html.light-mode .cardHitbox,
-html.light-mode .small-card-preview {
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important; /* Siyah parlamayı yumuşak gri gölgeye çevirir */
-}
+    /* 🟢 ÇİZGİ ÜZERİNDE GEZİNEN CANLI VERİ NOKTASI ANİMASYONU */
+    @keyframes dotFollow {
+        0% { motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100"); offset-distance: 0%; opacity: 0; }
+        15% { opacity: 1; }
+        80% { opacity: 1; }
+        85%, 100% { motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100"); offset-distance: 100%; opacity: 0; }
+    }
+    /* Modern tarayıcılar için CSS Motion Path desteği kullanarak noktayı grafik üzerinde yürüütüyoruz */
+    .live-data-dot {
+        motion-path: path("M 50 280 Q 100 220 150 240 T 250 150 T 350 100");
+        animation: dotFollow 6s linear infinite;
+    }
 
-/* Sol kartın etrafındaki o mavi/lacivert parlama (Drop Shadow / Glow Effect) varsa temizle */
-html.light-mode .tilt-card::after,
-html.light-mode .tilt-card::before {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.04) !important;
-    background: none !important;
-}
-/* --- ETKİLEŞİM SAYFASI (WALKTHROUGH) AYDINLIK MOD DÜZELTMESİ --- */
-html.light-mode #etkilesim,
-html.light-mode .walkthrough-section,
-html.light-mode [id*="walkthrough"],
-html.light-mode .interaction-section {
-    /* Arka plandaki tüm siyah dairesel ve düz gradyanları lüks açık gri/beyaz tonuyla eziyoruz */
-    background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    color: #111111 !important;
-}
+    /* 🟢 PANELİN SOL ÜSTÜNDEKİ "LIVE" IŞIĞININ YANIP SÖNMESİ */
+    @keyframes liveBlink {
+        0%, 100% { opacity: 0.3; filter: blur(1px); }
+        50% { opacity: 1; filter: drop-shadow(0 0 4px #00f2fe); }
+    }
+    .live-pulse {
+        animation: liveBlink 1.5s infinite;
+    }
+    /* 🙋‍♂️ SSS Ana Alanı */
+    .premium-faq-section {
+        padding: 140px 20px;
+        background: #04050a; /* Uzay siyahı */
+        display: flex;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
 
-/* Etkileşim Bölümündeki Rozet (Badge) Yapısı */
-html.light-mode .walkthrough-badge,
-html.light-mode .badge {
-    background: rgba(0, 0, 0, 0.06) !important;
-    color: #222222 !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
+    .faq-wrapper {
+        max-width: 800px;
+        width: 100%;
+        position: relative;
+        z-index: 5;
+    }
+    /* Başlık Grubu */
+    .faq-header {
+        text-align: center;
+        margin-bottom: 70px;
+    }
 
-/* Etkileşim Sol Menü / Adım Butonları (Step Menu) */
-html.light-mode .walkthrough-btn {
-    background: rgba(0, 0, 0, 0.03) !important;
-    color: #555555 !important;
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
-}
+    .faq-badge {
+        background: linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(121, 40, 202, 0.1) 100%);
+        color: #00f2fe;
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: inline-block;
+        margin-bottom: 20px;
+        border: 1px solid rgba(0, 242, 254, 0.15);
+        box-shadow: 0 0 20px rgba(0, 242, 254, 0.05);
+    }
+    .faq-header h2 {
+        color: #fff;
+        font-size: 46px;
+        font-weight: 900;
+        margin-bottom: 15px;
+        letter-spacing: -1px;
+        background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-/* Aktif olan menü butonu aydınlık modda koyu/belirgin olsun */
-html.light-mode .walkthrough-btn.active {
-    background: #ffffff !important;
-    color: #000000 !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
-    border-color: rgba(0, 0, 0, 0.15) !important;
-}
+    .faq-header p {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 16px;
+        font-weight: 400;
+    }
 
-/* Etkileşim Sağ İçerik Kartı (Content Item Container) */
-html.light-mode .walkthrough-content-item,
-html.light-mode .wt-content-box {
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
-}
+    .faq-item-native {
+        background: rgba(255, 255, 255, 0.01) !important;
+        border: 1px solid rgba(255, 255, 255, 0.03) !important;
+        border-radius: 24px !important; /* Ultra modern geniş köşeler */
+        margin-bottom: 20px;
+        backdrop-filter: blur(20px);
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .faq-item-native:hover {
+        background: rgba(255, 255, 255, 0.02) !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        transform: scale(1.01);
+    }
 
-/* İçerik kartının içindeki başlıklar ve açıklamalar */
-html.light-mode .walkthrough-content-item h3,
-html.light-mode .wt1_title,
-html.light-mode .walkthrough-main-title {
-    color: #000000 !important;
-}
+    .faq-item-native[open] {
+        background: rgba(255, 255, 255, 0.02) !important;
+        border-color: rgba(0, 242, 254, 0.15) !important;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                    0 0 50px rgba(0, 242, 254, 0.02);
+    }
+    .faq-question-native {
+        padding: 28px 35px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        outline: none;
+        list-style: none;
+    }
 
-html.light-mode .walkthrough-content-item p,
-html.light-mode .wt1_desc,
-html.light-mode .walkthrough-sub-title {
-    color: #444444 !important;
-}
+    .faq-question-native::-webkit-details-marker {
+        display: none;
+    }
+    /* Soru Kutuları Listesi */
+    .faq-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-/* Eğer bu bölümde de arkada parlayan neon ışıklar (glow/blur efektleri) varsa onları nötrle */
-html.light-mode .walkthrough-section::before,
-html.light-mode .walkthrough-section::after,
-html.light-mode .walkthrough-glow {
-    background: transparent !important;
-    display: none !important;
-}
-/* --- SSS / FAQ SAYFASI AYDINLIK MOD DÜZELTMESİ --- */
-html.light-mode #faq,
-html.light-mode .faq-section,
-html.light-mode [id*="faq"],
-html.light-mode section.faq-section {
-    /* Arka plandaki tüm koyu dairesel gradyanları ve siyahlıkları temizleyip beyaz yapıyoruz */
-    background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
-    color: #111111 !important;
-}
+    .faq-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
 
-/* SSS Ana Başlığı, Alt Açıklamaları ve Rozet (Badge) Yapısı */
-html.light-mode .faq-section h2,
-html.light-mode .faq_main_title,
-html.light-mode .faq-title {
-    color: #000000 !important;
-}
+    /* Soru Üzerine Gelindiğinde (Hover) */
+    .faq-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(0, 242, 254, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 242, 254, 0.05);
+        transform: translateY(-2px);
+    }
 
-html.light-mode .faq-section p,
-html.light-mode .faq_sub_title {
-    color: #444444 !important;
-}
+    /* Soru Başlık Alanı */
+    .faq-question {
+        padding: 24px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
 
-html.light-mode .faq-section .faq_badge {
-    background: rgba(0, 0, 0, 0.06) !important;
-    color: #222222 !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
+    .faq-question h3 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+        transition: color 0.3s ease;
+    }
 
-/* --- AKORDEON (FAQ ITEM) KUTULARI --- */
+    .faq-icon {
+        color: rgba(255, 255, 255, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+    }
 
-/* SSS Soru Kutularının Kapalı Hali */
-html.light-mode .faq-item {
-    background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important;
-    transition: all 0.3s ease !important;
-}
+    /* Cevap Alanı (Varsayılan olarak kapalı) */
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), padding 0.4s ease;
+        padding: 0 30px;
+    }
 
-/* SSS Sorularının Yazı Rengi */
-html.light-mode .faq-item h3,
-html.light-mode .faq-question,
-html.light-mode [class*="faq_q"] {
+    .faq-answer p {
+        color: #ffffff !important; /* Yazı rengi kesinlikle saf beyaz */
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+        padding: 15px 30px 25px 30px !important;
+    }
+    /* 🔥 AKTİF (AÇIK) SORU STİLLERİ */
+    .faq-item.active {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: #00f2fe;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.1);
+    }
+
+    .faq-item.active .faq-question h3 {
+        color: #00f2fe; /* Soru açıkken başlık parlar */
+    }
+
+    .faq-item.active .faq-icon {
+        transform: rotate(135deg); /* Artı simgesi çarpıya/eksiye döner */
+        color: #00f2fe;
+    }
+
+    /* Mobil Uyum */
+    @media (max-width: 768px) {
+        .faq-header h2 { font-size: 28px; }
+        .faq-question { padding: 20px; }
+        .faq-question h3 { font-size: 16px; }
+        .faq-answer { padding: 0 20px; }
+    }
+    .faq-question-native h3 {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 19px;
+        margin: 0;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .faq-item-native[open] .faq-question-native h3 {
+        color: #fff;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    .faq-question-native::after {
+        content: '↓';
+        color: rgba(255, 255, 255, 0.25);
+        font-size: 20px;
+        font-weight: 400;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        background: rgba(255, 255, 255, 0.03);
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .faq-item-native[open] .faq-question-native::after {
+        transform: rotate(180deg);
+        color: #00f2fe;
+        background: rgba(0, 242, 254, 0.08);
+        border-color: rgba(0, 242, 254, 0.3);
+        box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+    }
+    .faq-answer-native p {
+        color: rgba(255, 255, 255, 0.55) !important;
+        font-size: 15.5px !important;
+        line-height: 1.75 !important;
+        margin: 0 !important;
+        padding: 0 35px 32px 35px !important;
+        animation: luxuryFade 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+    .premium-faq-section::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, rgba(0,0,0,0) 70%);
+        top: -20%;
+        right: -10%;
+        pointer-events: none;
+    }
+    @keyframes fadeInFaq {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Mobil Cihazlar İçin Kusursuz Uyum (Responsive) */
+    @media (max-width: 768px) {
+        .premium-faq-section { padding: 90px 15px; }
+        .faq-header h2 { font-size: 34px; }
+        .faq-question-native { padding: 22px 25px; }
+        .faq-question-native h3 { font-size: 16.5px; }
+        .faq-question-native::after { width: 32px; height: 32px; font-size: 16px; }
+        .faq-answer-native p { padding: 0 25px 25px 25px !important; font-size: 14.5px !important; }
+    }
+    .premium-faq-section::after {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(121, 40, 202, 0.05) 0%, rgba(0,0,0,0) 70%);
+        bottom: -20%;
+        left: -10%;
+        pointer-events: none;
+    }
+    .faq-item-native::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 0;
+        background: linear-gradient(180deg, #00f2fe 0%, #4facfe 100%);
+        border-radius: 0 4px 4px 0;
+        transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .faq-item-native[open]::before {
+        height: 60%;
+    }
+    .faq-item-native:hover .faq-question-native::after {
+        color: rgba(255, 255, 255, 0.6);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    @keyframes luxuryFade {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    /* --- AYDINLIK MOD ANA ARKA PLAN DÜZELTMESİ --- */
+    html.light-mode body,
+    html.light-mode main,
+    html.light-mode #hero, 
+    html.light-mode .hero-section,
+    html.light-mode section:first-of-type {
+        /* Siyah gradyanı tamamen ezip yerine lüks, pürüzsüz bir açık gri/beyaz gradyan koyuyoruz */
+        background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        color: #111111 !important;
+    }
+
+    /* Üst Navigasyon Barı (Header) Aydınlık Mod Uyumu */
+    html.light-mode nav,
+    html.light-mode .nav-container,
+    html.light-mode .dynamic-nav {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Navigasyonun içindeki aktif sekme kapsayıcısı (Ortadaki oval menü) */
+    html.light-mode .premium-nav-menu,
+    html.light-mode nav ul {
+        background: rgba(0, 0, 0, 0.05) !important; /* Koyu gri yerine çok hafif şeffaf siyah/gri tonu */
+    }
+
+    /* Menüdeki yazıların renkleri */
+    html.light-mode nav a,
+    html.light-mode .nav-link,
+    html.light-mode .brand-logo,
+    html.light-mode #logo {
+        color: #222222 !important;
+    }
+
+    /* --- KARTLARIN VE METİNLERİN AYDINLIK MOD AYARLARI --- */
+
+    /* Ana başlık ve alt açıklama yazıları */
+    html.light-mode h1,
+    html.light-mode .hero_title,
+    html.light-mode h1 span {
+        color: #000000 !important;
+        text-shadow: none !important;
+    }
+
+    html.light-mode p,
+    html.light-mode .hero_desc,
+    html.light-mode .sub-title {
+        color: #444444 !important;
+    }
+
+    /* Sol taraftaki parlayan küçük kart (Hitbox / Tilt Card) */
+    html.light-mode .tilt-card,
+    html.light-mode .cardHitbox,
+    html.light-mode .small-card-preview {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important; /* Siyah parlamayı yumuşak gri gölgeye çevirir */
+    }
+
+    /* Sol kartın etrafındaki o mavi/lacivert parlama (Drop Shadow / Glow Effect) varsa temizle */
+    html.light-mode .tilt-card::after,
+    html.light-mode .tilt-card::before {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.04) !important;
+        background: none !important;
+    }
+    /* --- ETKİLEŞİM SAYFASI (WALKTHROUGH) AYDINLIK MOD DÜZELTMESİ --- */
+    html.light-mode #etkilesim,
+    html.light-mode .walkthrough-section,
+    html.light-mode [id*="walkthrough"],
+    html.light-mode .interaction-section {
+        /* Arka plandaki tüm siyah dairesel ve düz gradyanları lüks açık gri/beyaz tonuyla eziyoruz */
+        background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        color: #111111 !important;
+    }
+
+    /* Etkileşim Bölümündeki Rozet (Badge) Yapısı */
+    html.light-mode .walkthrough-badge,
+    html.light-mode .badge {
+        background: rgba(0, 0, 0, 0.06) !important;
+        color: #222222 !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Etkileşim Sol Menü / Adım Butonları (Step Menu) */
+    html.light-mode .walkthrough-btn {
+        background: rgba(0, 0, 0, 0.03) !important;
+        color: #555555 !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Aktif olan menü butonu aydınlık modda koyu/belirgin olsun */
+    html.light-mode .walkthrough-btn.active {
+        background: #ffffff !important;
+        color: #000000 !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
+        border-color: rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Etkileşim Sağ İçerik Kartı (Content Item Container) */
+    html.light-mode .walkthrough-content-item,
+    html.light-mode .wt-content-box {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* İçerik kartının içindeki başlıklar ve açıklamalar */
+    html.light-mode .walkthrough-content-item h3,
+    html.light-mode .wt1_title,
+    html.light-mode .walkthrough-main-title {
+        color: #000000 !important;
+    }
+
+    html.light-mode .walkthrough-content-item p,
+    html.light-mode .wt1_desc,
+    html.light-mode .walkthrough-sub-title {
+        color: #444444 !important;
+    }
+
+    /* Eğer bu bölümde de arkada parlayan neon ışıklar (glow/blur efektleri) varsa onları nötrle */
+    html.light-mode .walkthrough-section::before,
+    html.light-mode .walkthrough-section::after,
+    html.light-mode .walkthrough-glow {
+        background: transparent !important;
+        display: none !important;
+    }
+    /* --- SSS / FAQ SAYFASI AYDINLIK MOD DÜZELTMESİ --- */
+    html.light-mode #faq,
+    html.light-mode .faq-section,
+    html.light-mode [id*="faq"],
+    html.light-mode section.faq-section {
+        /* Arka plandaki tüm koyu dairesel gradyanları ve siyahlıkları temizleyip beyaz yapıyoruz */
+        background: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        background-image: radial-gradient(circle at center, #ffffff 0%, #f4f4f7 100%) !important;
+        color: #111111 !important;
+    }
+
+    /* SSS Ana Başlığı, Alt Açıklamaları ve Rozet (Badge) Yapısı */
+    html.light-mode .faq-section h2,
+    html.light-mode .faq_main_title,
+    html.light-mode .faq-title {
+        color: #000000 !important;
+    }
+
+    html.light-mode .faq-section p,
+    html.light-mode .faq_sub_title {
+        color: #444444 !important;
+    }
+
+    html.light-mode .faq-section .faq_badge {
+        background: rgba(0, 0, 0, 0.06) !important;
+        color: #222222 !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* --- AKORDEON (FAQ ITEM) KUTULARI --- */
+
+    /* SSS Soru Kutularının Kapalı Hali */
+    html.light-mode .faq-item {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    /* SSS Sorularının Yazı Rengi */
+    html.light-mode .faq-item h3,
+    html.light-mode .faq-question,
+    html.light-mode [class*="faq_q"] {
     color: #111111 !important;
 }
 
@@ -4780,9 +4782,687 @@ html.light-mode .lottie-animation-container svg {
     position: relative;
     z-index: 3;
 }
+.light-mode #ozellikler .reveal, 
+.light-mode #ozellikler .bento-reveal,
+.light-mode #share-lottie-container,
+.light-mode #lottie-box {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important; /* Yarım kalan CSS kayma animasyonlarını sıfırlar */
+    transition: opacity 0.5s ease-in-out !important;
+}
+/* --- AYDINLIK MODTA ÖZELLİKLER ANİMASYONLARI RENK DÜZELTMESİ --- */
+.light-mode #ozellikler svg,
+.light-mode #lottie-box svg,
+.light-mode #share-lottie-container svg {
+    /* Animasyon içindeki tüm dolguları ve çizgileri görünür yapıyoruz */
+    transition: all 0.3s ease !important;
+}
+
+/* Lottie animasyonunun içindeki çizgilerin (stroke) aydınlık modda görünmesini sağla */
+.light-mode #ozellikler svg path,
+.light-mode #ozellikler svg g,
+.light-mode #lottie-box svg path,
+.light-mode #share-lottie-container svg path {
+    /* Eğer animasyon çizgisi beyaz veya çok açıksa, onu koyu gri/NFC mavisi yap */
+    stroke: #1a1a1a /* !important */; /* Gerekirse rengi markanın ana rengiyle değiştirebilirsin */
+}
+
+/* Eğer animasyon içi dolgulu objelerden (fill) oluşuyorsa */
+.light-mode #ozellikler svg [fill="#ffffff"],
+.light-mode #ozellikler svg [fill="#FFF"],
+.light-mode #lottie-box svg [fill="#ffffff"] {
+    fill: #1a1a1a !important;
+}
+
+.light-mode #ozellikler svg [stroke="#ffffff"],
+.light-mode #ozellikler svg [stroke="#FFF"],
+.light-mode #lottie-box svg [stroke="#ffffff"] {
+    stroke: #1a1a1a !important;
+}
+
+/* --- EKSTRA GARANTİ: Kapsayıcı Kutu Opaklığı --- */
+.light-mode #ozellikler .reveal, 
+.light-mode #ozellikler .bento-reveal,
+.light-mode #lottie-box,
+.light-mode #share-lottie-container {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important; /* Herhangi bir CSS transform takılmasını sıfırlar */
+}
+/* --- AYDINLIK MODTA LOTTIE ANIMASYONUNU TAMAMEN GÖRÜNÜR YAPMA --- */
+.light-mode #lottie-box svg *,
+.light-mode #ozellikler svg *,
+.light-mode #share-lottie-container svg * {
+    /* Animasyonun içindeki tüm alt elemanların (çizgi ve dolgular dahil) renk geçişini yumuşat */
+    transition: fill 0.3s ease, stroke 0.3s ease !important;
+}
+
+/* 1. Beyaz veya saydama yakın tüm dolguları (Kart gövdesi vb.) koyu gri yap */
+.light-mode #lottie-box svg *[fill="#ffffff"],
+.light-mode #lottie-box svg *[fill="#FFF"],
+.light-mode #lottie-box svg *[fill^="rgba(255,255,255"],
+.light-mode #ozellikler svg *[fill="#ffffff"],
+.light-mode #ozellikler svg *[fill="#FFF"] {
+    fill: #2c3e50 !important; /* Şık bir koyu füme/lacivert tonu */
+}
+
+/* 2. Beyaz olan tüm çizgileri (NFC dalgaları, kart kenarlıkları vb.) görünür yap */
+.light-mode #lottie-box svg *[stroke="#ffffff"],
+.light-mode #lottie-box svg *[stroke="#FFF"],
+.light-mode #lottie-box svg *[stroke^="rgba(255,255,255"],
+.light-mode #ozellikler svg *[stroke="#ffffff"],
+.light-mode #ozellikler svg *[stroke="#FFF"] {
+    stroke: #2c3e50 !important;
+}
+
+/* 3. Alternatif olarak, saydamlık (opacity) yüzünden gizlenen elementler varsa onları canlandır */
+.light-mode #lottie-box svg g[opacity],
+.light-mode #lottie-box svg path[opacity] {
+    opacity: 1 !important;
+}
+/* Aydınlık moddayken animasyon kutusunun renklerini tamamen tersine çevir */
+.light-mode #lottie-box {
+    filter: invert(1) hue-rotate(180deg) brightness(0.8);
+    transition: filter 0.3s ease;
+}
+
+/* Koyu modda filtreyi kaldır */
+.dark-mode #lottie-box {
+    filter: none;
+}
+/* --- AYDINLIK MODTA LOTTIE PARÇALARINI ZORLA GÖRÜNÜR YAPMA --- */
+.light-mode #lottie-box,
+.light-mode #lottie-box svg,
+.light-mode #lottie-box svg * {
+    /* Tarayıcının veya başka bir CSS kuralının uyguladığı tüm gizlilikleri ezüyoruz */
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline !important; /* Eğer display: none ile uçurulan parçalar varsa geri getirir */
+}
+
+/* Kartın gövdesini ve dalgalarını görünür kılmak için renk kontrastı zırhı */
+.light-mode #lottie-box svg path,
+.light-mode #lottie-box svg g,
+.light-mode #lottie-box svg circle {
+    /* Çizgileri şık bir koyu renge (NFC Mavisine veya fümeye) zorla */
+    stroke: #2c3e50 !important;
+    /* Eğer dolgulu alanlar varsa onları da görünür kıl */
+    fill: #2c3e50 !important;
+}
+
+/* Animasyonun içindeki bazı maskelerin (clippath) aydınlık modda beyaz arka planla 
+   çakışıp her şeyi yutmasını engellemek için maske alanlarını serbest bırakıyoruz */
+.light-mode #lottie-box svg clipPath *,
+.light-mode #lottie-box svg mask * {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+html, body {
+    --animation-color: #ffffff; /* Kart çizgileri koyu modda beyaz olsun */
+    --card-body-bg: #1e1e1e;    /* Kart gövdesi koyu modda koyu gri olsun */
+}
+/* ==========================================================================
+   AYDINLIK MOD ÖZELLİKLER SAYFASI (INLINE SVG) RENK DÜZELTMELERİ
+   ========================================================================== */
+
+.light-mode .showcase-visual svg {
+    /* Genel SVG içi geçişleri yumuşatıyoruz */
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- 1. TELEFON ANIMASYONU ALANI (İlk Kutun) --- */
+
+/* Telefonun dış çerçevesi aydınlık modda koyu fümeye dönsün */
+.light-mode .svg-phone {
+    stroke: #2c3e50 !important;
+    fill: rgba(0, 0, 0, 0.03) !important; /* Hafif belirgin bir iç arka plan */
+}
+
+/* Telefonun üstündeki ahize/notch çizgisi */
+.light-mode .svg-phone-notch {
+    stroke: rgba(44, 62, 80, 0.4) !important;
+}
+
+/* Kartın dış ince çerçevesi ve üzerindeki minik detaylar */
+.light-mode .svg-card-group .svg-card {
+    stroke: rgba(44, 62, 80, 0.3) !important;
+}
+
+.light-mode .svg-card-group rect:not(.svg-card) {
+    fill: rgba(0, 0, 0, 0.15) !important;
+}
+
+
+/* --- 2. BULUT VE BULUT ALTINDAKİ ÇİZGİLER (İkinci Kutun) --- */
+
+/* Bulut altından karta akan kesikli senkronizasyon çizgileri (Data Streams) */
+.light-mode .sync-data-streams .stream-line {
+    /* Çizgilerin beyaz kalmasını engelliyor, markanın canlı mavisine çekiyoruz */
+    stroke: #4facfe !important; 
+}
+
+/* Kartın altındaki metin ve link simülasyon çizgileri */
+.light-mode .svg-minicard-group .sync-card-base {
+    stroke: rgba(44, 62, 80, 0.2) !important;
+    fill: rgba(0, 0, 0, 0.02) !important;
+}
+
+.light-mode .svg-minicard-group circle {
+    fill: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Güncellenen satır animasyonlarının sönük kalan beyaz kısımları */
+.light-mode .svg-minicard-group .update-line:not(.line-name) {
+    fill: rgba(44, 62, 80, 0.25) !important;
+}
+
+
+/* --- 3. PASİF KALAN KAPSAYICI KUTULARIN TETİKLENMESİ --- */
+.light-mode .showcase-visual {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+/* ==========================================================================
+   AYDINLIK MOD ETKİLEŞİM SAYFASI (INLINE SVG) RENK VE UYUM DÜZELTMELERİ
+   ========================================================================== */
+
+/* --- 1. ETKİLEŞİM ALANI DİNAMİK DALGALAR VE SİNYALLER --- */
+
+/* Etkileşim anında yayılan o dairesel nfc veya dalga çizgileri beyaz kalmasın */
+.light-mode .interaction-ripple,
+.light-mode .svg-signal-waves path,
+.light-mode .svg-signal-waves circle {
+    stroke: #4facfe !important; /* Canlı ve premium bir etkileşim mavisi */
+    opacity: 0.7 !important;
+}
+
+/* Eğer etkileşim sayfasında da el yapımı bir kart şeması varsa */
+.light-mode .interaction-card,
+.light-mode .svg-interaction-card-base {
+    stroke: #2c3e50 !important;
+    fill: #ffffff !important;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08)) !important; /* Aydınlık modda kartı havada gösterecek hafif bir gölge */
+}
+
+/* --- 2. BAĞLANTI ÇİZGİLERİ VE RADYAL PARLAMALAR --- */
+
+/* Koyu modda arka plana derinlik katan o büyük parlamaları (glow-effect) 
+   aydınlık modda kirli bir görüntü oluşturmaması için hafifletiyoruz */
+.light-mode .interaction-glow,
+.light-mode .showcase-visual.interaction-glow::after {
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.08) 0%, rgba(79, 172, 254, 0) 70%) !important;
+}
+
+/* Etkileşim sayfasındaki metin, ikon veya ok işaretleri */
+.light-mode .svg-interaction-arrows,
+.light-mode .interaction-flow-line {
+    stroke: #2c3e50 !important;
+    stroke-dasharray: 4, 4; /* Kesikli dinamik akış görüntüsü */
+}
+
+/* --- 3. SAKLANAN METİNLER VE İKON ARKA PLANLARI --- */
+
+/* Eğer etkileşim simülasyonunun içinde yuvarlak ikonlar veya beyaz yazılar kalıyorsa */
+.light-mode .interaction-icon-bg {
+    fill: #f8f9fa !important;
+    stroke: rgba(44, 62, 80, 0.15) !important;
+}
+
+.light-mode .interaction-icon-text {
+    fill: #2c3e50 !important;
+}
+/* ==========================================================================
+   FİNAL REVİZE: AYDINLIK MOD ETKİLEŞİM SAYFASI TAM UYUMU
+   ========================================================================== */
+
+/* 1. Üst Kısımdaki Başlıklar ve Badge Alanı */
+.light-mode #app-walkthrough [style*="background: linear-gradient"],
+.light-mode #app-walkthrough .badge {
+    background: #e2e8f0 !important;
+    color: #1a202c !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+/* "Dijital Ekosistemin Yönetimi" Başlığı */
+.light-mode #app-walkthrough .premium-gradient-title,
+.light-mode #app-walkthrough h2 {
+    color: #1a202c !important;
+    background: none !important; /* Eğer arkada gradient text takılı kaldıysa temizler */
+    -webkit-text-fill-color: #1a202c !important; /* Safari/Chrome gradient yazıyı iptal eder */
+}
+
+/* Altındaki Açıklama Yazısı */
+.light-mode #app-walkthrough p {
+    color: #4a5568 !important;
+}
+
+
+/* 2. Sol Taraftaki Butonlar ve İçeriği (01, 02, 03...) */
+.light-mode .walkthrough-btn {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* Butonun içindeki pasif yazılar ve numaralar */
+.light-mode .walkthrough-btn .step-num,
+.light-mode .walkthrough-btn .step-text,
+.light-mode .walkthrough-btn span {
+    color: #64748b !important;
+}
+
+/* AKTİF BUTON: Üzerine basılan ya da aktif olan buton */
+.light-mode .walkthrough-btn.active {
+    background: #ffffff !important;
+    border-color: #3b82f6 !important; /* Canlı mavi odak rengi */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Aktif butonun içindeki yazı ve numara */
+.light-mode .walkthrough-btn.active .step-num,
+.light-mode .walkthrough-btn.active .step-text,
+.light-mode .walkthrough-btn.active span {
+    color: #1e3a8a !important; /* Koyu kontrast mavi */
+    font-weight: bold !important;
+}
+
+
+/* 3. Sağ Taraf Büyük Bilgi Ekranı Kartı */
+.light-mode .walkthrough-display-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Kartın İçindeki İkon Kutusu ve Materyal İkonu */
+.light-mode .wt-icon-box {
+    background: #eff6ff !important;
+}
+
+.light-mode .wt-icon-box i,
+.light-mode .wt-icon-box .material-icons {
+    color: #2563eb !important;
+}
+
+/* Kartın İçindeki Yazılar */
+.light-mode .walkthrough-content-item h3 {
+    color: #1a202c !important;
+}
+
+.light-mode .walkthrough-content-item p {
+    color: #475569 !important;
+}
+/* ==========================================================================
+   AYDINLIK MOD SSS SAYFASI (FAQ DETAILED) ENTEGRASYONU
+   ========================================================================== */
+
+/* 1. Üst Başlıklar ve SSS Badge Alanı */
+.light-mode #faq .faq-badge {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #2c3e50 !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.light-mode #faq .faq-header h2 {
+    color: #1a202c !important;
+}
+
+.light-mode #faq .faq-header p {
+    color: #4a5568 !important;
+}
+
+/* 2. SSS Akordeon Kutuları (details) */
+.light-mode .faq-item-native {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important; /* Net ama yumuşak sınır çizgisi */
+    border-radius: 12px; /* Köşeleri yumuşatıyoruz */
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Kutu açıkken (open durumunda) aydınlık modda hafifçe öne çıksın */
+.light-mode .faq-item-native[open] {
+    border-color: #4facfe !important; /* Markanın canlı mavi odak rengi */
+    box-shadow: 0 10px 20px rgba(79, 172, 254, 0.05) !important;
+}
+
+/* 3. SSS Sorular Alanı (summary) */
+.light-mode .faq-question-native {
+    color: #1a202c !important;
+    cursor: pointer;
+    padding: 20px !important;
+}
+
+/* Soru Başlığı (h3) */
+.light-mode .faq-question-native h3 {
+    color: #2c3e50 !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+}
+
+/* 4. SSS Cevap Alanı (div ve p) */
+.light-mode .faq-answer-native {
+    border-top: 1px solid #f1f5f9 !important; /* Soru ile cevap arasına ince çizgi */
+    padding: 20px !important;
+    background: #f8fafc !important; /* Cevap alanına hafif kontrast bir zemin */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.light-mode .faq-answer-native p {
+    color: #4a5568 !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+}
+/* SSS Başlığının Aydınlık Modda Tamamen Siyah ve Okunabilir Olmasını Sağlar */
+.light-mode #faq .faq-header h2,
+.light-mode .premium-faq-section h2,
+.light-mode #faq h2[data-i18n="faq_main_title"] {
+    color: #1a202c !important;
+    background: none !important;
+    -webkit-text-fill-color: #1a202c !important; /* Gradient beyazlığı tamamen kırar */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+/* --- KIYASLA MATRİSİ PREMİUM CSS --- */
+/* --- PREMIUM VISUAL MATRIX CSS --- */
+.premium-visual-matrix {
+    width: 100%;
+    max-width: 1100px;
+    margin: 50px auto 0 auto;
+    padding: 0 20px;
+}
+
+.matrix-main-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+    opacity: 0.9;
+    color: var(--text-color);
+}
+
+.matrix-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.premium-matrix-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border 0.3s ease;
+}
+
+.premium-matrix-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+.light-mode .premium-matrix-card {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.light-mode .premium-matrix-card:hover {
+    border-color: rgba(46, 204, 113, 0.5);
+}
+
+.card-metric-icon i {
+    font-size: 2rem;
+    color: #3498db; /* Çarpıcı İkon Rengi */
+    margin-bottom: 8px;
+}
+
+.card-metric-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.2px;
+    color: var(--text-color);
+}
+
+.card-vs-zone {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    border-radius: 12px;
+    gap: 10px;
+}
+
+.light-mode .card-vs-zone {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.vs-old {
+    font-size: 0.88rem;
+    color: #e74c3c;
+    font-weight: 500;
+    opacity: 0.8;
+    flex: 1;
+    text-align: left;
+}
+
+.vs-arrow i {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.3;
+    display: flex;
+    align-items: center;
+}
+
+.vs-new {
+    font-size: 0.88rem;
+    color: #2ecc71;
+    font-weight: 600;
+    flex: 1;
+    text-align: right;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+}
+
+/* Mobil Cihazlar İçin Tek Kolon Düzeni */
+@media (max-width: 768px) {
+    .matrix-grid-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .card-vs-zone {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .vs-old, .vs-new {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .vs-arrow {
+        transform: rotate(90deg);
+        margin: 2px 0;
+    }
+}
+/* Aydınlık mod aktifken doğa sayfasındaki arka plan resmini kaldır */
+html.light-mode #eco-impact,
+html.light-mode .eco-section {
+    background-image: none !important;
+    background-color: var(--bg-color, #ffffff); /* Sitenin aydınlık mod arka plan rengi */
+}
+/* Aydınlık mod aktifken doğa sayfasına orman3.jpg görselini ekle */
+html.light-mode #eco-impact,
+html.light-mode .eco-section {
+    background-image: url('orman3.jpg') !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/* 1. Karanlık Mod (Varsayılan) - Eski resmin yerinde kalmasını sağlıyoruz */
+#eco-impact {
+    background: url('ağaç2.jpg') no-repeat center center !important;
+    background-size: cover !important;
+}
+/* Aydınlık modda doğa sayfasındaki metin kutularını ve başlıkları tamamen belirginleştir */
+html.light-mode #eco-impact h2 {
+    color: #111111 !important;
+    font-weight: 800 !important;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 1) !important; /* Başlığın arkasına güçlü beyaz aydınlık */
+    margin-bottom: 30px !important;
+}
+
+/* Sayacın arkasına hafif, cam efekti (Blur ve şeffaf beyazlık) ekleyerek rakamı patlatıyoruz */
+html.light-mode #eco-impact .counter-box {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(8px) !important; /* Arkadaki ağaçları hafif yumuşatır, sadece kutu içinde */
+    padding: 20px 30px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+    display: inline-block !important;
+    margin-bottom: 25px !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+html.light-mode #tree-counter {
+    color: #1e7e34 !important; /* Daha koyu ve keskin bir yeşil */
+    font-weight: 800 !important;
+}
+
+html.light-mode #eco-impact .counter-box p {
+    color: #222222 !important;
+    font-weight: 600 !important;
+}
+
+/* Açıklama paragrafının arkasına da şeffaf premium bir panel atıyoruz */
+html.light-mode #eco-impact p.eco-description {
+    color: #1c281c !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(6px) !important;
+    padding: 20px !important;
+    border-radius: 12px !important;
+    max-width: 650px !important;
+    margin: 0 auto 25px auto !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* En alttaki yeşil rozet */
+html.light-mode #eco-impact .eco-badge {
+    background-color: #27ae60 !important; /* Şeffaf yerine tam dolu yeşil yapıyoruz ki direkt okunsun */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3) !important;
+}
+/* ==========================================================================
+   1. GENEL ESNEKLİK VE BÜYÜK EKRANLAR (2K - 4K Monitörler: 1440px ve üzeri)
+   ========================================================================== */
+html {
+    font-size: 16px; /* Temel font ölçüsü */
+}
+
+@media screen and (min-width: 1920px) {
+    html {
+        font-size: 18px; /* Büyük ekranlarda her şey orantılı olarak hafifçe büyür */
+    }
+    .wrapper, .stack-container, section {
+        max-width: 1600px; /* İçeriğin dev ekranlarda çok fazla dağılmasını engeller */
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ==========================================================================
+   2. TABLET VE KÜÇÜK LAPTOPLAR (Değişken Ekranlar: 768px - 1024px)
+   ========================================================================== */
+@media screen and (max-width: 1024px) {
+    /* Yan yana duran bento kutularını veya sütunları alt alta ya da daha dar hizaya alır */
+    .stack-container {
+        width: 95% !important;
+    }
+    
+    /* Eğer info-box'lar yan yanaysa mobilde dikey dizilime hazırla */
+    .info-box-wrapper {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 15px !important;
+    }
+
+    /* Önce/Sonra Slider'ını tablete uyarla */
+    .wrapper {
+        width: 90% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9; /* Yüksekliği sabit tutmak yerine oran korur */
+    }
+}
+
+/* ==========================================================================
+   3. MOBİL CİHAZLAR (iPhone, Samsung vb. Tüm Telefonlar: 0px - 768px)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 14px; /* Mobilde yazılar hafif küçülür, taşmalar önlenir */
+    }
+
+    /* Tüm section (bölüm) boşluklarını mobil uyumlu yap */
+    section {
+        padding: 40px 15px !important;
+        overflow-x: hidden; /* Sağa sola gereksiz kaymaları (horizontal scroll) engeller */
+    }
+
+    /* Navigasyon (Menü) Mobilde Sıkışmasın */
+    nav {
+        width: 100% !important;
+        padding: 0 10px !important;
+    }
+    nav a {
+        font-size: 0.9rem !important;
+        margin: 0 5px !important;
+    }
+
+    /* SSS (FAQ) Kutuları Mobilde Tam Genişlik */
+    .faq-section, .faq-item {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Arama Kutusu ve Öneriler Ekrandan Taşmasın */
+    #globalSearchContainer {
+        width: calc(100% - 30px) !important;
+        left: 15px !important;
+    }
+    #searchSuggestions {
+        width: 100% !important;
+        max-height: 250px;
+    }
+
+    /* Trowas İnteraktif Kılavuz Butonlarını Mobilde Yan Yana Kaydırılabilir Yap */
+    .walkthrough-menu {
+        display: flex !important;
+        overflow-x: auto !important; /* Parmağınla sağa sola kaysın */
+        white-space: nowrap !important;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .walkthrough-btn {
+        display: inline-block !important;
+        flex: 0 0 auto !important;
+    }
+}
 </style>
 </head>
 <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <div class="premium-lang-container">
     <button class="lang-trigger-btn" id="langTrigger" onclick="toggleLangMenu(event)" aria-haspopup="true" aria-expanded="false">
         <span class="active-flag-wrapper" id="current-flag">
@@ -5059,7 +5739,7 @@ html.light-mode .lottie-animation-container svg {
         <div class="nasil-header-group">
             <span class="nasil-badge" data-i18n="nav_how">Nasıl Çalışır?</span>
             <h2 class="nasil-main-title" data-i18n="how_to_scan">Nasıl Okutulur?</h2>
-            <p class="nasil-sub-title">Sadece 3 saniyede, hiçbir uygulamaya gerek kalmadan dijital dünyanızı paylaşın.</p>
+            <p data-i18n="feat_main_sub">Sadece 3 saniyede, hiçbir uygulamaya gerek kalmadan dijital dünyanızı paylaşın.</p>
         </div>
 
         <div class="nasil-bento-grid">
@@ -5081,7 +5761,7 @@ html.light-mode .lottie-animation-container svg {
                 </div>
             </div>
 
-            <div class="nasil-card step-card-2 highlight-card">
+            <div class="nasil-card step-card-2">
                 <div class="card-glow"></div>
                 <div class="card-step-num">02</div>
                 <div class="card-icon-wrapper">
@@ -5468,7 +6148,7 @@ html.light-mode .lottie-animation-container svg {
 
     </div> </div>
 <section id="kiyasa" class="comparison-section">
-    <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+    <div class="reveal" style="text-align: center; margin-bottom: 50px;">
         <h2 style="font-size: 3rem; font-weight: 600; letter-spacing: -0.02em;" data-i18n="comp_title">Gelecek vs. Geçmiş</h2>
         <p style="color: var(--text-dim); font-size: 1.2rem;" data-i18n="comp_sub">Hantal yığınlardan kurtulun, tek bir dokunuşa geçin.</p>
     </div>
@@ -5484,258 +6164,306 @@ html.light-mode .lottie-animation-container svg {
             </div>
         </div>
 
-        <div class="comp-box reveal delay-2">
-            <div class="comp-visual smart-bg">
-                <span class="comp-badge highlight-badge" data-i18n="new_gen">YENİ NESİL</span>
+            <div class="comp-box reveal delay-2">
+                <div class="comp-visual smart-bg">
+                    <span class="comp-badge highlight-badge" data-i18n="new_gen">YENİ NESİL</span>
+                </div>
+                <div class="comp-info">
+                    <h3 data-i18n="new_title">Tek Bir Akıllı Kart</h3>
+                    <p data-i18n="new_desc">Her zaman cebinizde, sınırsız paylaşım ve anlık güncelleme.</p>
+                </div>
             </div>
-            <div class="comp-info">
-                <h3 data-i18n="new_title">Tek Bir Akıllı Kart</h3>
-                <p data-i18n="new_desc">Her zaman cebinizde, sınırsız paylaşım ve anlık güncelleme.</p>
+        </div>
+
+        <div class="premium-visual-matrix reveal">
+            <h3 class="matrix-main-title" data-i18n="comp_table_title">Neden Geçmelisiniz?</h3>
+            
+            <div class="matrix-grid-container">
+                
+                <div class="premium-matrix-card">
+                    <div class="card-metric-icon"><i class="material-icons">payments</i></div>
+                    <h4 class="card-metric-title" data-i18n="param_cost">Maliyet</h4>
+                    <div class="card-vs-zone">
+                        <div class="vs-old" data-i18n="param_cost_old">Sürekli Matbaa Masrafı ❌</div>
+                        <div class="vs-arrow"><i class="material-icons">trending_flat</i></div>
+                        <div class="vs-new" data-i18n="param_cost_new">Tek Seferlik Ödeme ⚡</div>
+                    </div>
+                </div>
+
+                <div class="premium-matrix-card">
+                    <div class="card-metric-icon"><i class="material-icons">bolt</i></div>
+                    <h4 class="card-metric-title" data-i18n="param_speed">Hız</h4>
+                    <div class="card-vs-zone">
+                        <div class="vs-old" data-i18n="param_speed_old">2 Dakika Elle Yazma ❌</div>
+                        <div class="vs-arrow"><i class="material-icons">trending_flat</i></div>
+                        <div class="vs-new" data-i18n="param_speed_new">2 Saniyede Rehberde ⚡</div>
+                    </div>
+                </div>
+
+                <div class="premium-matrix-card">
+                    <div class="card-metric-icon"><i class="material-icons">cloud_done</i></div>
+                    <h4 class="card-metric-title" data-i18n="param_loss">Kalıcılık</h4>
+                    <div class="card-vs-zone">
+                        <div class="vs-old" data-i18n="param_loss_old">%88 Çöpe Gider ❌</div>
+                        <div class="vs-arrow"><i class="material-icons">trending_flat</i></div>
+                        <div class="vs-new" data-i18n="param_loss_new">Ömür Boyu Dijitalde ⚡</div>
+                    </div>
+                </div>
+
+                <div class="premium-matrix-card">
+                    <div class="card-metric-icon"><i class="material-icons">bar_chart</i></div>
+                    <h4 class="card-metric-title" data-i18n="param_analytics">Analiz</h4>
+                    <div class="card-vs-zone">
+                        <div class="vs-old" data-i18n="param_analytics_old">Ölçülemez / Takipsiz ❌</div>
+                        <div class="vs-arrow"><i class="material-icons">trending_flat</i></div>
+                        <div class="vs-new" data-i18n="param_analytics_new">Anlık Etkileşim Raporu ⚡</div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-<p class="footer-copy" data-i18n="footer_copy">
-    © 2026 Smart Kart. Tüm Hakları Saklıdır.
-</p>
-</section>
-<section id="neden-smart-kart" class="why-section">
-    <div class="reveal" style="text-align: center; margin-bottom: 80px;">
-        <h2 class="sales-title" data-i18n="why_main_title">Gelecek Sizin Elinizde.</h2>
-        <p class="sales-sub" data-i18n="why_sub_title">Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.</p>
-    </div>
 
-    <div class="why-grid">
-        <div class="why-card reveal delay-1 highlight-card">
-            <div class="why-icon"><i class="material-icons">auto_awesome</i></div>
-            <h3 data-i18n="why1_title">Zirvede Bir İzlenim</h3>
-            <p data-i18n="why1_desc">Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.</p>
-        </div>
-
-        <div class="why-card reveal delay-2">
-            <div class="why-icon"><i class="material-icons">trending_up</i></div>
-            <h3 data-i18n="why2_title">Son Kartvizitiniz</h3>
-            <p data-i18n="why2_desc">Sürekli tükenen, basım maliyeti artan kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.</p>
-        </div>
-
-        <div class="why-card reveal delay-3">
-            <div class="why-icon"><i class="material-icons">bolt</i></div>
-            <h3 data-i18n="why3_title">Dinamik Güç</h3>
-            <p data-i18n="why3_desc">İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış numara basılmış binlerce kartı çöpe atma devri bitti.</p>
-        </div>
-    </div>
-</section>
-<section id="eco-impact" class="eco-section reveal">
-    <div class="eco-bg-overlay"></div>
-    
-    <div class="eco-content">
-        <h2 data-i18n="eco_title">Doğayı Birlikte Koruyoruz</h2>
-        <div class="counter-box">
-            <span id="tree-counter" class="counter">0</span>
-            <p data-i18n="eco_counter_desc">Her yıl sadece kartvizitler için kesilen ağaç sayısı</p>
-        </div>
-        <p class="eco-description" data-i18n="eco_desc">
-            Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. 
-            Smart Kart kullanarak bu israfı durdurabilir and karbon ayak izinizi minimize edebilirsiniz.
+        <p class="footer-copy" data-i18n="footer_copy">
+            © 2026 Smart Kart. Tüm Hakları Saklıdır.
         </p>
-        <div class="eco-badge">
-            <i class="material-icons">eco</i>
-            <span data-i18n="eco_badge_text">%100 Sürdürülebilir Seçenek</span>
+    </section>
+    <section id="neden-smart-kart" class="why-section">
+        <div class="reveal" style="text-align: center; margin-bottom: 80px;">
+            <h2 class="sales-title" data-i18n="why_main_title">Gelecek Sizin Elinizde.</h2>
+            <p class="sales-sub" data-i18n="why_sub_title">Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.</p>
         </div>
-    </div>
-</section>
-<section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden; position: relative; z-index: 2;">
-    
-    <div style="text-align: center; margin-bottom: 40px; position: relative; z-index: 10;">
-        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 15px; color: var(--text-color); letter-spacing: -1px;" data-i18n="share_main_title">Smart Kart ile Neler Paylaşabilirsin?</h2>
-        <p style="color: var(--text-dim); font-size: 1.2rem; font-weight: 500;" data-i18n="share_sub_desc">Tüm dijital dünyanızı tek bir dokunuşla aktarın.</p>
-    </div>
 
-    <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 60px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
+        <div class="why-grid">
+            <div class="why-card reveal delay-1">
+                <div class="why-icon"><i class="material-icons">auto_awesome</i></div>
+                <h3 data-i18n="why1_title">Zirvede Bir İzlenim</h3>
+                <p data-i18n="why1_desc">Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.</p>
+            </div>
+
+            <div class="why-card reveal delay-2">
+                <div class="why-icon"><i class="material-icons">trending_up</i></div>
+                <h3 data-i18n="why2_title">Son Kartvizitiniz</h3>
+                <p data-i18n="why2_desc">Sürekli tükenen, basım maliyeti artan kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.</p>
+            </div>
+
+            <div class="why-card reveal delay-3">
+                <div class="why-icon"><i class="material-icons">bolt</i></div>
+                <h3 data-i18n="why3_title">Dinamik Güç</h3>
+                <p data-i18n="why3_desc">İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış numara basılmış binlerce kartı çöpe atma devri bitti.</p>
+            </div>
+        </div>
+    </section>
+    <section id="eco-impact" class="eco-section reveal">
         
-        <div class="pool-wrapper">
-            <div class="pool-column scroll-down">
-                <div class="pool-track">
-                    <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
-                    <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
-                    <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
-                    <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
-                    <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
-                    <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
-                </div>
-                <div class="pool-track" aria-hidden="true">
-                    <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
-                    <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
-                    <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
-                    <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
-                    <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
-                    <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
-                </div>
+        <div class="eco-content">
+            <h2 data-i18n="eco_title">Doğayı Birlikte Koruyoruz</h2>
+            <div class="counter-box">
+                <span id="tree-counter" class="counter">0</span>
+                <p data-i18n="eco_counter_desc">Her yıl sadece kartvizitler için kesilen ağaç sayısı</p>
             </div>
-
-            <div class="pool-column scroll-up">
-                <div class="pool-track">
-                    <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
-                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
-                    <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
-                    <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
-                    <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
-                    <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
-                </div>
-                <div class="pool-track" aria-hidden="true">
-                    <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
-                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
-                    <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
-                    <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
-                    <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
-                    <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
-                </div>
-            </div>
-
-            <div class="pool-column scroll-down fast">
-                <div class="pool-track">
-                    <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
-                    <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
-                    <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
-                    <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
-                    <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
-                    <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
-                    <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
-                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
-                </div>
-                <div class="pool-track" aria-hidden="true">
-                    <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
-                    <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
-                    <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
-                    <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
-                    <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
-                    <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
-                    <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
-                    <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
-                    <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
-                </div>
+            <p class="eco-description" data-i18n="eco_desc">
+                Geleneksel kağıt kartvizitlerin %88'i bir hafta içinde çöpe gidiyor. 
+                Smart Kart kullanarak bu israfı durdurabilir and karbon ayak izinizi minimize edebilirsiniz.
+            </p>
+            <div class="eco-badge">
+                <i class="material-icons">eco</i>
+                <span data-i18n="eco_badge_text">%100 Sürdürülebilir Seçenek</span>
             </div>
         </div>
-
-        <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 5;">
-            <div id="alt-animation-container" style="width: 100%; max-width: 400px; margin: 0 auto;">
-                <img src="iphoneanimation.gif" alt="iPhone Animation" class="iphone-gif-render" style="width: 100%; height: auto; border-radius: 32px; object-fit: contain;">
-            </div>
-        </div>
-
-    </div>
-</section>
-<script>
-
-
-// Sayaç Fonksiyonu
-let currentTreeCount = 0;
-
-let ecoStarted = false; 
-
-
-function startTreeCounter() {
-    const counterElement = document.getElementById('tree-counter');
-    if (!counterElement) return;
-
-    const target = 350000;
-    const duration = 2000;
-    const startTime = performance.now();
-    const currentLang = localStorage.getItem('selectedLang') || 'tr';
-
-    const updateCount = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentCount = Math.floor(target * easeOut);
+    </section>
+    <section id="paylasim-alani" class="reveal" style="padding: 100px 20px; background: var(--bg-color); overflow: hidden; position: relative; z-index: 2;">
         
-        counterElement.innerText = currentCount.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
+        <div style="text-align: center; margin-bottom: 40px; position: relative; z-index: 10;">
+            <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 15px; color: var(--text-color); letter-spacing: -1px;" data-i18n="share_main_title">Smart Kart ile Neler Paylaşabilirsin?</h2>
+            <p style="color: var(--text-dim); font-size: 1.2rem; font-weight: 500;" data-i18n="share_sub_desc">Tüm dijital dünyanızı tek bir dokunuşla aktarın.</p>
+        </div>
 
-        if (progress < 1) {
-    requestAnimationFrame(updateCount);
-} else {
-    counterElement.innerText = target.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
-    
-    // SAYIM BİTTİĞİNDE ZIPLAMAYI BAŞLAT
-    setupCounterJump(); 
-}
-    };
-    requestAnimationFrame(updateCount);
-}
+        <div class="share-container" style="display: flex; align-items: center; justify-content: center; gap: 60px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;">
+            
+            <div class="pool-wrapper">
+                <div class="pool-column scroll-down">
+                    <div class="pool-track">
+                        <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
+                        <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
+                        <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
+                        <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
+                        <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
+                        <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
+                    </div>
+                    <div class="pool-track" aria-hidden="true">
+                        <div class="app-box" style="background: #4CD964;"><img src="https://api.iconify.design/fluent/contact-card-24-filled.svg?color=white" alt="Kişiler" data-i18n-alt="share_app_contacts"></div>
+                        <div class="app-box" style="background: #1DB954;"><img src="https://img.icons8.com/ios-filled/100/ffffff/spotify.png" alt="Spotify" data-i18n-alt="share_app_spotify"></div>
+                        <div class="app-box" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/instagram-new.png" alt="Instagram" data-i18n-alt="share_app_instagram"></div>
+                        <div class="app-box" style="background: #34A853;"><img src="https://api.iconify.design/bi/chat-dots-fill.svg?color=white" alt="Mesajlar" data-i18n-alt="share_app_messages"></div>
+                        <div class="app-box" style="background: #25D366;"><img src="https://img.icons8.com/ios-filled/100/ffffff/whatsapp.png" alt="WhatsApp" data-i18n-alt="share_app_whatsapp"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/gmail-new.png" alt="Mail" data-i18n-alt="share_app_mail"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/safari.png" alt="Web" data-i18n-alt="share_app_web"></div>
+                        <div class="app-box" style="background: #9146FF;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitch.png" alt="Twitch" data-i18n-alt="share_app_twitch"></div>
+                    </div>
+                </div>
 
-// Scroll İzleyici
-const ecoSection = document.getElementById('eco-impact');
-let started = false;
+                <div class="pool-column scroll-up">
+                    <div class="pool-track">
+                        <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
+                        <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
+                        <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
+                        <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
+                        <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
+                        <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
+                    </div>
+                    <div class="pool-track" aria-hidden="true">
+                        <div class="app-box" style="background: #FF0000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/youtube-play.png" alt="YouTube" data-i18n-alt="share_app_youtube"></div>
+                        <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/twitterx.png" alt="X" data-i18n-alt="share_app_x"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-maps-new.png" alt="Haritalar" data-i18n-alt="share_app_maps"></div>
+                        <div class="app-box" style="background: #111111;"><img src="https://img.icons8.com/ios-filled/100/ffffff/bank.png" alt="Banka" data-i18n-alt="share_app_bank"></div>
+                        <div class="app-box" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);"><img src="https://api.iconify.design/material-symbols/nfc-rounded.svg?color=white" alt="NFC" data-i18n-alt="share_app_nfc"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/color/100/google-drive--v2.png" alt="Drive" data-i18n-alt="share_app_drive"></div>
+                        <div class="app-box" style="background: #1877F2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/facebook-new.png" alt="Facebook" data-i18n-alt="share_app_facebook"></div>
+                        <div class="app-box" style="background: #E60023;"><img src="https://img.icons8.com/ios-filled/100/ffffff/pinterest--v1.png" alt="Pinterest" data-i18n-alt="share_app_pinterest"></div>
+                    </div>
+                </div>
 
-window.addEventListener('scroll', () => {
-    if (!ecoSection) return;
-    
-    const pos = ecoSection.getBoundingClientRect();
-    // Sayfa ekranın ortasına geldiğinde başla
-    if (pos.top < window.innerHeight / 2 && !started) {
-        startTreeCounter();
-        started = true;
+                <div class="pool-column scroll-down fast">
+                    <div class="pool-track">
+                        <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
+                        <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
+                        <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
+                        <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
+                        <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
+                        <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
+                        <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
+                        <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
+                    </div>
+                    <div class="pool-track" aria-hidden="true">
+                        <div class="app-box" style="background: #FFFC00;"><img src="https://img.icons8.com/ios-filled/100/000000/snapchat.png" alt="Snapchat" data-i18n-alt="share_app_snapchat"></div>
+                        <div class="app-box" style="background: #FF4500;"><img src="https://img.icons8.com/ios-filled/100/ffffff/reddit.png" alt="Reddit" data-i18n-alt="share_app_reddit"></div>
+                        <div class="app-box" style="background: linear-gradient(135deg, #b843d1 0%, #7c26b5 100%);"><img src="https://img.icons8.com/ios-filled/100/ffffff/microphone.png" alt="Podcast" data-i18n-alt="share_app_podcast"></div>
+                        <div class="app-box" style="background: #FF5A5F;"><img src="https://img.icons8.com/ios-filled/100/ffffff/airbnb.png" alt="Airbnb" data-i18n-alt="share_app_airbnb"></div>
+                        <div class="app-box" style="background: #0A66C2;"><img src="https://img.icons8.com/ios-filled/100/ffffff/linkedin.png" alt="LinkedIn" data-i18n-alt="share_app_linkedin"></div>
+                        <div class="app-box" style="background: #ffffff; border: 1px solid #eee;"><img src="https://img.icons8.com/ios-filled/100/0079C1/paypal.png" alt="PayPal" data-i18n-alt="share_app_paypal"></div>
+                        <div class="app-box" style="background: #E8E2D7;"><img src="https://img.icons8.com/ios-filled/100/111111/home.png" alt="Clubhouse" data-i18n-alt="share_app_clubhouse"></div>
+                        <div class="app-box" style="background: #FFE600;"><b style="font-family: system-ui, sans-serif; font-weight: 900; font-size: 2.2rem; color: #111;">S</b></div>
+                        <div class="app-box" style="background: #000000;"><img src="https://img.icons8.com/ios-filled/100/ffffff/tiktok.png" alt="TikTok" data-i18n-alt="share_app_tiktok"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="share-visual" style="flex: 1; min-width: 300px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 5;">
+                <div id="alt-animation-container" style="width: 100%; max-width: 400px; margin: 0 auto;">
+                    <img src="iphoneanimation.gif" alt="iPhone Animation" class="iphone-gif-render" style="width: 100%; height: auto; border-radius: 32px; object-fit: contain;">
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <script>
+
+
+    // Sayaç Fonksiyonu
+    let currentTreeCount = 0;
+
+    let ecoStarted = false; 
+
+
+    function startTreeCounter() {
+        const counterElement = document.getElementById('tree-counter');
+        if (!counterElement) return;
+
+        const target = 350000;
+        const duration = 2000;
+        const startTime = performance.now();
+        const currentLang = localStorage.getItem('selectedLang') || 'tr';
+
+        const updateCount = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const currentCount = Math.floor(target * easeOut);
+            
+            counterElement.innerText = currentCount.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
+
+            if (progress < 1) {
+        requestAnimationFrame(updateCount);
+    } else {
+        counterElement.innerText = target.toLocaleString(currentLang === 'tr' ? 'tr-TR' : 'en-US');
+        
+        // SAYIM BİTTİĞİNDE ZIPLAMAYI BAŞLAT
+        setupCounterJump(); 
     }
-});
-let lastScrollTop = 0;
-const tiltCard = document.getElementById('tiltCard');
-const stackContainer = document.querySelector('.stack-container');
-const boxes = document.querySelectorAll('.info-box');
-const scrollHint = document.getElementById('scrollHint');
-const nav = document.getElementById('dynamicNav');
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
-const html = document.documentElement;
-let isHovering = false;
-let isNavClicking = false;
+        };
+        requestAnimationFrame(updateCount);
+    }
 
-    const translations = {
-    tr: {
+    // Scroll İzleyici
+    const ecoSection = document.getElementById('eco-impact');
+    let started = false;
+
+    window.addEventListener('scroll', () => {
+        if (!ecoSection) return;
         
-        nav_why: "Neden?",
-        why_main_title: "Gelecek Sizin Elinizde.",
-        why_sub_title: "Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.",
-        why1_title: "Zirvede Bir İzlenim",
-        why1_desc: "Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.",
-        why2_title: "Son Kartvizitiniz",
-        why2_desc: "Sürekli tükenen kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.",
-        why3_title: "Dinamik Güç",
-        why3_desc: "İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış basılmış binlerce kartı çöpe atma devri bitti.",
-        logo: "HEDEF",
-        card_purpose: "Smart Kart ne işe yarar?",
-        nav_brand: "Smart Kart",
-        nav_how: "Nasıl Çalışır?",
-        nav_features: "Özellikler",
-        nav_faq: "SSS",
-        nav_design: "Tasarım",
-        nav_compare: "Kıyasla",
-        close: "Kapat",
-        hero_title: "Smart Kart",
-        hero_desc: "Kartvizitlerin geleceği burada başlar.",
-        how_to_scan: "Nasıl Okutulur?",
-        step1_title: "NFC'yi Etkinleştirin",
-        step1_desc: "Telefonunuzun ayarlarından NFC özelliğinin açık olduğundan emin olun.",
-        step2_title: "Doğru Noktaya Yaklaştırın",
-        step2_desc: "iPhone'larda üst kısmı, Android'lerde arka orta kısmı karta yaklaştırın.",
-        step3_title: "Bağlantı Kuruldu",
-        step3_desc: "Ekranda çıkan bildirime dokunarak profile anında ulaşın.",
-        feat_main_title: "Tek bir kart.",
-        feat_sub_title: "Sonsuz bağlantı kurmanın en modern yolu.",
-        feat1_title: "Işık Hızında Paylaşım",
-        feat1_desc: "NFC teknolojisi ile verileriniz saniyeler içinde karşı cihazda.",
-        feat2_title: "Güvenli Veri",
-        feat2_desc: "Uçtan uca şifreli ve güvenli paylaşım altyapısı.",
-        feat3_title: "Çevre Dostu",
-        feat3_desc: "Kağıt israfına son veren sürdürülebilir teknoloji.",
-        feat4_title: "Anlık Güncelleme",
+        const pos = ecoSection.getBoundingClientRect();
+        // Sayfa ekranın ortasına geldiğinde başla
+        if (pos.top < window.innerHeight / 2 && !started) {
+            startTreeCounter();
+            started = true;
+        }
+    });
+    let lastScrollTop = 0;
+    const tiltCard = document.getElementById('tiltCard');
+    const stackContainer = document.querySelector('.stack-container');
+    const boxes = document.querySelectorAll('.info-box');
+    const scrollHint = document.getElementById('scrollHint');
+    const nav = document.getElementById('dynamicNav');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+    let isHovering = false;
+    let isNavClicking = false;
+
+        const translations = {
+        tr: {
+            
+            nav_why: "Neden?",
+            why_main_title: "Gelecek Sizin Elinizde.",
+            why_sub_title: "Eski nesil kağıt yığınlarını geride bırakın. Modern dünyanın yeni standardıyla tanışın.",
+            why1_title: "Zirvede Bir İzlenim",
+            why1_desc: "Sıradan olmayın. Kartınızı bir telefona yaklaştırdığınız anda oluşan o teknolojik hayranlık, sizi rakiplerinizin önüne geçirir. İlk 3 saniyede profesyonelliğinizi kanıtlayın.",
+            why2_title: "Son Kartvizitiniz",
+            why2_desc: "Sürekli tükenen kağıtlara veda edin. Bir kez alın, ömür boyu kullanın. Smart Kart sadece bir teknoloji değil, en karlı iş yatırımınızdır.",
+            why3_title: "Dinamik Güç",
+            why3_desc: "İş dünyası hızla değişiyor. Bilgileriniz mi değişti? Saniyeler içinde güncelleyin. Yanlış basılmış binlerce kartı çöpe atma devri bitti.",
+            logo: "HEDEF",
+            card_purpose: "Smart Kart ne işe yarar?",
+            nav_brand: "Smart Kart",
+            nav_how: "Nasıl Çalışır?",
+            nav_features: "Özellikler",
+            nav_faq: "SSS",
+            nav_design: "Tasarım",
+            nav_compare: "Kıyasla",
+            close: "Kapat",
+            hero_title: "Smart Kart",
+            hero_desc: "Kartvizitlerin geleceği burada başlar.",
+            how_to_scan: "Nasıl Okutulur?",
+            step1_title: "NFC'yi Etkinleştirin",
+            step1_desc: "Telefonunuzun ayarlarından NFC özelliğinin açık olduğundan emin olun.",
+            step2_title: "Doğru Noktaya Yaklaştırın",
+            step2_desc: "iPhone'larda üst kısmı, Android'lerde arka orta kısmı karta yaklaştırın.",
+            step3_title: "Bağlantı Kuruldu",
+            step3_desc: "Ekranda çıkan bildirime dokunarak profile anında ulaşın.",
+            feat_main_title: "Tek bir kart.",
+            feat_sub_title: "Sonsuz bağlantı kurmanın en modern yolu.",
+            feat1_title: "Işık Hızında Paylaşım",
+            feat1_desc: "NFC teknolojisi ile verileriniz saniyeler içinde karşı cihazda.",
+            feat2_title: "Güvenli Veri",
+            feat2_desc: "Uçtan uca şifreli ve güvenli paylaşım altyapısı.",
+            feat3_title: "Çevre Dostu",
+            feat3_desc: "Kağıt israfına son veren sürdürülebilir teknoloji.",
+            feat4_title: "Anlık Güncelleme",
         feat4_desc: "Bilgilerinizi dilediğiniz an tek tıkla değiştirin.",
         feat5_title: "Analiz",
         feat5_desc: "Tıklanma oranlarınızı anlık takip edin.",
@@ -5824,7 +6552,52 @@ wt5_desc: "Kartınız sayesinde topladığınız tüm yeni iş bağlantıların�
 "faq_q3": "Kullanım için herhangi bir aylık veya yıllık abonelik ücreti var mı?",
 "faq_a3": "Hayır. Kartınızı bir kez satın aldıktan sonra temel profil özelliklerini, bulut senkronizasyonunu ve sınırsız güncelleme hakkını ömür boyu tamamen ücretsiz olarak kullanabilirsiniz. Herhangi bir gizli ücret yoktur.",
 "faq_q4": "Kartım hangi telefonlarla uyumlu çalışır?",
-"faq_a4": "Son 10 yılda üretilen neredeyse tüm iOS ve Android işletim sistemli akıllı telefonlarla (NFC destekli cihazlar) %100 uyumludur. Çok eski cihazlar için ise kartın arkasında yer alan premium QR kod yapısı kesintisiz erişim sağlar."
+"faq_a4": "Son 10 yılda üretilen neredeyse tüm iOS ve Android işletim sistemli akıllı telefonlarla (NFC destekli cihazlar) %100 uyumludur. Çok eski cihazlar için ise kartın arkasında yer alan premium QR kod yapısı kesintisiz erişim sağlar.",
+comp_table_title: "Detaylı Karşılaştırma Matrisi",
+param_cost: "Maliyet Politikası",
+param_cost_old: "Her unvan/numara değişiminde yeniden basım masrafı",
+param_cost_new: "Tek seferlik satın alım, ömür boyu ücretsiz güncelleme",
+param_speed: "Rehbere Kayıt Hızı",
+param_speed_old: "Ortalama 2-3 dakika (Elle tek tek yazma ve hata riski)",
+param_speed_new: "Sadece 2 saniye (Tek dokunuşla doğrudan rehbere kayıt)",
+param_loss: "Kaybolma / Çöpe Gitme Oranı",
+param_loss_old: "%88'i ilk bir hafta içinde çöpe atılır veya kaybolur",
+param_loss_new: "Bulut altyapısı sayesinde dijitalde ömür boyu kalıcı",
+param_analytics: "Veri ve Analiz",
+param_analytics_old: "Kiminle paylaşıldığı, kaç kişinin baktığı bilinemez",
+param_analytics_new: "Anlık tıklanma, etkileşim raporu ve network analizi",
+eco_roi_title: "Şirketiniz İçin Yatırım Getirisi (ROI)",
+eco_roi_desc: "100 çalışanlı bir şirkette Smart Kart'a geçiş, yıllık ortalama %74 matbaa tasarrufu ve 12 ağacın kesilmesini engeller.",
+comp_table_title: "Neden Geçmelisiniz?",
+param_cost: "Maliyet",
+param_cost_old: "Sürekli Matbaa Masrafı ❌",
+param_cost_new: "Tek Seferlik Ödeme ⚡",
+param_speed: "Hız",
+param_speed_old: "2 Dakika Elle Yazma ❌",
+param_speed_new: "2 Saniyede Rehberde ⚡",
+param_loss: "Kalıcılık",
+param_loss_old: "%88 Çöpe Gider ❌",
+param_loss_new: "Ömür Boyu Dijitalde ⚡",
+param_analytics: "Analiz",
+param_analytics_old: "Ölçülemez / Takipsiz ❌",
+param_analytics_new: "Anlık Etkileşim Raporu ⚡",
+// --- ÖZELLİKLER BÖLÜMÜ (FEATURES SECTION) ---
+feat_main_sub: "Sadece 3 saniyede, hiçbir uygulamaya gerek kalmadan dijital dünyanızı paylaşın.",
+
+feat_nfc_title: "Işık Hızında Temassız Paylaşım",
+feat_nfc_desc: "Geliştirilmiş NFC anten mimarisi sayesinde, kartınızı herhangi bir telefona yaklaştırdığınız an profiliniz milisaniyeler içinde yüklenir. Karşı tarafın hiçbir uygulama indirmesine gerek yoktur.",
+feat_nfc_stat1: "0.2 Saniyede Veri Aktarımı",
+feat_nfc_stat2: "Tüm iOS & Android Cihazlarla Uyumlu",
+
+feat_cloud_title: "Anlık ve Sınırsız Güncelleme",
+feat_cloud_desc: "Kartınızı bastırdıktan sonra bilgileriniz mi değişti? Sıfırdan kart basmanıza gerek yok. Bulut tabanlı panelinizden telefon numaranızı, unvanınızı veya sosyal medya linklerinizi değiştirdiğiniz an kartınız otomatik olarak güncellenir.",
+feat_cloud_stat1: "%100 Canlı Senkronizasyon",
+feat_cloud_stat2: "Sınırsız Değişiklik Hakkı",
+
+feat_analytics_title: "Etkileşimlerinizi Veriye Dönüştürün",
+feat_analytics_desc: "Kartınızın kaç kez dokundurulduğunu, hangi sosyal medya linkinizin daha çok tıklandığını ve bağlantı ağınızın büyüme hızını entegre analitik panelinden anlık olarak takip edin.",
+feat_analytics_stat1: "Detaylı Tıklama İstatistikleri",
+feat_analytics_stat2: "Haftalık Network Raporu"
     },
     en: {
         faq1_q: "What is a digital business card?",
@@ -5972,7 +6745,52 @@ wt5_desc: "Instantly migrate your accumulated network straight to your local pho
 "faq_q3": "Is there any monthly or annual subscription fee for usage?",
 "faq_a3": "No. Once you purchase your card, you can use the basic profile features, cloud sync, and unlimited update rights for a lifetime completely free of charge. There are no hidden fees.",
 "faq_q4": "Which phones is my card compatible with?",
-"faq_a4": "It is 100% compatible with almost all iOS and Android smartphones (NFC-supported devices) produced in the last 10 years. For very old devices, the premium QR code structure on the back of the card provides uninterrupted access."
+"faq_a4": "It is 100% compatible with almost all iOS and Android smartphones (NFC-supported devices) produced in the last 10 years. For very old devices, the premium QR code structure on the back of the card provides uninterrupted access.",
+comp_table_title: "Detailed Comparison Matrix",
+param_cost: "Cost Policy",
+param_cost_old: "Reprinting costs for every title/number change",
+param_cost_new: "One-time purchase, free lifetime updates",
+param_speed: "Contact Saving Speed",
+param_speed_old: "Average 2-3 minutes (Manual typing & risk of typos)",
+param_speed_new: "Only 2 seconds (Direct save to contacts via single tap)",
+param_loss: "Loss / Waste Rate",
+param_loss_old: "88% thrown away or lost within the first week",
+param_loss_new: "Permanently stored in digital via cloud infrastructure",
+param_analytics: "Data & Analytics",
+param_analytics_old: "Impossible to track who received or viewed it",
+param_analytics_new: "Real-time click tracking, interaction reports & network analysis",
+eco_roi_title: "Return on Investment (ROI) for Your Company",
+eco_roi_desc: "Switching to Smart Card in a company with 100 employees saves an average of 74% in printing costs annually and prevents 12 trees from being cut down.",
+comp_table_title: "Why Switch?",
+param_cost: "Cost",
+param_cost_old: "Continuous Printing Cost ❌",
+param_cost_new: "One-Time Payment ⚡",
+param_speed: "Speed",
+param_speed_old: "2 Mins Manual Typing ❌",
+param_speed_new: "2 Seconds to Contacts ⚡",
+param_loss: "Retention",
+param_loss_old: "88% Wasted ❌",
+param_loss_new: "Lifetime Digital ⚡",
+param_analytics: "Analytics",
+param_analytics_old: "Untrackable ❌",
+param_analytics_new: "Instant Interaction Report ⚡",
+// --- FEATURES SECTION ---
+feat_main_sub: "Share your digital world in just 3 seconds, without requiring any application.",
+
+feat_nfc_title: "Contactless Sharing at Lightning Speed",
+feat_nfc_desc: "Thanks to the enhanced NFC antenna architecture, your profile loads within milliseconds the moment you bring your card close to any phone. No application is required on the receiving side.",
+feat_nfc_stat1: "0.2 Second Data Transfer",
+feat_nfc_stat2: "Compatible with All iOS & Android Devices",
+
+feat_cloud_title: "Instant and Unlimited Updates",
+feat_cloud_desc: "Did your information change after printing your card? No need to print a card from scratch. The moment you change your phone number, title, or social media links from your cloud-based panel, your card is automatically updated.",
+feat_cloud_stat1: "100% Live Synchronization",
+feat_cloud_stat2: "Unlimited Changes Right",
+
+feat_analytics_title: "Turn Your Interactions Into Data",
+feat_analytics_desc: "Track how many times your card has been tapped, which social media link is clicked more, and the growth rate of your network instantly from the integrated analytics panel.",
+feat_analytics_stat1: "Detailed Click Statistics",
+feat_analytics_stat2: "Weekly Network Report"
 }
 };
 
@@ -6082,12 +6900,41 @@ const performThemeToggle = () => {
         themeIcon.innerText = 'dark_mode';
         localStorage.setItem('user-theme', 'light');
 
+        // --- [DOĞRU YER]: AYDINLIK MODTA LOTTIE BEYAZ ÇİZGİLERİNİ KOYULAŞTIR ---
+        // Eleman element gezmek yerine doğrudan SVG içine stil enjekte ederek renkleri eziyoruz
+        document.querySelectorAll('#lottie-box svg').forEach(svg => {
+            let styleEl = svg.querySelector('.theme-style-overrider');
+            if (!styleEl) {
+                styleEl = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                styleEl.classList.add('theme-style-overrider');
+                svg.appendChild(styleEl);
+            }
+            // Beyaz olan fill ve stroke değerlerini şık bir lacivert/füme tonuna çeker
+            styleEl.textContent = `
+                * { transition: fill 0.3s, stroke 0.3s !important; }
+                *[fill="#ffffff"], *[fill="#FFF"], *[fill^="rgba(255,255,255"] { fill: #2c3e50 !important; }
+                *[stroke="#ffffff"], *[stroke="#FFF"], *[stroke^="rgba(255,255,255"] { stroke: #2c3e50 !important; }
+            `;
+        });
+
         // --- AYDINLIK MODTA NUMARALARI BUL VE PARLAT ---
         document.querySelectorAll('#nasil *, .nasil-section *').forEach(el => {
-            // Elementin içindeki metin tam olarak 01, 02 veya 03 ise
             if (["01", "02", "03"].includes(el.innerText.trim())) {
                 el.style.setProperty('color', 'rgba(0, 0, 0, 0.18)', 'important');
                 el.style.setProperty('opacity', '1', 'important');
+            }
+        });
+
+        // --- [ÇÖZÜM]: AYDINLIK MODTA ÖZELLİKLER SAYFASI GÖRÜNÜRLÜK MOTORU ---
+        document.querySelectorAll('#ozellikler, #ozellikler *, .bento-reveal, [id^="share-lottie"]').forEach(el => {
+            if (el.classList.contains('reveal') || el.classList.contains('bento-reveal')) {
+                el.style.setProperty('opacity', '1', 'important');
+                el.style.setProperty('transform', 'translate(0, 0) scale(1)', 'important');
+                el.style.setProperty('visibility', 'visible', 'important');
+            }
+            if (el.id === 'lottie-box' || el.id === 'share-lottie-container') {
+                el.style.setProperty('opacity', '1', 'important');
+                el.style.setProperty('visibility', 'visible', 'important');
             }
         });
 
@@ -6096,11 +6943,30 @@ const performThemeToggle = () => {
         themeIcon.innerText = 'light_mode';
         localStorage.setItem('user-theme', 'dark');
 
-        // --- KOYU MODTA ESKİ HALİNE DÖNDÜR ---
+        // --- [DOĞRU YER]: KOYU MODTA LOTTIE RENKLERİNİ ESKİSİ GİBİ BEYAZ YAP ---
+        // Eklediğimiz stil katmanını temizleyerek animasyonu orijinal (beyaz) ayarlarına döndürürüz
+        document.querySelectorAll('#lottie-box svg .theme-style-overrider').forEach(styleEl => {
+            styleEl.textContent = '';
+        });
+
+        // --- KOYU MODTA ESKİ HALİNE DÖNDÜR (NASIL BÖLÜMÜ) ---
         document.querySelectorAll('#nasil *, .nasil-section *').forEach(el => {
             if (["01", "02", "03"].includes(el.innerText.trim())) {
-                el.style.removeItem('color');
-                el.style.removeItem('opacity');
+                el.style.removeProperty('color');
+                el.style.removeProperty('opacity');
+            }
+        });
+
+        // --- KOYU MODTA ÖZELLİKLER ANİMASYONLARINI ESKİ DİNAMİK HALİNE GETİR ---
+        document.querySelectorAll('#ozellikler, #ozellikler *, .bento-reveal, [id^="share-lottie"]').forEach(el => {
+            if (el.classList.contains('reveal') || el.classList.contains('bento-reveal')) {
+                el.style.removeProperty('opacity');
+                el.style.removeProperty('transform');
+                el.style.removeProperty('visibility');
+            }
+            if (el.id === 'lottie-box' || el.id === 'share-lottie-container') {
+                el.style.removeProperty('opacity');
+                el.style.removeProperty('visibility');
             }
         });
     }
@@ -6189,12 +7055,20 @@ window.addEventListener('scroll', () => {
     let isScrollingDown = st > lastScrollTop;
     lastScrollTop = st <= 0 ? 0 : st;
 
-    // 2. Nav & Tilt Kart Ayarları
     nav.style.height = scrollY > 50 ? "50px" : "44px";
+    
     if (!tiltCard.classList.contains('active-nfc') && !isHovering) {
-        tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
+        const totalPageHeight = document.documentElement.scrollHeight;
+        const scrollPosition = window.innerHeight + scrollY;
+        
+        // Sayfanın en altına 30 piksel kala kart yavaşça ve pürüzsüzce düzleşmeye başlar
+        if (totalPageHeight - scrollPosition < 30) {
+            tiltCard.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        } else {
+            // Senin o çok iyi çalışan orijinal pürüzsüz dönüş kodun
+            tiltCard.style.transform = `rotateY(${scrollY * 0.05}deg)`;
+        }
     }
-
     // 3. Stacking Boxes Genel Mantığı
     const stackContainer = document.querySelector('.stack-container');
     const stackRect = stackContainer.getBoundingClientRect();
@@ -6231,8 +7105,7 @@ window.addEventListener('scroll', () => {
     // --- TASARIM KUTULARININ (INFO-BOXES) GÜNCEL ANİMASYONU ---
     boxes.forEach((box, i) => {
         if (box.matches(':hover')) {
-            box.style.zIndex = "9999"; 
-            return; 
+
         }
 
         let adjustedProgress = stackProgress * 1.6; 
@@ -6249,18 +7122,27 @@ window.addEventListener('scroll', () => {
             box.style.filter = "blur(0px)";
             box.style.pointerEvents = "auto";
         } else {
-            if (boxProgress > 0) {
+if (boxProgress > 0) {
                 let scale = 0.65 + (boxProgress * 0.35); 
+                
+                // Cihaz mobildeyse kutuları çok fazla sağa fırlatma (Masaüstünde 35vw ise mobilde 15vw olsun)
+                const isMobile = window.innerWidth < 768;
+                const moveX = isMobile ? (1 - boxProgress) * 15 : (1 - boxProgress) * 35;
+                const moveY = isMobile ? (1 - boxProgress) * -5 : (1 - boxProgress) * -10;
+
                 box.style.transform = `
-                    translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
-                    calc(-50% + ${(1 - boxProgress) * -10}vh)) 
+                    translate(calc(-50% + ${moveX}vw), calc(-50% + ${moveY}vh)) 
                     scale(${scale})
                 `;
                 box.style.opacity = 0.2 + (boxProgress * 0.8);
                 box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
                 box.style.pointerEvents = "auto"; 
             } else {
-                box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
+                const isMobile = window.innerWidth < 768;
+                const finalX = isMobile ? '15vw' : '35vw';
+                const finalY = isMobile ? '-5vh' : '-10vh';
+
+                box.style.transform = `translate(calc(-50% + ${finalX}), calc(-50% + ${finalY})) scale(0.65)`; 
                 box.style.opacity = "0.2";
                 box.style.filter = "blur(5px)";
                 box.style.pointerEvents = "none";
@@ -6316,14 +7198,14 @@ window.addEventListener('scroll', () => {
         }
 
         // Tasarım alanına girince pürüzsüzce aç, çıkınca gizle
-if (stackProgress >= 0.99) {
-            indicatorContainer.style.opacity = "0";
-            indicatorContainer.style.pointerEvents = "none";
-            if (bgGlowEl) bgGlowEl.style.opacity = "0"; // Alttaki bölüme geçince ışığı söndür
-        } else {
+if (stackProgress > 0.01 && stackProgress < 0.99) {
             indicatorContainer.style.opacity = "1";
             indicatorContainer.style.pointerEvents = "auto";
-            if (bgGlowEl) bgGlowEl.style.opacity = "1"; // Tasarım sayfası aktifken ışık hep canlı kalsın
+            if (bgGlowEl) bgGlowEl.style.opacity = "1"; // Tasarım sayfasındayken ambiyans ışığı canlı kalsın
+        } else {
+            indicatorContainer.style.opacity = "0";
+            indicatorContainer.style.pointerEvents = "none";
+            if (bgGlowEl) bgGlowEl.style.opacity = "0"; // Tasarım sayfasından çıkınca (yukarı veya aşağı) ışığı söndür
         }
     }
     // --- KARTIN HER SAYFADA GÖRÜNÜR KALMASINI SAĞLAYAN MOTOR ---
@@ -6362,22 +7244,30 @@ cardHitbox.addEventListener('mousemove', (e) => {
     isHovering = true;
     const rect = tiltCard.getBoundingClientRect();
     
-    // Hesaplama senin orijinal kodundaki gibi tam merkez koordinatlarında
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
-    const rotateX = (centerY - e.clientY) / 20; 
-    const rotateY = (e.clientX - centerX) / 20;
+    // 🎯 HASSASİYET DÜZELTMESİ: Bölme değerlerini 20'den 55'e çıkardık.
+    // Bu sayede kart mouse hareketine deli gibi değil, çok hafif ve elit bir 3D tepki verecek.
+    const rotateX = (centerY - e.clientY) / 55; 
+    const rotateY = (e.clientX - centerX) / 55;
     
-    // 🎯 DÜZELTME: scale(1.05) tamamen kaldırıldı, sadece senin istediğin yumuşak 3D dönüş kaldı
     tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 });
 
 cardHitbox.addEventListener('mouseleave', () => {
     isHovering = false;
     if (!tiltCard.classList.contains('active-nfc')) {
-        // 🎯 DÜZELTME: scale(1) kaldırıldı, sadece senin scroll döngünle pürüzsüzce senkronize oluyor
-        tiltCard.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${window.scrollY * 0.05}deg)`;
+        const totalPageHeight = document.documentElement.scrollHeight;
+        const scrollPosition = window.innerHeight + window.scrollY;
+
+        // 🎯 EĞER SAYFA EN AŞAĞIDAYSA: Mouse gidince sola dönmesin, tamamen DÜZ (0deg) kalsın!
+        if (totalPageHeight - scrollPosition < 30) {
+            tiltCard.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg)`;
+        } else {
+            // Sayfa yukarıdayskayken senin orijinal pürüzsüz dönme efektin çalışsın
+            tiltCard.style.transform = `perspective(1200px) rotateX(0deg) rotateY(${window.scrollY * 0.05}deg)`;
+        }
     }
 });
 
