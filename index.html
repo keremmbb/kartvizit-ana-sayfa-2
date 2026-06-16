@@ -4902,13 +4902,6 @@ html, body {
     --animation-color: #ffffff; /* Kart çizgileri koyu modda beyaz olsun */
     --card-body-bg: #1e1e1e;    /* Kart gövdesi koyu modda koyu gri olsun */
 }
-html, body {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    position: relative;
-    /* iOS Safari cihazlarda hızlı kaydırma akıcılığı sağlar */
-    -webkit-overflow-scrolling: touch; 
-}
 /* ==========================================================================
    AYDINLIK MOD ÖZELLİKLER SAYFASI (INLINE SVG) RENK DÜZELTMELERİ
    ========================================================================== */
@@ -5372,209 +5365,60 @@ html.light-mode #eco-impact .eco-badge {
     font-weight: 600 !important;
     box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3) !important;
 }
-/* ==========================================================================
-   SMART KART MOBİL UYUMLULUK VE DOKUNMATİK OPTİMİZASYON MATRİSİ (RESPONSIVE)
-   ========================================================================== */
+/* --- MOBIL UYUMLU NAV CSS --- */
 
-/* --- 1. TÜM MOBİL CİHAZLAR İÇİN GLOBAL DOKUNMATİK DÜZENLEMELERİ (max-width: 1024px) --- */
-@media screen and (max-width: 1024px) {
-    :root {
-        --mouse-x: 50%;
-        --mouse-y: 50%;
-    }
-
-    /* Mobil cihazlarda hover (üzerine gelme) efektlerinin takılı kalmasını önler */
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-        overflow-x: hidden; /* Yatay taşmaları kesinlikle engeller */
-    }
-
-    /* Üst Navigasyon Menüsü Mobil Düzenlemesi */
-    nav {
-        height: auto !important;
-        padding: 10px 15px;
-    }
-
-    nav .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    nav a {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
-
-    /* Arama Kutusu ve Dil Seçici Mobil Boyutlandırması */
-    #globalSearchContainer {
-        width: 100%;
-        max-width: 100%;
-        margin-top: 5px;
-    }
-
-    #searchSuggestions {
-        width: 100%;
-        left: 0;
-        right: 0;
-        max-height: 250px;
-    }
+/* Masaüstünde hamburger butonunu gizle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color, #fff); /* Sitenizin yazı rengine göre güncellenebilir */
+    cursor: pointer;
+    font-size: 32px;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    padding: 8px;
+    transition: transform 0.3s ease;
 }
 
-/* --- 2. TABLET VE KÜÇÜK EKRANLAR (max-width: 768px) --- */
+/* Mobil Ekran Sınırı (Tablet ve Telefonlar) */
 @media screen and (max-width: 768px) {
-    /* Başlık ve Alt Başlık Font Boyutları */
-    h2 { font-size: 28px !important; line-height: 1.3; }
-    h3 { font-size: 20px !important; }
-    p { font-size: 15px !important; }
-
-    /* --- 3D KART VE HITBOX MOBİL AYARI --- */
-    /* Mobilde fare olmadığı için kartın çılgınca dönmesini engelliyor, dokunmatik stabilite sağlıyor */
-    #tiltCard {
-        width: 290px !important;
-        height: 180px !important;
-        margin: 20px auto;
-        /* Kaydırma esnasında transform çakışmasını önlemek için perspektif yumuşatması */
-        transform: rotateY(0deg) !important; 
-        transition: transform 0.5s ease !important;
+    .mobile-menu-toggle {
+        display: block; /* Butonu mobilde görünür yap */
     }
 
-    /* Kart açıldığında (active-nfc) mobil ekrana tam sığması için */
-    #tiltCard.active-nfc {
-        width: 90vw !important;
-        height: 56vw !important;
-        transform: translate(-50%, -50%) scale(1) !important;
-        top: 50% !important;
-        left: 50% !important;
-        position: fixed !important;
-        z-index: 10000;
-    }
-
-    #cardHitbox {
-        padding: 15px 0;
-    }
-
-    /* --- BENTO STACK KUTULARI (INFO-BOXES) ANİMASYON DÜZELTMESİ --- */
-    /* Masaüstündeki calc(-50% + 35vw) gibi yatay uçuşlar mobil ekrandan dışarı taşar.
-       Bu yüzden mobilde kutuları dikey (Y ekseninde) yığınlama moduna alıyoruz. */
-    .stack-container {
-        padding: 50px 10px !important;
-    }
-
-    .info-box {
-        width: 92% !important;
-        max-width: 340px !important;
-        height: auto !important;
-        min-height: 220px;
-        padding: 20px !important;
-        /* JavaScript ilerlemesine göre dikeyde (Y aksında) toplanma hassasiyeti */
-        left: 50% !important;
-        top: 50% !important;
-    }
-
-    /* JavaScript'in yazdığı transform değerini ezerek mobil cihazı kurtaran CSS formülü */
-    .stack-container .info-box:not(:first-child) {
-        transform: translate(-50%, calc(-50% + 15px)) scale(0.9) !important;
-    }
-
-    /* Kutu göstergesi (Indicator) Alt Kısma Sabitleme */
-    #box-counter-indicator {
-        bottom: 20px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 85% !important;
-    }
-
-    /* --- ÖNCE / SONRA SLIDER (BEFORE-AFTER) MOBİL AYARI --- */
-    .wrapper {
-        width: 100% !important;
-        height: 250px !important; /* Mobilde dikey yüksekliği azaltıyoruz */
-    }
-
-    /* --- INTERAKTİF KILAVUZ (WALKTHROUGH) MOBİL --- */
-    .walkthrough-container {
+    nav#dynamicNav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Menüyü başlangıçta ekranın sağ dışına gizle */
+        width: 70%;    /* Ekranın %70'ini kaplasın */
+        height: 100vh;
+        background: rgba(15, 15, 15, 0.95); /* Arkası hafif transparan koyu tema */
+        backdrop-filter: blur(10px); /* Premium buzlu cam efekti */
         display: flex;
-        flex-direction: column !important; /* Menü ve İçerik alt alta gelir */
-        gap: 15px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+        z-index: 1000;
+        transition: right 0.4s cubic-bezier(0.1, 1, 0.1, 1); /* Pürüzsüz kayma */
+        box-shadow: -5px 0 25px rgba(0,0,0,0.5);
     }
 
-    .walkthrough-menu {
-        display: flex !important;
-        flex-direction: row !important; /* Yan yana kaydırılabilir menü yapar */
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 10px;
-        -webkit-overflow-scrolling: touch;
-        border-right: none !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Menü Aktif Olduğunda Ekrana Kayma Sınıfı */
+    nav#dynamicNav.mobile-active {
+        right: 0;
     }
 
-    .walkthrough-btn {
-        padding: 10px 15px !important;
-        font-size: 14px !important;
-        border-left: none !important;
-        border-bottom: 2px solid transparent;
+    nav#dynamicNav a {
+        font-size: 20px;
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        display: block;
     }
-
-    .walkthrough-btn.active {
-        border-bottom-color: #0095ff !important;
-        background: rgba(0, 149, 255, 0.1);
-    }
-
-    /* --- SSS (FAQ) AKORDEON DÜZENLEMESİ --- */
-    .faq-section {
-        padding: 30px 15px !important;
-    }
-    
-    .faq-item {
-        margin-bottom: 10px !important;
-    }
-
-    .faq-question-trigger h3 {
-        font-size: 16px !important;
-        padding-right: 25px;
-    }
-}
-
-/* --- 4. ULTRA KÜÇÜK MOBİL EKRANLAR (max-width: 480px) --- */
-@media screen and (max-width: 480px) {
-    h2 { font-size: 24px !important; }
-    
-    nav a {
-        font-size: 11px;
-        padding: 4px 6px;
-    }
-
-    /* Canlı arama öneri kutusu metinleri çok taşmasın diye */
-    .suggestion-item {
-        font-size: 13px !important;
-        padding: 8px 10px !important;
-    }
-
-    /* Doğa ve Sayaç Alanı (Tree Counter) */
-    #tree-counter {
-        font-size: 42px !important;
-    }
-
-    /* Kart açıldığında içindeki link butonları */
-    .nfc-text-item {
-        padding: 10px !important;
-        font-size: 13px !important;
-    }
-}
-
-/* --- 5. PERFORMANS VE DONANIM HIZLANDIRMA (HARDWARE ACCELERATION) --- */
-/* Mobil tarayıcılarda kaydırma yaparken (Scroll) 3D transform işlemlerinin 
-   ekranı titretmesini (flickering) engeller ve GPU (Ekran Kartı) gücünü devreye sokar. */
-#tiltCard, .info-box, .wrapper, .slider-line {
-    will-change: transform, opacity;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
 }
 </style>
 </head>
@@ -5824,7 +5668,9 @@ html.light-mode #eco-impact .eco-badge {
             </div> </div> </div> </div>
 
 
-
+<button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Menüyü Aç/Kapat">
+    <i class="material-icons" id="menuIcon">menu</i>
+</button>
 
 <nav id="dynamicNav">
     <a href="#" data-i18n="nav_brand">Smart Kart</a>
@@ -7219,55 +7065,44 @@ window.addEventListener('scroll', () => {
     }
 
     // --- TASARIM KUTULARININ (INFO-BOXES) GÜNCEL ANİMASYONU ---
-// --- TASARIM KUTULARININ (INFO-BOXES) GÜNCEL ANİMASYONU ---
-boxes.forEach((box, i) => {
-    // 📱 KESİN MOBİL UYUMLULUK KİLİDİ: Eğer ekran mobildeyse ağır matematiksel hesaplamaları durdur
-    if (window.innerWidth <= 768) {
-        box.style.transform = "none";
-        box.style.left = "0";
-        box.style.top = "0";
-        box.style.position = "relative"; // Kutuları dikeyde normal akışına bırakır
-        box.style.margin = "15px auto";
-        box.style.opacity = "1";
-        box.style.filter = "none";
-        box.style.pointerEvents = "auto";
-        return; // Döngünün bu adımını mobilde pas geç, CSS halletsin
-    }
+    boxes.forEach((box, i) => {
+        if (box.matches(':hover')) {
 
-    if (box.matches(':hover')) {}
-
-    let adjustedProgress = stackProgress * 1.6; 
-    adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
-
-    let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
-    boxProgress = Math.max(0, Math.min(1, boxProgress));
-    
-    box.style.zIndex = 10 + i;
-
-    if (i === 0) {
-        box.style.transform = `translate(-50%, -50%) scale(1)`;
-        box.style.opacity = "1";
-        box.style.filter = "blur(0px)";
-        box.style.pointerEvents = "auto";
-    } else {
-        if (boxProgress > 0) {
-            let scale = 0.65 + (boxProgress * 0.35); 
-            box.style.transform = `
-                translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
-                calc(-50% + ${(1 - boxProgress) * -10}vh)) 
-                scale(${scale})
-            `;
-            box.style.opacity = 0.2 + (boxProgress * 0.8);
-            box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
-            box.style.pointerEvents = "auto"; 
-        } else {
-            box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
-            box.style.opacity = "0.2";
-            box.style.filter = "blur(5px)";
-            box.style.pointerEvents = "none";
         }
-    }
-});
+
+        let adjustedProgress = stackProgress * 1.6; 
+        adjustedProgress = Math.max(0, Math.min(1, adjustedProgress));
+
+        let boxProgress = (adjustedProgress - (i / boxes.length)) / (1 / boxes.length);
+        boxProgress = Math.max(0, Math.min(1, boxProgress));
+        
+        box.style.zIndex = 10 + i;
+
+        if (i === 0) {
+            box.style.transform = `translate(-50%, -50%) scale(1)`;
+            box.style.opacity = "1";
+            box.style.filter = "blur(0px)";
+            box.style.pointerEvents = "auto";
+        } else {
+            if (boxProgress > 0) {
+                let scale = 0.65 + (boxProgress * 0.35); 
+                box.style.transform = `
+                    translate(calc(-50% + ${(1 - boxProgress) * 35}vw), 
+                    calc(-50% + ${(1 - boxProgress) * -10}vh)) 
+                    scale(${scale})
+                `;
+                box.style.opacity = 0.2 + (boxProgress * 0.8);
+                box.style.filter = `blur(${(1 - boxProgress) * 3}px)`; 
+                box.style.pointerEvents = "auto"; 
+            } else {
+                box.style.transform = `translate(calc(-50% + 35vw), calc(-50% - 10vh)) scale(0.65)`; 
+                box.style.opacity = "0.2";
+                box.style.filter = "blur(5px)";
+                box.style.pointerEvents = "none";
+            }
+        }
+    }); 
+
 // --- YENİ EKLENEN KUTU GÖSTERGE MOTORU (MİLİMETRİK ORTA NOKTA AYARI) ---
     // --- YENİ EKLENEN KUTU GÖSTERGE MOTORU (MİKRO PROGRESS ENTEGRELİ) ---
     // --- YENİ EKLENEN KUTU GÖSTERGE VE AMBİYANS IŞIĞI MOTORU ---
@@ -7357,11 +7192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const closeNfcBtn = document.getElementById('closeNfc');
 
 cardHitbox.addEventListener('mousemove', (e) => {
-    // 📱 Eğer dokunmatik bir ekrandaysak veya mobil boyuttaysak 3D dönme hesaplamasını durdur
-    if (window.innerWidth <= 768 || tiltCard.classList.contains('active-nfc')) {
-        tiltCard.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)";
-        return;
-    }
+    if (tiltCard.classList.contains('active-nfc')) return;
     
     isHovering = true;
     const rect = tiltCard.getBoundingClientRect();
@@ -7369,6 +7200,8 @@ cardHitbox.addEventListener('mousemove', (e) => {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
+    // 🎯 HASSASİYET DÜZELTMESİ: Bölme değerlerini 20'den 55'e çıkardık.
+    // Bu sayede kart mouse hareketine deli gibi değil, çok hafif ve elit bir 3D tepki verecek.
     const rotateX = (centerY - e.clientY) / 55; 
     const rotateY = (e.clientX - centerX) / 55;
     
@@ -7951,7 +7784,47 @@ function toggleFaq(element) {
     if (!isActive) {
         element.classList.add('active');
     }
+
 }
+// --- MOBİL MENÜ YÖNETİM MOTORU ---
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const dynamicNav = document.getElementById('dynamicNav');
+    const menuIcon = document.getElementById('menuIcon');
+    const navLinks = document.querySelectorAll('nav#dynamicNav a');
+
+    if (mobileMenuToggle && dynamicNav) {
+        // Hamburger butonuna tıklanınca menüyü aç/kapat
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dynamicNav.classList.toggle('mobile-active');
+            
+            // İkonu değiştir (Menu <-> Close)
+            if (dynamicNav.classList.contains('mobile-active')) {
+                if (menuIcon) menuIcon.innerText = 'close';
+            } else {
+                if (menuIcon) menuIcon.innerText = 'menu';
+            }
+        });
+
+        // Menü açıkken dışarıya tıklanırsa menüyü otomatik kapat
+        document.addEventListener('click', (e) => {
+            if (!dynamicNav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                dynamicNav.classList.remove('mobile-active');
+                if (menuIcon) menuIcon.innerText = 'menu';
+            }
+        });
+
+        // Mobilde bir menü linkine tıklandığında pürüzsüz kaydırma başlar başlamaz menüyü kapat
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Kodunuzdaki mevcut `isNavClicking = true;` kilidi burada da çalışmaya devam eder
+                dynamicNav.classList.remove('mobile-active');
+                if (menuIcon) menuIcon.innerText = 'menu';
+            });
+        });
+    }
+});
 </script>
 </body>
 </html>
