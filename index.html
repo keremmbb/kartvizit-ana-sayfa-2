@@ -5470,12 +5470,155 @@ html.light-mode #eco-impact .eco-badge {
 }
 
 /* Masaüstü (PC) Ayarları */
+/* --- PC VE MOBİL ORTAK DİL SEÇİCİ ENTEGRASYONU --- */
+
+/* 1. Önce Bilgisayar (Masaüstü) Görünümü Ayarı */
+/* --- CSS SİHİRBAZLIĞI: DİL SEÇİCİ VE HAMBURGER ENTEGRASYONU --- */
+
+/* 1. Bilgisayar (PC) Görünümü */
 @media screen and (min-width: 769px) {
+    /* PC'de her şey orijinal yerinde ve düzeninde kalıyor */
+    .premium-lang-container {
+        display: inline-block !important;
+    }
     button#mobileMenuToggle {
         display: none !important;
     }
     nav#dynamicNav a {
         display: inline-block !important;
+    }
+}
+
+/* 2. Mobil (Telefon) Görünümü */
+@media screen and (max-width: 768px) {
+    
+    /* 🎯 HAZIR DİL SEÇİCİNİ MOBİLDE HAMBURGERİN SOLUNA ÇİVİLİYORUZ */
+    .premium-lang-container {
+        position: fixed !important;
+        top: 17px !important; /* Hamburger ile milimetrik aynı hizada */
+        right: 70px !important; /* Hamburger butonunun tam soluna denk gelen altın oran */
+        z-index: 10000 !important; /* Her şeyin üstünde, her an tıklanabilir */
+    }
+
+    /* Dil butonunun mobil ekranda kaba durmaması için küçük dokunuşlar */
+    .lang-trigger-btn {
+        background: rgba(15, 15, 15, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 6px 10px !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        height: 38px !important; /* Hamburger butonuyla eşit boyuta getirdik */
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+
+    /* Bayrak ikonunun mobildeki boyutu */
+    .flag-icon {
+        width: 18px !important;
+        height: auto !important;
+    }
+
+    .lang-text-label {
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        color: #fff !important;
+    }
+
+    /* Açılan dil listesinin (dropdown) mobilde butonun hemen altında düzgünce açılması */
+    .lang-dropdown-menu {
+        position: absolute !important;
+        top: 45px !important;
+        right: 0 !important;
+        background: rgba(20, 20, 20, 0.98) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        width: 130px !important;
+    }
+
+
+    /* --- 🍔 HAMBURGER MENÜ AYARLARI (KAPALI HALİ) --- */
+    nav#dynamicNav {
+        position: fixed !important;
+        top: 15px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 90% !important;
+        max-width: 400px !important;
+        
+        /* Kapalıyken arkada hiçbir çirkin çizgi veya gölge kalmasın */
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        padding: 0px !important;
+        height: 0px !important;
+        overflow: visible !important;
+        
+        z-index: 9999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0px !important;
+        transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease !important;
+    }
+
+    /* Menü kapalıyken linkleri tamamen gizle */
+    nav#dynamicNav a {
+        display: none !important;
+        width: 100% !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        padding: 12px 0 !important;
+        text-align: center !important;
+        color: white !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    .theme-toggle-nav {
+        display: none !important;
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+
+    /* --- 🚀 HAMBURGER MENÜ AÇILDIĞINDAKI (OPEN) HALİ --- */
+    nav#dynamicNav.menu-open {
+        height: auto !important;
+        background: rgba(15, 15, 15, 0.96) !important;
+        backdrop-filter: blur(12px) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        padding: 20px !important;
+        gap: 4px !important;
+        border-radius: 25px !important;
+    }
+
+    nav#dynamicNav.menu-open a,
+    nav#dynamicNav.menu-open .theme-toggle-nav {
+        display: block !important;
+    }
+    nav#dynamicNav.menu-open .theme-toggle-nav {
+        display: flex !important;
+    }
+
+    /* Senin o yuvarlak malzeme ikonlu hamburger butonun */
+    button#mobileMenuToggle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: fixed !important;
+        top: 17px !important;
+        right: 20px !important;
+        z-index: 10000 !important;
+        background: rgba(15, 15, 15, 0.95) !important;
+        border: none !important;
+        color: white !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
     }
 }
 </style>
@@ -7913,6 +8056,62 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    const mobileLangToggle = document.getElementById("mobileLangToggle");
+    const langText = document.getElementById("langText");
+
+    // Projende kullanılan i18n fonksiyonunu otomatik tespit eden güvenli motor
+    function triggerSiteLanguage(newLang) {
+        // 1. İhtimal: i18next kütüphanesi kullanıyorsan
+        if (typeof i18next !== 'undefined' && typeof i18next.changeLanguage === 'function') {
+            i18next.changeLanguage(newLang, (err, t) => {
+                if (!err) updateContent(); // Varsa sayfayı yenileyen fonksiyonun
+            });
+            console.log("i18next ile dil değişti:", newLang);
+        } 
+        // 2. İhtimal: Projende i18n adında global bir nesne varsa
+        else if (typeof i18n !== 'undefined' && typeof i18n.changeLanguage === 'function') {
+            i18n.changeLanguage(newLang);
+            console.log("i18n.changeLanguage ile dil değişti:", newLang);
+        }
+        // 3. İhtimal: İsmi changeLanguage olan bağımsız bir fonksiyonun varsa
+        else if (typeof changeLanguage === 'function') {
+            changeLanguage(newLang);
+            console.log("changeLanguage() fonksiyonu tetiklendi:", newLang);
+        }
+        // 4. İhtimal: İsmi setLanguage olan bağımsız bir fonksiyonun varsa
+        else if (typeof setLanguage === 'function') {
+            setLanguage(newLang);
+            console.log("setLanguage() fonksiyonu tetiklendi:", newLang);
+        }
+        else {
+            console.warn("Dil değiştirme fonksiyonu otomatik bulunamadı. Lütfen PC'de dili değiştiren fonksiyonun adını kontrol et.");
+        }
+    }
+
+    if (mobileLangToggle) {
+        mobileLangToggle.addEventListener("click", function() {
+            let currentLang = this.getAttribute("data-lang");
+
+            if (currentLang === "tr") {
+                // İngilizceye geçiş tetikleniyor
+                this.setAttribute("data-lang", "en");
+                if (langText) langText.textContent = "TR"; // Ekranda TR yazar (Basınca Türkçe'ye döneceğini belirtir)
+                
+                // Arkadaki gerçek dil sistemini tetikliyoruz
+                triggerSiteLanguage("en");
+                
+            } else {
+                // Türkçeye geçiş tetikleniyor
+                this.setAttribute("data-lang", "tr");
+                if (langText) langText.textContent = "EN"; // Ekranda EN yazar
+                
+                // Arkadaki gerçek dil sistemini tetikliyoruz
+                triggerSiteLanguage("tr");
+            }
+        });
+    }
 });
 </script>
 </body>
