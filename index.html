@@ -5769,6 +5769,142 @@ html.light-mode #eco-impact .eco-badge {
         font-size: 48px !important;
     }
 }
+/* --- ÖZELLİKLER (SHOWCASE) VİTRİNİ MOBİL UYUMLULUK AYARLARI --- */
+@media screen and (max-width: 768px) {
+    
+    /* Bölümün dış boşlukları */
+    .premium-features-showcase {
+        padding: 60px 0 !important;
+        overflow: hidden !important;
+    }
+
+    .features-wrapper {
+        width: 92% !important;
+        margin: 0 auto !important;
+    }
+
+    /* Ana Başlık Alanı */
+    .features-header {
+        text-align: center !important;
+        margin-bottom: 50px !important;
+    }
+
+    .features-header h2 {
+        font-size: 28px !important; /* Telefonlar için ideal premium başlık boyutu */
+        line-height: 1.2 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .features-header p {
+        font-size: 14px !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    /* 🎯 SİHİRLİ DOKUNUŞ: Satırları alt alta diziyoruz */
+    .showcase-row {
+        display: flex !important;
+        flex-direction: column !important; /* Yan yana dizilimden alt alta dizilime geçiş */
+        gap: 25px !important; /* Yazı ile altındaki görsel arasındaki mesafe daraltıldı */
+        margin-bottom: 50px !important; /* Her bir özelliğin arasındaki dikey mesafe optimize edildi */
+    }
+
+    /* 🎯 ROW-REVERSE İPTALİ: Mobilde asimetrik yapıyı bozup 
+       önce Yazı -> sonra Görsel sırasını standart yapıyoruz */
+    .showcase-row.row-reverse {
+        flex-direction: column !important; 
+    }
+
+    /* 🎯 GÜNCELLENDİ: Yazı içerik alanı ve listelerin mobilde TAM ortalanması */
+    .showcase-info {
+        width: 100% !important; /* Ekranı tam kaplasın */
+        text-align: center !important; /* Başlık ve açıklamaları ortala */
+    }
+
+    .showcase-badge {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+        letter-spacing: 1px !important;
+    }
+
+    .showcase-info h3 {
+        font-size: 22px !important; /* Alt başlık boyutu */
+        line-height: 1.3 !important;
+        margin: 14px 0 !important;
+    }
+
+    .showcase-info p {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* 🎯 GÜNCELLENDİ: Alt maddeler (Spec List) artık mobilde sola dayalı değil, tam ortalı */
+    .feature-spec-list {
+        margin: 18px auto 0 auto !important;
+        padding-left: 0 !important;
+        list-style: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: fit-content !important; /* Listenin blok olarak ekranda ortalanmasını garantiler */
+    }
+
+    .feature-spec-list li {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important; /* İkon ve yazıyı kendi içinde ortala */
+        gap: 8px !important;
+        font-size: 13px !important;
+        color: rgba(255, 255, 255, 0.85) !important;
+        text-align: center !important;
+    }
+
+    .feature-spec-list li i {
+        font-size: 18px !important;
+        color: #00f2fe !important; /* İkonlar parlasın */
+    }
+
+/* 🎯 HAFİF BÜYÜTÜLMÜŞ VE DENGELENMİŞ PREMIUM MOBİL KOD */
+    .showcase-visual {
+        width: 100% !important;
+        max-width: 180px !important; /* Görsel büyüdüğü için dış kutuyu da hafif rahatlattık */
+        height: 180px !important;    
+        margin: 10px auto 0 auto !important; 
+        display: flex !important;
+        justify-content: center !important; 
+        align-items: center !important;    
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+
+        /* 🛠️ TAM KIVAMINDA AYAR: scale(0.8) ile biraz büyüterek tam o Apple havasını yakaladık */
+        transform: translateX(-35px) scale(0.8) !important; 
+        transform-origin: center center !important; 
+    }
+
+    /* SVG ve alt sınıfların uyması gereken kurallar */
+    .showcase-visual svg,
+    .premium-nfc-animation,
+    .premium-cloud-animation,
+    .premium-analytics-animation {
+        width: 100% !important;   
+        max-width: 100% !important;
+        height: 100% !important;   
+        display: block !important;
+        margin: 0 auto !important; 
+        overflow: visible !important; 
+    }
+
+    .showcase-visual svg g, 
+    .showcase-visual svg rect {
+        transform-box: fill-box !important;
+    }
+
+    .live-bar {
+        transform-origin: bottom !important; 
+    }
+
+}
 </style>
 </head>
 <body>
